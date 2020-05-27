@@ -1,0 +1,97 @@
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
+
+
+ion-content.background{
+    --background: url("../../../assets/img/fondo.png") 0 0/100% 100% no-repeat;
+}
+
+
+#container{
+    text-align: center;
+    
+}
+
+//ESTO HACE QUE LOS H1 DENTRO DE ion-card-content SEAN FACHEROS.
+  ion-card-content h1 {
+    font-family: '"Comic Sans MS", cursive, sans-serif';
+    font-size: 18px;
+    padding: 15px 0;
+    position: relative;
+    text-align: center;
+  }
+  
+  ion-card-content h1 {
+    color:lightblue;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-weight: normal;
+  }
+
+
+  ion-card-content h1.poweron {
+    color: #ffffff;
+    transition: all 0.5s;
+    animation: flicker 1s ease-in-out 1 alternate, neon 1.5s ease-in-out infinite alternate;
+    animation-delay: 0s, 1s;
+  }
+  
+  
+  ion-card{
+    background: green;
+    border: 1px solid #191919;
+    border-radius: .4em;
+    bottom: 0;
+    box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+    height: 400px;
+    left: 0;
+    margin: auto;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+
+    border-radius: 136px 136px 136px 136px;
+    -moz-border-radius: 136px 136px 136px 136px;
+    -webkit-border-radius: 136px 136px 136px 136px;
+    border: 5px solid rgb(12, 51, 0);
+  }
+
+
+  ion-input{
+    padding: 3px;
+    font-size: 16px;
+    border-width: 2px;
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-style: solid;
+    border-radius: 30px;
+    box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+    text-shadow: 0px 0px 5px rgba(66,66,66,.75);
+    
+  }
+
+
+  .p-contenedorBotones {
+    padding: 0 10px 10px;
+  }
+
+  input[type=submit] {
+    background-color:#44c767;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:15px;
+    padding:16px 73px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+     
+   
+  }
+
+
+  
+  

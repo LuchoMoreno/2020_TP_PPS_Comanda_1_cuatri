@@ -1,0 +1,46 @@
+#custom-overlay {     // Esto seria el fondo de pantalla
+    position: fixed;   
+    top: 0;              
+    right: 0;               
+    bottom: 0;                    
+    left: 0;                            
+    z-index: 99999;  // POR ENCIMA DE TODO                              
+    width:100%;             
+    background-color:green; // ESTO ES PARA Q NO SE VEA EL FONDO.              
+}
+       
+
+
+.splashAnimado {
+    --background:none;
+    background: url("../assets/img/splashSoloFondo.png") no-repeat center / cover;
+    height:100%;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+
+#splashAnimado.img1
+{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%); // SIEMPORE MEDIO
+  width:150px;
+  height:150px;
+  z-index: 1;
+
+  animation: blinker 1s linear infinite;
+}
+
+
+
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
