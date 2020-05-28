@@ -1,17 +1,17 @@
 #custom-overlay {     // Esto seria el fondo de pantalla
-    position: fixed;   
-    top: 0;              
-    right: 0;               
-    bottom: 0;                    
-    left: 0;                            
-    z-index: 99999;  // POR ENCIMA DE TODO                              
-    width:100%;             
-    background-color:green; // ESTO ES PARA Q NO SE VEA EL FONDO.              
+  position: fixed;   
+  top: 0;              
+  right: 0;               
+  bottom: 0;                    
+  left: 0;                            
+  z-index: 100000;                              
+  width:100%;                                  
+  background-color: rgb(250, 140, 50);           
 }
        
 
 
-.splashAnimado {
+.flb {
     --background:none;
     background: url("../assets/img/splashSoloFondo.png") no-repeat center / cover;
     height:100%;
@@ -23,7 +23,7 @@
 
 
 
-#splashAnimado.img1
+.splasAnimado 
 {
   position:absolute;
   top:50%;
@@ -33,9 +33,12 @@
   height:150px;
   z-index: 1;
 
-  animation: blinker 1s linear infinite;
+ // animation: jackInTheBox 2s  infinite;
 }
 
+.img1{
+  animation: jackInTheBox 1.5s  infinite;
+}
 
 
 
@@ -43,4 +46,63 @@
   50% {
     opacity: 0;
   }
+}
+
+@keyframes jackInTheBox {
+  from {
+    opacity: 0;
+    transform: scale(0.1) rotate(30deg);
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+
+  70% {
+    transform: rotate(3deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.contenedor{
+   
+  display: flex;
+  width: 300px;
+  height: 40px;
+  color: #ffffff;
+  font-size: 23px;
+  line-height: 40px;
+
+  position: absolute;
+  top: 60%;
+  right: 0;
+  bottom: 0;
+  left: 10%;
+  margin: auto;
+
+  overflow: hidden;
+}
+
+ul{
+  list-style: none;
+  padding-left: 10px;
+  animation: cambiar 4s infinite;
+}
+
+ul, p{
+
+  margin: 0;
+
+}
+
+@keyframes cambiar{
+
+  0%{ margin-top: 0;}
+  20%{ margin-top: 0;}
+  25%{ margin-top: -40px;}
+  35%{ margin-top: -40px;}
 }
