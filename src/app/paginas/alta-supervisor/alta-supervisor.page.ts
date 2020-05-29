@@ -24,6 +24,10 @@ export class AltaSupervisorPage implements OnInit {
   {
     // Hay que validar que el dni ingresado 
     this.dni = this.complementos.escanearDni();
+
+
+    this.complementos.presentToastConMensajeYColor(this.dni, "danger");
+
   }
 
 
