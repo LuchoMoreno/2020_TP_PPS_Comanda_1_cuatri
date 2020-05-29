@@ -25,6 +25,18 @@ export class LoginPage implements OnInit {
 
 
   email : string;
+   password : string;
+
+   listaUsuarios = [
+    {id:1, correo:"duenio@duenio.com", clave:"111111", perfil:"duenio"},
+    {id:2, correo:"supervisor@supervisor.com", clave:"222222", perfil:"supervisor"},
+    {id:3, correo:"mozo@mozo.com", clave:"333333", perfil:"mozo"},
+    {id:4, correo:"cocinero@cocinero.com", clave:"444444", perfil:"cocinero"},
+    {id:5, correo:"metre@metre.com", clave:"555555", perfil:"metre"},
+    {id:6, correo:"anonimo@anonimo.com", clave:"666666", perfil:"anonimo"}
+   ]
+
+ /* email : string;
   password : string;
 
 
@@ -33,7 +45,7 @@ export class LoginPage implements OnInit {
   { id: 3, email: "usuario@usuario.com", password: "333333", perfil: "usuario", sexo: "masculino" },
   { id: 4, email: "anonimo@anonimo.com", password: "444444", perfil: "anonimo", sexo: "masculino" },
   { id: 5, email: "tester@tester.com", password: "555555", perfil: "tester", sexo: "femenino" }]
-
+  */
 
   constructor(
   private authService : AuthService,
@@ -81,7 +93,8 @@ public onClearAll()
 
 
 // Selector de usuarios.
-pickUser(pickedName) {
+
+/*pickUser(pickedName) {
   this.users.forEach((user) => {
     if (user.perfil === pickedName) {
       this.email = user.email;
@@ -90,7 +103,18 @@ pickUser(pickedName) {
     }
   });
 }
-
+*/
+pickerUser(pickedName){
+  this.listaUsuarios.forEach((user) =>{
+    if(user.correo === pickedName)
+    {
+      this.email=user.correo;
+      this.password=user.clave;
+      //localStorage.setItem("usuario",JSON.stringify(user));
+      return;
+    }
+  })
+}
   
 
 }

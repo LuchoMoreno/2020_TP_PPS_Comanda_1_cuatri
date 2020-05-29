@@ -3,12 +3,20 @@ import { Injectable } from '@angular/core';
 // IMPORTO A USUARIOS.
 import {Usuario} from '../clases/usuario'
 
-
 // IMPORTO LOS MENSAJES. CON ESTO USO LOS TOAST.
 import { ToastController, LoadingController } from '@ionic/angular';
 
 // IMPORTO EL TIMER:
 import { timer } from 'rxjs';
+
+// IMPORTO LA CAMARA 
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+// IMPORTO EL QRSCANNER 
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+
+// IMPORTO EL PLATFORM 
+import { Platform } from '@ionic/angular';
 
 
 @Injectable({
@@ -17,10 +25,21 @@ import { timer } from 'rxjs';
 
 export class ComplementosService {
 
+  qrScan:any;
+
   constructor(private complementos : ComplementosService, 
     public toastController: ToastController,
     public loadingController: LoadingController,
-    ) { }
+    public camera: Camera,
+    public qrScanner: QRScanner, 
+    public plataform:Platform,
+    ) 
+    {
+      this.plataform.backButton.subscribeWithPriority(0,() => {
+        document.getElementsByTagName("body")[0].style.opacity = "1";
+        this.qrScan.unsubscribe();
+      })
+    }
 
 
 
@@ -102,10 +121,47 @@ this.presentToast(err);
   toast.present();
   }
 
-
-
+  capturarYGuardarFoto()
+  {
 
   }
+
+  escanearDni() : string
+  {
+    this.qrScanner.prepare().then((status:QRScannerStatus) => {
+
+      if(status.authorized)
+      {
+        this.qrScanner.show();
+        document.getElementsByTagName("body")[0].style.opacity = "0";
+       this.qrScan = this.qrScanner.scan().subscribe((textFound) => {
+
+        document.getElementsByTagName("body")[0].style.opacity = "1";
+        
+        //alert("Escaneo con exito!");
+        this.qrScan.unsubscribe();
+        
+        return textFound;
+
+        },(err) =>{
+          return err;
+          alert(JSON.stringify(err));
+        })
+      }
+      else if(status.denied)
+      {
+        return status.denied;
+      }
+      else{
+        return "Hubo un error!";
+      }
+
+    })
+
+    return ;
+  }
+
+}
 
 
 

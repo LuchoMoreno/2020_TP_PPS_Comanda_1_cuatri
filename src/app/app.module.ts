@@ -22,9 +22,9 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule} from "@angular/fire/auth";
 
 
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
-// IMPORTO LO QUE NECESITO PARA QUE FUNCIONEN LOS SENSORES.
-
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 
 
 @NgModule({
@@ -38,6 +38,8 @@ import { AngularFireAuthModule} from "@angular/fire/auth";
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
+    QRScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

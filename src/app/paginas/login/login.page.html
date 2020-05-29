@@ -1,0 +1,38 @@
+<ion-content >
+  <br>
+  <img src="../../../assets/icon/iconLogoMovimiento.png" alt="" width="100px" height="100px" class="icon">
+
+      <div align="center" class="divTop">
+      <h1 class="linea-efecto">Iniciar sesión</h1>
+    </div>
+      <ion-card>
+    <ion-item class="labels" >
+      <ion-label position="stacked"  >Correo electrónico</ion-label>
+      <br>
+      <ion-input type="text" [(ngModel)]="email" placeholder="Ingrese usuario..."></ion-input>
+    </ion-item>
+    <ion-item  class="labels">
+      <ion-label position="stacked"  >Contraseña</ion-label>
+      <br>
+      <ion-input  type="password" [(ngModel)]="password" placeholder="Ingrese contraseña..."></ion-input>
+    </ion-item>
+
+    <ion-button (click)="onSubmitLogin()" class="btnRegistro" expand="block"  >Ingresar</ion-button>
+
+    <ion-button (click)="ingresarComoAnonimo()" class="btnRegistro" expand="block">Ingresar Anonimo</ion-button>
+
+    <ion-button (click)="registrarUsuario()" class="btnRegistro" expand="block">Registrarse</ion-button>
+    
+    <br>
+
+    <ion-item color="primary">
+      <ion-label>Usuarios</ion-label>
+      <ion-select [(ngModel)]="pickedName" interface="popover" placeholder="Seleccione Usuario" (ionChange)="pickerUser(pickedName)">
+        <ion-select-option *ngFor="let usuario of listaUsuarios" value="{{usuario.correo}}">{{usuario.correo}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    </ion-card>
+  
+</ion-content>
+ 
