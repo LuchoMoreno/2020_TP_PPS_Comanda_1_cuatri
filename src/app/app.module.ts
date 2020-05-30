@@ -24,7 +24,9 @@ import { AngularFireAuthModule} from "@angular/fire/auth";
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+
+// BAR SCANNER.
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 
 @NgModule({
@@ -39,7 +41,7 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
     StatusBar,
     SplashScreen,
     Camera,
-    QRScanner,
+    BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
