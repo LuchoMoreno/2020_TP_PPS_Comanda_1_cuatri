@@ -17,6 +17,7 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 
 // IMPORTO EL PLATFORM 
 import { Platform } from '@ionic/angular';
+import { stringify } from 'querystring';
 
 
 @Injectable({
@@ -128,20 +129,29 @@ this.presentToast(err);
 
   escanearDni() : string
   {
-    this.qrScanner.prepare().then((status:QRScannerStatus) => {
+
+    let texto : string;
+
+    this.qrScanner.prepare()
+
+    .then((status:QRScannerStatus) => {
 
       if(status.authorized)
       {
+
         this.qrScanner.show();
         document.getElementsByTagName("body")[0].style.opacity = "0";
-       this.qrScan = this.qrScanner.scan().subscribe((textFound) => {
 
+        this.qrScan = this.qrScanner.scan().subscribe((texto) => {
+          
         document.getElementsByTagName("body")[0].style.opacity = "1";
         
-        //alert("Escaneo con exito!");
-        this.qrScan.unsubscribe();
+        alert('Scanned something: ' + texto);
+        this.qrScanner.hide(); // hide camera preview
+        this.qrScan.unsubscribe(); // stop scanning
         
-        return textFound;
+        this.complementos.presentToastConMensajeYColor(texto + "Desde el servicio", "danger");
+        return texto;
 
         },(err) =>{
           return err;
@@ -158,7 +168,9 @@ this.presentToast(err);
 
     })
 
-    return ;
+
+    return texto;
+    
   }
 
 }

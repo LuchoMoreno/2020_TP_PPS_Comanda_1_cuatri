@@ -23,10 +23,13 @@ export class AltaSupervisorPage implements OnInit {
   escanearDni()
   {
     // Hay que validar que el dni ingresado 
-    this.dni = this.complementos.escanearDni();
+    let dniNuevo = this.complementos.escanearDni();
+    this.dni = dniNuevo;
 
-
-    this.complementos.presentToastConMensajeYColor(this.dni, "danger");
+    alert("COMPLEMENTO:" + this.complementos.escanearDni());
+    alert("DNI IGUALADO:" + this.dni);
+    alert("DNI NUEVO:" + dniNuevo);
+  
 
   }
 
