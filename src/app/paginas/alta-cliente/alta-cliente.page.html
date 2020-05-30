@@ -10,48 +10,52 @@
   <img src="../../../assets/icon/iconLogoMovimiento.png" alt="" width="100px" height="100px" class="icon">
 
     <ion-card>
+
         <ion-item color="primary">
           <ion-label>Tipo:</ion-label>
           <ion-select [(ngModel)]="pickedName" interface="popover" placeholder="Seleccione" (ionChange)="pickerUser(pickedName)">
-            <ion-select-option *ngFor="let tipo of listaTipos" value="{{tipo.tipo}}">{{tipo.tipo}}</ion-select-option>
+            <ion-select-option *ngFor="let usuario of listaPerfiles" value="{{usuario.perfil}}">{{usuario.perfil}}</ion-select-option>
           </ion-select>
         </ion-item>
+
     <div *ngIf="pickedName=='Anonimo'">
       <ion-item class="labels" fill="outline">
-        <!-- <ion-label position="stacked" >Nombre</ion-label> -->
         <br>
         <ion-input type="text" [(ngModel)]="correo" placeholder="Correo..."></ion-input>
       </ion-item>
       <ion-item class="labels" >
-        <!-- <ion-label position="stacked"  >Apellido</ion-label> -->
         <br>
         <ion-input type="password" [(ngModel)]="contrasenia" placeholder="Contraseña..."></ion-input>
       </ion-item>
-      <ion-button (click)="registrarUsuario()" class="btnRegistro" expand="block">Registrarse</ion-button>
+      <ion-button (click)="registrarAnonimo()" class="btnRegistro" expand="block">Registrarse</ion-button>
     </div>
 
-    <div *ngIf="pickedName=='Usuario'">
+    <div *ngIf="pickedName=='Cliente'">
     <ion-item class="labels" fill="outline">
-      <!-- <ion-label position="stacked" >Nombre</ion-label> -->
       <br>
       <ion-input type="text" [(ngModel)]="nombre" placeholder="Nombre..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
-      <!-- <ion-label position="stacked"  >Apellido</ion-label> -->
       <br>
       <ion-input type="text" [(ngModel)]="apellido" placeholder="Apellido..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
-      <!-- <ion-label position="stacked"  >DNI</ion-label> -->
       <br>
       <ion-input type="text" [(ngModel)]="dni" placeholder="DNI..."></ion-input>
     </ion-item>
-
-    <ion-button (click)="registrarUsuario()" class="btnRegistro" >Registrarse</ion-button>
-    <ion-button (click)="escanearDni()" class="btnRegistro" >QR DNI</ion-button>
-    
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <ion-button (click)="escanearDni()" class="btnRegistro" expand="block">QR DNI</ion-button>
+        </ion-col>
+        <ion-col col-6>
+          <ion-button (click)="capturarFoto()" class="btnRegistro" expand="block">Tomar foto</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button (click)="registrarCiente()" class="btnRegistro"  expand="block">Registrarse</ion-button>
     <br>
-    <ion-button (click)="capturarFoto()" class="btnRegistro" >Tomar foto</ion-button>
+   
   </div>
 
     </ion-card>

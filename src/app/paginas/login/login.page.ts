@@ -115,6 +115,12 @@ pickerUser(pickedName){
     }
   })
 }
-  
+
+// Redirecciono a la pagina alta-cliente para registrar el cliente
+registrarUsuario()
+{
+  this.router.navigate(['/alta-cliente']);
+}
+
 
 }

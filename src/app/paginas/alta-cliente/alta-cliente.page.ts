@@ -7,22 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AltaClientePage implements OnInit {
 
-  listaTipos = [ 
-    { tipo : "Usuario" },
-    { tipo : "Anonimo" }
+  pickedName : string;
+
+  listaPerfiles = [ 
+    { perfil : "Cliente" },
+    { perfil : "Anonimo" }
   ]
 
   constructor() { }
 
   ngOnInit() {
   
+    this.pickedName = "Cliente";
+
   }
 
   pickerUser(pickedName){
-    this.listaTipos.forEach((user) =>{
-      if(user.tipo == pickedName )
+    this.listaPerfiles.forEach((usuario) =>{
+      if(usuario.perfil == pickedName )
       {
-
+        
       }
     })
   }
