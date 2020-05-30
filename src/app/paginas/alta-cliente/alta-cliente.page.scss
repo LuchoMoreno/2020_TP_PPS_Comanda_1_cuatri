@@ -1,0 +1,128 @@
+.btn
+{
+  font-size:10px;
+  font-family:Verdana,Helvetica;
+  font-weight:bold;
+  text-align: center;
+
+
+}
+
+.icon
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 35%;
+  z-index: 999999;
+}
+
+
+// ion-card{
+//   --background:transparent ;
+
+//   // background: rgba(189, 190, 196, 0.329);
+//   //border-radius: 50px;
+//   //position: relative;
+//   // top: 20%;
+//   // left: 20%;
+
+// }
+
+
+
+// ion-item.bg-transparent
+// {
+//   --background: transparent;
+//   //color: #ffffff; /*color texto*/
+//   font-family: 'Open Sans', sans-serif; 
+//   padding: 10px; /*espacio alrededor texto*/
+// }
+
+.fondoAnimado
+{
+  height : 100%;
+   position: absolute;
+  // z-index: 9998;
+ 
+}
+
+ion-title{
+  text-align: center;
+  //@debug: 17%;
+  font-family: 'Open Sans', sans-serif, cursive; 
+   color: #ffffff; /*color texto*/
+   font-size : 20px;
+
+}
+
+
+ion-content{
+   --background:url("../../../assets/img/fondoLogin2.png") 0 0/100% 100% no-repeat ;
+
+}
+
+.snow
+{
+  --color: snow;
+  font-size: 2em !important;
+
+}
+
+
+ ion-item.labels{
+   --background:rgba(255, 181, 85, 0.212) !important;
+   --color:snow;
+   border: 2px solid rgb(255, 161, 38);
+   margin-top: 2% !important;
+}
+
+ion-button{
+
+    margin-top: 2% !important;
+
+}
+
+ion-card{
+
+  position: absolute;
+  position: relative;
+  --background:transparent ;
+  --color:snow;
+  
+}
+
+h1{
+
+  display: inline-block;
+  position: relative;
+  color: snow;
+}
+
+h1::after,h1::before{
+
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 3px;
+  background-color:rgb(255, 161, 38);
+  top: 0.6em;
+}
+h1::before{
+  left: -109px;
+}
+h1::after{
+
+  left: 160px;
+}
+
+.divTop{
+  z-index: 99999;
+  top: -100;
+}
+
+ion-item{
+
+    border-radius: 1em;
+
+}

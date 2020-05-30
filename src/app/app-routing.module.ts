@@ -12,7 +12,11 @@ const routes: Routes = [
   {
     path: 'alta-supervisor',
     loadChildren: () => import('./paginas/alta-supervisor/alta-supervisor.module').then( m => m.AltaSupervisorPageModule)
+  },  {
+    path: 'alta-cliente',
+    loadChildren: () => import('./paginas/alta-cliente/alta-cliente.module').then( m => m.AltaClientePageModule)
   },
+
 
 ];
 
