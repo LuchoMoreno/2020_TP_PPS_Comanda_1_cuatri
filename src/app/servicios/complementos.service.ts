@@ -9,10 +9,6 @@ import { ToastController, LoadingController } from '@ionic/angular';
 // IMPORTO EL TIMER:
 import { timer } from 'rxjs';
 
-// IMPORTO LA CAMARA 
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
-
 // IMPORTO EL PLATFORM 
 import { Platform } from '@ionic/angular';
 import { stringify } from 'querystring';
@@ -29,7 +25,6 @@ export class ComplementosService {
   constructor(private complementos : ComplementosService, 
     public toastController: ToastController,
     public loadingController: LoadingController,
-    public camera: Camera,
     public plataform:Platform,
     ) 
     {
@@ -116,10 +111,6 @@ this.presentToast(err);
   toast.present();
   }
 
-  capturarYGuardarFoto()
-  {
-
-  }
 
 
 }

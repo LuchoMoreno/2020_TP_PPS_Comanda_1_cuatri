@@ -31,17 +31,20 @@
     </div>
 
     <div *ngIf="pickedName=='Cliente'">
+
+      <form [formGroup]="miFormulario">
+
     <ion-item class="labels" fill="outline">
       <br>
-      <ion-input type="text" [(ngModel)]="nombre" placeholder="Nombre..."></ion-input>
+      <ion-input type="text" [(ngModel)]="nombre"  formControlName="nombre" placeholder="Nombre..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
       <br>
-      <ion-input type="text" [(ngModel)]="apellido" placeholder="Apellido..."></ion-input>
+      <ion-input type="text" [(ngModel)]="apellido"  formControlName="apellido" placeholder="Apellido..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
       <br>
-      <ion-input type="text" [(ngModel)]="dni" placeholder="DNI..."></ion-input>
+      <ion-input type="text" [(ngModel)]="dni"  formControlName="dni" placeholder="DNI..."></ion-input>
     </ion-item>
     <ion-grid>
       <ion-row>
@@ -53,11 +56,15 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-button (click)="registrarCiente()" class="btnRegistro"  expand="block">Registrarse</ion-button>
+    
+    <ion-button (click)="registrarCiente()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
     <br>
    
+  </form>
+
   </div>
 
+  
     </ion-card>
 
 </ion-content>

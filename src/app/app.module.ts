@@ -28,6 +28,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // BAR SCANNER.
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
+import {AngularFirestore} from "@angular/fire/firestore";
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +44,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
     SplashScreen,
     Camera,
     BarcodeScanner,
+    AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
