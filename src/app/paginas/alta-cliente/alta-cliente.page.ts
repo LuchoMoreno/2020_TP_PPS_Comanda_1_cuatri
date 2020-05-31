@@ -20,6 +20,9 @@ import { Usuariosbd } from "../../clases/usuariosbd";
 // IMPORTO EL SERVICIO COMPLEMENTOS
 import { ComplementosService } from 'src/app/servicios/complementos.service';
 
+// BARCODE SCANNER:
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 
 
 @Component({
@@ -52,6 +55,7 @@ export class AltaClientePage implements OnInit {
   ]
 
   constructor(
+    private barcodeScanner : BarcodeScanner,
     private camera : Camera,
     private bd : DatabaseService,
     private formBuilder: FormBuilder,
@@ -92,10 +96,12 @@ export class AltaClientePage implements OnInit {
     }
 
     //let cliente = new Usuariosbd(this.nombre,this.apellido,this.dni,this.foto,"cliente");
-    
+
     console.log(this.usuarioJson);
     this.bd.crear('usuarios',this.usuarioJson);
 
+    alert(this.pathImagen);
+    alert(this.usuarioJson.foto);
     this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
   }
 
@@ -123,7 +129,7 @@ export class AltaClientePage implements OnInit {
       let obtenerMili = new Date().getTime(); 
 
 
-      var nombreFoto = "usuarios/"+obtenerMili+"."+this.usuarioJson.dni+"jpg";
+      var nombreFoto = "usuarios/"+obtenerMili+"."+this.usuarioJson.dni+".jpg";
       var childRef = storageRef.child(nombreFoto);
 
       this.pathImagen = childRef;
@@ -137,6 +143,27 @@ export class AltaClientePage implements OnInit {
       alert(JSON.stringify(Err));
     })
     
+  }
+
+
+  escanearDni()
+  {
+
+    let fafafa;
+
+    this.barcodeScanner.scan().then(barcodeData => {
+      alert('Barcode data: ' + barcodeData);
+
+
+      fafafa = JSON.parse(barcodeData.text);
+
+      this.usuarioJson.dni = fafafa;
+
+     }).catch(err => {
+         console.log('Error', err);
+     });
+  
+
   }
 
 
