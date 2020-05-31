@@ -47,7 +47,7 @@ export class AltaClientePage implements OnInit {
     foto :  "../../../assets/icon/iconLogoMovimiento.png"
   };
 
-  pathImagen : any;
+  pathImagen : string;
 
   listaPerfiles = [ 
     { perfil : "Cliente" },
@@ -85,23 +85,18 @@ export class AltaClientePage implements OnInit {
 
   registrarCliente()
   {
-    if(this.pathImagen != null)
-    {
-      //console.log("Path es distinto de null")
-      this.usuarioJson.foto = this.pathImagen;
+    if(this.pathImagen != null){
+      
+      this.st.storage.refFromURL("usuarios/").child(this.pathImagen).getDownloadURL().then((link) =>
+      {
+        this.usuarioJson.foto = link;
+      });
+   
     }
-    else{
-      this.usuarioJson.foto = "../../../assets/icon/iconLogoMovimiento.png";
-      console.log("Path es null");
-    }
-
-    //let cliente = new Usuariosbd(this.nombre,this.apellido,this.dni,this.foto,"cliente");
-
-    console.log(this.usuarioJson);
+ 
     this.bd.crear('usuarios',this.usuarioJson);
 
-    alert(this.pathImagen);
-    alert(this.usuarioJson.foto);
+
     this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
   }
 
@@ -132,7 +127,7 @@ export class AltaClientePage implements OnInit {
       var nombreFoto = "usuarios/"+obtenerMili+"."+this.usuarioJson.dni+".jpg";
       var childRef = storageRef.child(nombreFoto);
 
-      this.pathImagen = childRef;
+      this.pathImagen = nombreFoto;
 
       childRef.putString(base64Str,'data_url').then(function(snapshot)
       {
