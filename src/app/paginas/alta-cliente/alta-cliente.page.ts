@@ -87,18 +87,20 @@ export class AltaClientePage implements OnInit {
   {
     if(this.pathImagen != null){
       
-      this.st.storage.ref("usuarios/").child(this.pathImagen).getDownloadURL().then((link) =>
+
+      this.st.storage.ref(this.pathImagen).getDownloadURL().then((link) =>
       {
-        alert(link);
+
         this.usuarioJson.foto = link;
-        alert(this.usuarioJson.foto);
+        this.bd.crear('usuarios',this.usuarioJson);
+
       });
-   
+
+
     }
- 
-    this.bd.crear('usuarios',this.usuarioJson);
 
     this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
+
   }
 
   tomarFotografia()
@@ -110,7 +112,6 @@ export class AltaClientePage implements OnInit {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-
     }
 
     this.camera.getPicture(options).then((imageData)=> {
@@ -125,7 +126,7 @@ export class AltaClientePage implements OnInit {
       let obtenerMili = new Date().getTime(); 
 
       var nombreFoto = "usuarios/"+obtenerMili+"."+this.usuarioJson.dni+".jpg";
-      
+
       var childRef = storageRef.child(nombreFoto);
 
       this.pathImagen = nombreFoto;
@@ -149,7 +150,6 @@ export class AltaClientePage implements OnInit {
 
     this.barcodeScanner.scan().then(barcodeData => {
       alert('Barcode data: ' + barcodeData);
-
 
       fafafa = JSON.parse(barcodeData.text);
 
