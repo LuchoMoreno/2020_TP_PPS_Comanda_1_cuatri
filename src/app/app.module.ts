@@ -21,15 +21,17 @@ import { AngularFireModule } from "@angular/fire";
 
 import { AngularFireAuthModule} from "@angular/fire/auth";
 
-
+// IMPORTO EL PLUGIN DE CAMARA
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 
 // BAR SCANNER.
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
+// IMPORTO BASE DE DATOS FIREBASE
 import {AngularFirestore} from "@angular/fire/firestore";
 
+import {AngularFireStorageModule} from "@angular/fire/storage";
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +39,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
   imports: [BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule, 
+    AngularFireStorageModule, // <- Agregue
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule],
   providers: [

@@ -7,8 +7,7 @@ export class Usuariosbd {
     foto : string;
     perfil : string;
 
-    contructor(nombre : string, apellido : string, dni : string, foto : string , perfil : string, cuil? : string)
-    {
+    constructor(nombre : string, apellido : string, dni : string, foto : string , perfil : string, cuil? : string){
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
