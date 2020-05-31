@@ -87,15 +87,16 @@ export class AltaClientePage implements OnInit {
   {
     if(this.pathImagen != null){
       
-      this.st.storage.refFromURL("usuarios/").child(this.pathImagen).getDownloadURL().then((link) =>
+      this.st.storage.ref("usuarios/").child(this.pathImagen).getDownloadURL().then((link) =>
       {
+        alert(link);
         this.usuarioJson.foto = link;
+        alert(this.usuarioJson.foto);
       });
    
     }
  
     this.bd.crear('usuarios',this.usuarioJson);
-
 
     this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
   }
@@ -123,8 +124,8 @@ export class AltaClientePage implements OnInit {
      
       let obtenerMili = new Date().getTime(); 
 
-
       var nombreFoto = "usuarios/"+obtenerMili+"."+this.usuarioJson.dni+".jpg";
+      
       var childRef = storageRef.child(nombreFoto);
 
       this.pathImagen = nombreFoto;
