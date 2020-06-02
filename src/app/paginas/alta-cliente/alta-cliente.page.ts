@@ -44,7 +44,8 @@ export class AltaClientePage implements OnInit {
     nombre : "",
     apellido : "",
     dni : "",
-    foto :  "../../../assets/icon/iconLogoMovimiento.png"
+    foto :  "../../../assets/icon/iconLogoMovimiento.png",
+    perfil : ""
   };
 
   pathImagen : string;
@@ -78,7 +79,7 @@ export class AltaClientePage implements OnInit {
     this.listaPerfiles.forEach((usuario) =>{
       if(usuario.perfil == pickedName )
       {
-        
+        this.usuarioJson.perfil = pickedName;
       }
     })
   }
@@ -141,6 +142,9 @@ export class AltaClientePage implements OnInit {
     })
     
   }
+
+
+  
 
 
   escanearDni()

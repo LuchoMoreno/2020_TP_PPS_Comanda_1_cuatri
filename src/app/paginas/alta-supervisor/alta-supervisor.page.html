@@ -6,36 +6,64 @@
 
 <ion-content>
 
+ 
+
   <br>
-  <img src="../../../assets/icon/iconLogoMovimiento.png" alt="" width="100px" height="100px" class="icon">
+  <img [src]="usuarioJson.foto" alt="" width="100px" height="100px" class="icon">
+  
 
       <ion-card>
+        
+        <form [formGroup]="miFormulario">
 
-       
     <ion-item class="labels" fill="outline">
-      <!-- <ion-label position="stacked" >Nombre</ion-label> -->
+   
       <br>
-      <ion-input type="text" [(ngModel)]="nombre" placeholder="Nombre..."></ion-input>
+      <ion-input type="text" [(ngModel)]="usuarioJson.nombre" formControlName="nombre" placeholder="Nombre..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
-      <!-- <ion-label position="stacked"  >Apellido</ion-label> -->
+
       <br>
-      <ion-input type="text" [(ngModel)]="apellido" placeholder="Apellido..."></ion-input>
+      <ion-input type="text" [(ngModel)]="usuarioJson.apellido" formControlName="apellido" placeholder="Apellido..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
-      <!-- <ion-label position="stacked"  >DNI</ion-label> -->
+
       <br>
-      <ion-input type="text" [(ngModel)]="dni" placeholder="DNI..."></ion-input>
+      <ion-input type="text" [(ngModel)]="usuarioJson.dni" formControlName="dni" placeholder="DNI..."></ion-input>
     </ion-item>
     <ion-item class="labels" >
-      <!-- <ion-label position="stacked"  >CUIL</ion-label> -->
+
       <br>
-      <ion-input type="text" [(ngModel)]="cuil" placeholder="CUIL..."></ion-input>
+      <ion-input type="text" [(ngModel)]="usuarioJson.cuil" formControlName="cuil" placeholder="CUIL..."></ion-input>
     </ion-item>
 
-    <ion-button (click)="registrarUsuario()" class="btnRegistro" expand="block">Registrarse</ion-button>
-    <ion-button (click)="escanearDni()" class="btnRegistro" expand="block">QR DNI</ion-button>
-  
+  </form>
+
+    <ion-item color="primary">
+      <ion-label>Tipo:</ion-label>
+      <ion-select [(ngModel)]="pickedName" interface="popover" placeholder="Seleccione" (ionChange)="pickerUser(pickedName)">
+        <ion-select-option *ngFor="let usuario of listaPerfiles" value="{{usuario.perfil}}">{{usuario.perfil}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <ion-button (click)="escanearDni()" class="btnRegistro" expand="block">QR DNI</ion-button>
+        </ion-col>
+        <ion-col col-6>
+          <ion-button (click)="tomarFotografia()" class="btnRegistro"  [disabled]="!usuarioJson.dni" expand="block">Tomar foto</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+        <ion-button (click)="registrarCliente()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
+
+
     </ion-card>
 
-</ion-content>
+
+</ion-content> 
+
