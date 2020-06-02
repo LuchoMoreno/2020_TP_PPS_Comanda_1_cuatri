@@ -26,13 +26,24 @@ export class HomePage {
   }
 
 
-  redireccionPrueba(perfilUsuario)
+  redireccionPrueba()
   {
-    if(perfilUsuario == 'supervisor' || perfilUsuario == 'duenio')
-    {
       this.router.navigate(['/alta-supervisor']);
-    }
+  }
 
+
+  openFirst() {
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
+  }
+
+  openEnd() {
+    this.menu.open('end');
+  }
+
+  openCustom() {
+    this.menu.enable(true, 'custom');
+    this.menu.open('custom');
   }
 
 
