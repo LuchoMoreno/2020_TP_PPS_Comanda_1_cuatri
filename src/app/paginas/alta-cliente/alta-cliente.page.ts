@@ -45,9 +45,18 @@ export class AltaClientePage implements OnInit {
     apellido : "",
     dni : "",
     foto :  "../../../assets/icon/iconLogoMovimiento.png",
-    perfil : ""
+    perfil : "",
+    correo: "",
+    contrasenia: ""
   };
 
+  anonimoJson = {
+    nombre : "",
+    foto :  "../../../assets/icon/iconLogoMovimiento.png",
+    perfil : "",
+    correo: "",
+    contrasenia: ""
+  };
   pathImagen : string;
 
   listaPerfiles = [ 
@@ -66,6 +75,8 @@ export class AltaClientePage implements OnInit {
         nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,10}$')]],
         apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,10}$')]],
         dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+        contrasenia: ['', [Validators.pattern('^[a-z0-9_-]{6,18}$')]],
+        correo: ['', [Validators.required, Validators.email] ],
      });
    }
    
@@ -77,14 +88,18 @@ export class AltaClientePage implements OnInit {
 
   pickerUser(pickedName){
     this.listaPerfiles.forEach((usuario) =>{
-      if(usuario.perfil == pickedName )
+      if(usuario.perfil == pickedName && pickedName == "Cliente")
       {
         this.usuarioJson.perfil = pickedName;
+      }
+      else{
+        this.anonimoJson.perfil = pickedName;
       }
     })
   }
 
-  registrarCliente()
+
+  registrar()
   {
     if(this.pathImagen != null){
       
@@ -99,9 +114,13 @@ export class AltaClientePage implements OnInit {
 
 
     }
+    else
+    {
+      this.bd.crear('usuarios',this.usuarioJson);
+
+    }
 
     this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
-
   }
 
   tomarFotografia()
@@ -143,8 +162,6 @@ export class AltaClientePage implements OnInit {
     
   }
 
-
-  
 
 
   escanearDni()

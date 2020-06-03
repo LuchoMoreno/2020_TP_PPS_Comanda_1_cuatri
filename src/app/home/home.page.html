@@ -1,6 +1,65 @@
+<ion-header>
+  <div  id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Inbox</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content >
+      <ion-button expand="block" (onclick)="openMenu()">Open Menu</ion-button>
+      <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
+  
+    </ion-content>
+  </div>
+</ion-header>
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Start Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    
+    <ion-list *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'" >
+      <ion-item>
+        <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="redireccionar('empleado')" class="btnRegistro" expand="block"  >Alta empleado</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="redireccionar('supervisor')"class="btnRegistro" expand="block"  >Alta dueño/supervisor</ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf = "perfilUsuario == 'Cliente' || perfilUsuario == 'Metre'" >
+      <ion-item>
+        <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="redireccionar('cliente')"class="btnRegistro" expand="block"  >Alta cliente</ion-button>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngIf = "perfilUsuario == 'Cocinero' || perfilUsuario == 'BarTender'" >
+      <ion-item>
+        <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
 
-<ion-app>
+
+<ion-router-outlet id="main"></ion-router-outlet>
+
+<!--<ion-app>
 
 
 <ion-menu side="start" content-id="main-content">
@@ -32,7 +91,7 @@
 
             <ion-item>
                 <ion-icon name="archive" slot="start"></ion-icon>
-                <ion-label>Archived</ion-label>
+                <a href="alta-supervisor">Alta supervisor</a>
             </ion-item>
 
             <ion-item>
@@ -41,8 +100,8 @@
             </ion-item>
 
             <ion-item>
-                <ion-icon name="warning" slot="start"></ion-icon>
-                <ion-label>Spam</ion-label>
+              <ion-button (click)="redireccionPrueba()" class="btnRegistro" expand="block"  >Redireccionar</ion-button>
+
             </ion-item>
 
         </ion-list>
@@ -61,8 +120,10 @@
           <ion-title>Inbox</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        <ion-button expand="block" onclick="openMenu()">Open Menu</ion-button>
+      <ion-content >
+        <ion-button expand="block" (onclick)="openMenu()">Open Menu</ion-button>
+        <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
+
       </ion-content>
     </div>
 
@@ -72,15 +133,16 @@
 
 <ion-router-outlet id="main"></ion-router-outlet>
 
-
-
+-->
 <!--
-
 <ion-content>
 
-    <ion-button (click)="redireccionPrueba()" class="btnRegistro" expand="block"  >Redireccionar</ion-button>
+  <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
 
+  <div *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'" >
+    <ion-button (click)="redireccionar('supervisor')"class="btnRegistro" expand="block"  >Alta dueño/supervisor</ion-button>
+    <ion-button (click)="redireccionar('empleado')" class="btnRegistro" expand="block"  >Alta empleado</ion-button>
+  </div>
 </ion-content>
-
 
 -->

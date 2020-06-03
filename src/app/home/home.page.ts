@@ -22,13 +22,30 @@ export class HomePage {
   ngOnInit() {
 
     let auxUsuario = JSON.parse(localStorage.getItem("usuario"));
-    console.log(auxUsuario);
+    
+    this.perfilUsuario = auxUsuario.perfil;
+    console.log(this.perfilUsuario);
   }
 
 
-  redireccionPrueba()
+  redireccionar(perfil)
   {
+    switch(perfil)
+    {
+      case 'supervisor' :  
       this.router.navigate(['/alta-supervisor']);
+        break;
+      case 'empleado' : 
+      this.router.navigate(['/alta-empleado']);
+      break;
+      case 'cliente' : 
+      this.router.navigate(['/alta-cliente']);
+      break;
+      case 'atras' : 
+      this.router.navigate(['/login']);
+      break;
+    }
+     
   }
 
 

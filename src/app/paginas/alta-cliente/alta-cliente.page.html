@@ -20,15 +20,27 @@
         </ion-item>
 
     <div *ngIf="pickedName=='Anonimo'">
+
       <ion-item class="labels" fill="outline">
         <br>
-        <ion-input type="text" [(ngModel)]="correo" placeholder="Correo..."></ion-input>
+        <ion-input type="text" [(ngModel)]="anonimoJson.nombre"  formControlName="nombre" placeholder="Nombre..."></ion-input>
       </ion-item>
+  
       <ion-item class="labels" >
         <br>
-        <ion-input type="password" [(ngModel)]="contrasenia" placeholder="Contraseña..."></ion-input>
+        <ion-input type="text" [(ngModel)]="anonimoJson.correo"  formControlName="correo" placeholder="Correo..."></ion-input>
       </ion-item>
-      <ion-button (click)="registrarAnonimo()" class="btnRegistro" expand="block">Registrarse</ion-button>
+  
+      <ion-item class="labels" >
+        <br>
+        <ion-input type="password" [(ngModel)]="anonimoJson.contrasenia"  formControlName="contrasenia" placeholder="Contraseña..."></ion-input>
+      </ion-item>
+      
+      <ion-button (click)="tomarFotografia()" class="btnRegistro"  [disabled]="!usuarioJson.dni" expand="block">Tomar foto</ion-button>
+      <br>
+
+      <ion-button (click)="registrar()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
+    
     </div>
 
     <div *ngIf="pickedName=='Cliente'">
@@ -39,14 +51,27 @@
       <br>
       <ion-input type="text" [(ngModel)]="usuarioJson.nombre"  formControlName="nombre" placeholder="Nombre..."></ion-input>
     </ion-item>
+
     <ion-item class="labels" >
       <br>
       <ion-input type="text" [(ngModel)]="usuarioJson.apellido"  formControlName="apellido" placeholder="Apellido..."></ion-input>
     </ion-item>
+
     <ion-item class="labels" >
       <br>
       <ion-input type="text" [(ngModel)]="usuarioJson.dni"  formControlName="dni" placeholder="DNI..."></ion-input>
     </ion-item>
+
+    <ion-item class="labels" >
+      <br>
+      <ion-input type="text" [(ngModel)]="usuarioJson.correo"  formControlName="correo" placeholder="Correo..."></ion-input>
+    </ion-item>
+
+    <ion-item class="labels" >
+      <br>
+      <ion-input type="password" [(ngModel)]="usuarioJson.contrasenia"  formControlName="contrasenia" placeholder="Contraseña..."></ion-input>
+    </ion-item>
+
     <ion-grid>
       <ion-row>
         <ion-col col-6>
@@ -58,8 +83,7 @@
       </ion-row>
     </ion-grid>
     
-    <ion-button (click)="registrarCliente()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
-    <br>
+    <ion-button (click)="registrar()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
    
   </form>
 

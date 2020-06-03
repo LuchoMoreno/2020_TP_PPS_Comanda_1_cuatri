@@ -28,12 +28,12 @@ export class LoginPage implements OnInit {
    password : string;
 
    listaUsuarios = [
-    {id:1, correo:"duenio@duenio.com", clave:"111111", perfil:"duenio"},
-    {id:2, correo:"supervisor@supervisor.com", clave:"222222", perfil:"supervisor"},
-    {id:3, correo:"mozo@mozo.com", clave:"333333", perfil:"mozo"},
-    {id:4, correo:"cocinero@cocinero.com", clave:"444444", perfil:"cocinero"},
-    {id:5, correo:"metre@metre.com", clave:"555555", perfil:"metre"},
-    {id:6, correo:"anonimo@anonimo.com", clave:"666666", perfil:"anonimo"}
+    {id:1, correo:"duenio@duenio.com", clave:"111111", perfil:"Dueño"},
+    {id:2, correo:"supervisor@supervisor.com", clave:"222222", perfil:"Supervisor"},
+    {id:3, correo:"mozo@mozo.com", clave:"333333", perfil:"Mozo"},
+    {id:4, correo:"cocinero@cocinero.com", clave:"444444", perfil:"Cocinero"},
+    {id:5, correo:"metre@metre.com", clave:"555555", perfil:"Metre"},
+    {id:6, correo:"anonimo@anonimo.com", clave:"666666", perfil:"Anonimo"}
    ]
 
 

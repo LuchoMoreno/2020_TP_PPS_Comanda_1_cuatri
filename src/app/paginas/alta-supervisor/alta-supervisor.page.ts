@@ -44,14 +44,14 @@ export class AltaSupervisorPage implements OnInit {
     foto :  "../../../assets/icon/iconLogoMovimiento.png",
     cuil : "",
     perfil : "",
+    contrasenia: "",
+    correo : "",
   };
 
   listaPerfiles = [ 
     { perfil : "Supervisor" },
     { perfil : "Dueño" }
   ]
-
-  
 
   constructor(
     private barcodeScanner : BarcodeScanner,
@@ -65,6 +65,8 @@ export class AltaSupervisorPage implements OnInit {
         apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,10}$')]],
         dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
         cuil :  ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
+        contrasenia: ['', [Validators.required] ],
+        correo: ['', [Validators.required, Validators.email] ],
      });
    }
    
@@ -73,7 +75,7 @@ export class AltaSupervisorPage implements OnInit {
   ngOnInit() {
   }
 
-  registrarCliente()
+  registrar(perfil)
   {
     if(this.pathImagen != null){
       
@@ -94,7 +96,7 @@ export class AltaSupervisorPage implements OnInit {
     }
 
    
-    this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
+    this.complemetos.presentToastConMensajeYColor("¡El "+perfil +" se creo con exito!","primary");
 
   }
 
