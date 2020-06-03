@@ -1,0 +1,72 @@
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+
+
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+
+    <ion-title color="primary">Alta producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+ 
+
+  <br>
+  <img [src]="productoJson.foto1" alt="" width="100px" height="100px" class="icon">
+  
+      <ion-card>
+        
+        
+    <ion-item color="primary">
+      <ion-label>Tipo:</ion-label>
+      <ion-select [(ngModel)]="pickedName" interface="popover" placeholder="Seleccione" (ionChange)="pickerUser(pickedName)">
+        <ion-select-option *ngFor="let producto of listaProductos" value="{{producto.tipo}}">{{producto.tipo}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+     <form [formGroup]="miFormulario">
+          
+
+      <ion-item class="labels" fill="outline">
+
+        <br>
+        <ion-input type="text" [(ngModel)]="productoJson.nombre" formControlName="nombre" placeholder="Nombre..."></ion-input>
+      </ion-item>
+  
+      <ion-item class="labels" >
+        <br>
+        <ion-input type="text" [(ngModel)]="productoJson.descripcion" formControlName="descripcion" placeholder="Descripción..."></ion-input>
+      </ion-item>
+  
+      <ion-item class="labels" >
+        <br>
+        <ion-input type="text" [(ngModel)]="productoJson.tiempo" formControlName="tiempo" placeholder="Tiempo elaboración..."></ion-input>
+      </ion-item>
+  
+      <ion-item class="labels" >
+        <br>
+        <ion-input type="text" [(ngModel)]="productoJson.precio" formControlName="precio" placeholder="Precio..."></ion-input>
+      </ion-item>
+
+
+  </form>
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12>
+          <ion-button (click)="tomarFotografia()" class="btnRegistro" expand="block">Tomar foto</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+        <ion-button (click)="registrar(productoJson.perfil)" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Enviar producto</ion-button>
+
+    </ion-card>
+
+
+</ion-content> 
+
