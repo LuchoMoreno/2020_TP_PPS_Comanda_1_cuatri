@@ -41,6 +41,9 @@ export class HomePage {
       case 'cliente' : 
       this.router.navigate(['/alta-cliente']);
       break;
+      case 'producto' : 
+      this.router.navigate(['/alta-producto']);
+      break;
       case 'atras' : 
       this.router.navigate(['/login']);
       break;

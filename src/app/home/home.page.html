@@ -46,9 +46,12 @@
 
     </ion-list>
 
-    <ion-list *ngIf = "perfilUsuario == 'Cocinero' || perfilUsuario == 'BarTender'" >
+    <ion-list *ngIf = "perfilUsuario == 'Cocinero' || perfilUsuario == 'Bar tender'" >
       <ion-item>
         <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="redireccionar('producto')" class="btnRegistro"  >Alta producto</ion-button>
       </ion-item>
 
     </ion-list>

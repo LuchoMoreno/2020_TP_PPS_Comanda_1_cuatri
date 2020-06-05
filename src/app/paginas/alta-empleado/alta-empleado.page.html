@@ -1,9 +1,77 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>alta-empleado</ion-title>
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+    <ion-title color="primary">Alta empleado</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-</ion-content>
+ 
+
+  <br>
+  <img [src]="usuarioJson.foto" alt="" width="100px" height="100px" class="icon">
+  
+
+      <ion-card>
+        
+        
+    <ion-item color="primary">
+      <ion-label>Tipo:</ion-label>
+      <ion-select [(ngModel)]="pickedName" interface="popover" placeholder="Seleccione" (ionChange)="pickerUser(pickedName)">
+        <ion-select-option *ngFor="let usuario of listaPerfiles" value="{{usuario.perfil}}">{{usuario.perfil}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+        <form [formGroup]="miFormulario">
+          
+
+    <ion-item class="labels" fill="outline">
+   
+      <br>
+      <ion-input type="text" [(ngModel)]="usuarioJson.nombre" formControlName="nombre" placeholder="Nombre..."></ion-input>
+    </ion-item>
+    <ion-item class="labels" >
+
+      <br>
+      <ion-input type="text" [(ngModel)]="usuarioJson.apellido" formControlName="apellido" placeholder="Apellido..."></ion-input>
+    </ion-item>
+    <ion-item class="labels" >
+
+      <br>
+      <ion-input type="text" [(ngModel)]="usuarioJson.dni" formControlName="dni" placeholder="DNI..."></ion-input>
+    </ion-item>
+    <ion-item class="labels" >
+
+      <br>
+      <ion-input type="text" [(ngModel)]="usuarioJson.cuil" formControlName="cuil" placeholder="CUIL..."></ion-input>
+    </ion-item>
+
+    <ion-item class="labels" >
+      <br>
+      <ion-input type="text" [(ngModel)]="usuarioJson.correo"  formControlName="correo" placeholder="Correo..."></ion-input>
+    </ion-item>
+
+    <ion-item class="labels" >
+      <br>
+      <ion-input type="password" [(ngModel)]="usuarioJson.contrasenia"  formControlName="contrasenia" placeholder="Contraseña..."></ion-input>
+    </ion-item>
+
+  </form>
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <ion-button (click)="escanearDni()" class="btnRegistro" expand="block">QR DNI</ion-button>
+        </ion-col>
+        <ion-col col-6>
+          <ion-button (click)="tomarFotografia()" class="btnRegistro"  [disabled]="!usuarioJson.dni" expand="block">Tomar foto</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+        <ion-button (click)="registrar(usuarioJson.perfil)" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
+
+    </ion-card>
+
+
+</ion-content> 
+
