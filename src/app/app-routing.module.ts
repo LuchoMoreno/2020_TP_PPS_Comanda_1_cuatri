@@ -24,6 +24,10 @@ const routes: Routes = [
     path: 'alta-producto',
     loadChildren: () => import('./paginas/alta-producto/alta-producto.module').then( m => m.AltaProductoPageModule)
   },
+  {
+    path: 'alta-mesa',
+    loadChildren: () => import('./paginas/alta-mesa/alta-mesa.module').then( m => m.AltaMesaPageModule)
+  },
 
 
 ];
