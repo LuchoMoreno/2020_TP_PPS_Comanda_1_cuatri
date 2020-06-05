@@ -101,8 +101,7 @@ export class AltaClientePage implements OnInit {
 
   registrar()
   {
-    if(this.pathImagen != null){
-      
+    if(this.pathImagen != null){   
 
       this.st.storage.ref(this.pathImagen).getDownloadURL().then((link) =>
       {
@@ -112,7 +111,6 @@ export class AltaClientePage implements OnInit {
 
       });
 
-
     }
     else
     {
@@ -120,7 +118,7 @@ export class AltaClientePage implements OnInit {
 
     }
 
-    this.complemetos.presentToastConMensajeYColor("¡El cliente se creo con exito!","primary");
+    this.complemetos.presentToastConMensajeYColor("El estado del cliente esta pendiente al registro.","primary");
   }
 
   tomarFotografia()
@@ -162,24 +160,20 @@ export class AltaClientePage implements OnInit {
     
   }
 
-
-
   escanearDni()
   {
-
-    let fafafa;
+    let auxDni;
 
     this.barcodeScanner.scan().then(barcodeData => {
       alert('Barcode data: ' + barcodeData);
 
-      fafafa = JSON.parse(barcodeData.text);
+      auxDni = JSON.parse(barcodeData.text);
 
-      this.usuarioJson.dni = fafafa;
+      this.usuarioJson.dni = auxDni;
 
      }).catch(err => {
          console.log('Error', err);
      });
-  
 
   }
 

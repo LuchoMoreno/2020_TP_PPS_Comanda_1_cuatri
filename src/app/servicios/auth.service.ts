@@ -24,11 +24,21 @@ login(email : string, password : string){
 
   });
 
-  
-  
-
-
 }
+
+registrarUsuario(email : string, contraseña : string)
+{
+  return new Promise((resolve, rejected) => {
+
+    this.AFauth.createUserWithEmailAndPassword(email, contraseña)
+    
+    .then (user => resolve(user))
+    
+    .catch(err => rejected(err))
+  
+    });
+}
+
 
 
 }

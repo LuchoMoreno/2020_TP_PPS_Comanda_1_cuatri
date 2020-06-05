@@ -33,7 +33,9 @@ export class AltaProductoPage implements OnInit {
 
   pickedName : string;
   miFormulario : FormGroup;
-  pathImagen : string;
+  //pathImagen : string;
+  // Transforme al pathImagen en array
+  pathImagen = ["","",""]; 
 
   productoJson = {
     nombre : "",
@@ -41,9 +43,10 @@ export class AltaProductoPage implements OnInit {
     tiempo : "",
     precio : "",
     tipo : "",
-    foto1 : "../../../assets/icon/iconLogoMovimiento.png",
+   /* foto1 : "../../../assets/icon/iconLogoMovimiento.png",
     foto2 : "../../../assets/icon/iconLogoMovimiento.png",
-    foto3 : "../../../assets/icon/iconLogoMovimiento.png",
+    foto3 : "../../../assets/icon/iconLogoMovimiento.png",*/
+    fotos : [],
   };
 
 
@@ -68,32 +71,34 @@ export class AltaProductoPage implements OnInit {
    }
 
   ngOnInit() {
+    this.pickedName = "Plato";
   }
 
 
 
-  registrar(perfil)
+  registrar()
   {
     if(this.pathImagen != null){
       
+      this.pathImagen.forEach( data =>{
 
-      this.st.storage.ref(this.pathImagen).getDownloadURL().then((link) =>
-      {
+        this.st.storage.ref(data).getDownloadURL().then((link) =>
+        {
+  
+          this.productoJson.fotos.push(link);
+          this.bd.crear('productos',this.productoJson);
+  
+        });
 
-        this.productoJson.foto1 = link;
-        this.bd.crear('productos',this.productoJson);
-
-      });
-
+      })
 
     }
     else
     {
       this.bd.crear('productos',this.productoJson);
     }
-
    
-    this.complemetos.presentToastConMensajeYColor("¡El "+ perfil +" se creo con exito!","primary");
+    this.complemetos.presentToastConMensajeYColor("¡El producto se creo con exito!","primary");
 
   }
 
@@ -112,9 +117,7 @@ export class AltaProductoPage implements OnInit {
     this.camera.getPicture(options).then((imageData)=> {
 
       var base64Str = 'data:image/jpeg;base64,'+imageData;
-      
       //Para que la fotografia se muestre apenas se tomo
-      this.productoJson.foto1 = base64Str;
 
       var storageRef = firebase.storage().ref();
      
@@ -124,7 +127,7 @@ export class AltaProductoPage implements OnInit {
 
       var childRef = storageRef.child(nombreFoto);
 
-      this.pathImagen = nombreFoto;
+     this.pathImagen.push(nombreFoto);
 
       childRef.putString(base64Str,'data_url').then(function(snapshot)
       {

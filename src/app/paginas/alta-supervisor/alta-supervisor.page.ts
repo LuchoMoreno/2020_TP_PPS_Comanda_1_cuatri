@@ -23,6 +23,9 @@ import { ComplementosService } from 'src/app/servicios/complementos.service';
 // BARCODE SCANNER:
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
+// SERVICIO AUTH
+import { AuthService } from 'src/app/servicios/auth.service';
+
 @Component({
   selector: 'app-alta-supervisor',
   templateUrl: './alta-supervisor.page.html',
@@ -58,6 +61,7 @@ export class AltaSupervisorPage implements OnInit {
     private camera : Camera,
     private bd : DatabaseService,
     private formBuilder: FormBuilder,
+    private auth : AuthService,
     private st : AngularFireStorage,
     private complemetos : ComplementosService) {
       this.miFormulario = this.formBuilder.group({
@@ -73,6 +77,10 @@ export class AltaSupervisorPage implements OnInit {
 
 
   ngOnInit() {
+
+  this.pickedName = "Dueño";
+  this.usuarioJson.perfil = this.pickedName;
+
   }
 
   registrar(perfil)
@@ -88,15 +96,27 @@ export class AltaSupervisorPage implements OnInit {
 
       });
 
-
     }
     else
     {
       this.bd.crear('usuarios',this.usuarioJson);
     }
 
-   
+   this.auth.registrarUsuario(this.usuarioJson.correo,this.usuarioJson.contrasenia);
     this.complemetos.presentToastConMensajeYColor("¡El "+perfil +" se creo con exito!","primary");
+    this.limpiarCampos();
+  }
+
+  limpiarCampos()
+  {
+    this.usuarioJson.nombre = "";
+    this.usuarioJson.apellido = ""; 
+    this.usuarioJson.dni = "";  
+    this.usuarioJson.foto = "../../../assets/icon/iconLogoMovimiento.png",
+    this.usuarioJson.cuil = "";  
+    this.usuarioJson.perfil = this.pickedName;  
+    this.usuarioJson.contrasenia = "";  
+    this.usuarioJson.correo = ""; 
 
   }
 
