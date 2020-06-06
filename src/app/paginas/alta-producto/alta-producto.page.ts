@@ -35,7 +35,7 @@ export class AltaProductoPage implements OnInit {
   miFormulario : FormGroup;
   //pathImagen : string;
   // Transforme al pathImagen en array
-  pathImagen = ["","",""]; 
+  pathImagen : any; 
 
   productoJson = {
     nombre : "",
@@ -43,9 +43,6 @@ export class AltaProductoPage implements OnInit {
     tiempo : "",
     precio : "",
     tipo : "",
-   /* foto1 : "../../../assets/icon/iconLogoMovimiento.png",
-    foto2 : "../../../assets/icon/iconLogoMovimiento.png",
-    foto3 : "../../../assets/icon/iconLogoMovimiento.png",*/
     fotos : [],
   };
 
@@ -72,13 +69,15 @@ export class AltaProductoPage implements OnInit {
 
   ngOnInit() {
     this.pickedName = "Plato";
+    this.productoJson.tipo = this.pickedName;
   }
 
 
-
+// HICE CAMBIOS ACA 
   registrar()
   {
-    if(this.pathImagen != null){
+
+    if(this.pathImagen != null && this.pathImagen.length == 3){
       
       this.pathImagen.forEach( data =>{
 
@@ -86,25 +85,53 @@ export class AltaProductoPage implements OnInit {
         {
   
           this.productoJson.fotos.push(link);
-          this.bd.crear('productos',this.productoJson);
-  
+
+          if(this.productoJson.fotos.length == 3)
+          {
+            this.pathImagen = null;
+            this.bd.crear('productos',this.productoJson);          
+          }
         });
 
       })
 
     }
-    else
+    else 
     {
-      this.bd.crear('productos',this.productoJson);
+      
+      if(this.productoJson.fotos.length == 3)
+      {
+        // ESTOY HARTA DE STO
+      }
+      else
+      {
+        // INTENTAR CAMBIAR ESTO QUE DA VERGUENZA
+        this.productoJson.fotos.push("../../../assets/icon/iconLogoMovimiento.png");
+        this.productoJson.fotos.push("../../../assets/icon/iconLogoMovimiento.png");
+        this.productoJson.fotos.push("../../../assets/icon/iconLogoMovimiento.png");
+
+        this.bd.crear('productos',this.productoJson);
+        
+        this.complemetos.presentToastConMensajeYColor("¡El producto se creo con exito!","primary");
+        
+        this.productoJson.fotos.pop();
+        this.productoJson.fotos.pop();
+        this.productoJson.fotos.pop();
+      }
+
+      
     }
-   
-    this.complemetos.presentToastConMensajeYColor("¡El producto se creo con exito!","primary");
 
   }
 
+  // HICE CAMBIOS ACA
 
   tomarFotografia()
   {
+    if(this.productoJson.fotos.length <=3)
+    {
+
+    
     const options: CameraOptions =  { 
       quality:100,
       targetHeight:600,
@@ -137,6 +164,11 @@ export class AltaProductoPage implements OnInit {
     },(Err)=>{
       alert(JSON.stringify(Err));
     })
+  }
+    else
+    {
+      this.complemetos.presentToastConMensajeYColor("No se puede cargar mas fotos","primary");
+    }
     
   }
 
