@@ -48,7 +48,7 @@ export class AltaClientePage implements OnInit {
     perfil : "",
     correo: "",
     contrasenia: "",
-    id : ""
+    estado : "esperando"
   };
 
   anonimoJson = {

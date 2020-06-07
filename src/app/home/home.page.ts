@@ -7,6 +7,7 @@ import { MenuController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import {AngularFirestore} from "@angular/fire/firestore";
 import { DatabaseService } from '../servicios/database.service';
+import { AuthService } from '../servicios/auth.service';
 
 
 
@@ -26,7 +27,8 @@ export class HomePage {
   constructor(private router : Router,
     private menu: MenuController ,
     private firestore : AngularFirestore,
-    private bd : DatabaseService) {  }
+    private bd : DatabaseService,
+    private auth : AuthService) {  }
 
   
 
@@ -39,26 +41,21 @@ export class HomePage {
 
 
     let fb = this.firestore.collection('usuarios');
-    this.coleccionRef = fb.ref;
-    console.log(this.coleccionRef);
-    console.log(fb);
-
+   
     fb.valueChanges().subscribe(datos =>{
+      this.listaUsuarios = [];
       datos.forEach( (dato:any) =>{
 
-        console.log(dato);
-        console.log(dato.nombre);
-        this.listaUsuarios.push(dato);
+        if(dato.estado == 'esperando')
+        {
+
+          this.listaUsuarios.push(dato);
+        }
+       
       });
+
     })
 
- 
-    /*this.usuarios.valueChanges().suscribe( data => {
-
-      console.log(data);
-      this.listaUsuarios = data;
-    })*/
-    
 
   }
 
@@ -87,6 +84,7 @@ export class HomePage {
   }
 
 
+  /*
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
@@ -99,30 +97,37 @@ export class HomePage {
   openCustom() {
     this.menu.enable(true, 'custom');
     this.menu.open('custom');
-  }
+  }*/
 
 
-  rechazarUsuario(){
+  organizarUsuario(usuario,estado){
 
-    /*var modificar = this.bd.obtenerPorId('usuarios',id);
-    modificar.subscribe( datos => {
-      console.log(datos);
-    })*/
-    console.log(this.firestore.createId());
+    let indice = this.listaUsuarios.indexOf(usuario);
+    this.listaUsuarios.splice(indice,1);
 
-   /* this.bd.obtenerTodos('usuarios').subscribe(dato => {
-
-      dato.forEach((response) => {
-
-        let id : any  = response.payload.doc.data();
-        id = response.payload.doc.id;
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
 
         
-      
+       if(doc.data().correo == usuario.correo)
+       {
+         if(estado == "rechazado")
+         {
+          usuario.estado = estado;
+          this.bd.actualizar('usuarios',usuario,doc.id);
+         }
+         else{
+          usuario.estado = estado;
+          this.bd.actualizar('usuarios',usuario,doc.id);
+          this.auth.registrarUsuario(usuario.correo,usuario.contrasenia);
+         }
+       
+        
+         this.listaUsuarios = [];
+       }
+
       })
-
-    })*/
-
+    })
     
   }
 
