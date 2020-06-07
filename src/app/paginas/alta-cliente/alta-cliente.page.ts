@@ -47,7 +47,8 @@ export class AltaClientePage implements OnInit {
     foto :  "../../../assets/icon/iconLogoMovimiento.png",
     perfil : "",
     correo: "",
-    contrasenia: ""
+    contrasenia: "",
+    id : ""
   };
 
   anonimoJson = {
@@ -83,6 +84,9 @@ export class AltaClientePage implements OnInit {
   ngOnInit() {
   
     this.pickedName = "Cliente";
+    
+  
+   
 
   }
 

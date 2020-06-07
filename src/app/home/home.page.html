@@ -1,4 +1,4 @@
-<ion-header>
+<!--<ion-header>
   <div  id="main-content">
     <ion-header>
       <ion-toolbar>
@@ -11,7 +11,7 @@
     <ion-content >
       <ion-button expand="block" (onclick)="openMenu()">Open Menu</ion-button>
       <ion-button (click)="redireccionar('atras')" class="btnRegistro"  >Atras</ion-button>
-  
+      
     </ion-content>
   </div>
 </ion-header>
@@ -21,7 +21,6 @@
       <ion-title>Start Menu</ion-title>
     </ion-toolbar>
   </ion-header>
-  
   <ion-content>
     
     <ion-list *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'" >
@@ -60,10 +59,54 @@
 
 
 
+
+
 <ion-router-outlet id="main"></ion-router-outlet>
+-->
+
+
+
+
+
+<ion-content>
+
+ 
+  <ion-card *ngFor="let usuario of listaUsuarios">
+    {{usuario.nombre}}
+    <br>
+    {{usuario.apellido}}
+    <br>
+    {{usuario.correo}}
+    <br>
+    <ion-button color="success" (click)="aceptarUsuario()"> Aceptar</ion-button>
+    <ion-button color="danger" (click)="rechazarUsuario()"> Rechazar</ion-button>
+  </ion-card>
+  <!-- <div *ngIf = "perfilUsuario == 'Metre'"></div> -->
+
+
+</ion-content>
+
+
+
+
+
+
+
+
 
 <!--<ion-app>
 
+
+
+
+
+
+
+
+
+
+
+  
 
 <ion-menu side="start" content-id="main-content">
 
