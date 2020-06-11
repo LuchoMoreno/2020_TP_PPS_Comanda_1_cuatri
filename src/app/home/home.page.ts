@@ -134,10 +134,22 @@ export class HomePage {
          }
 
          else{    // Estado aceptado.
+
+
+          if (doc.data().perfil == "Cliente")
+          {
           usuario.estado = estado;                                          // El cliente pasa a estar aceptado.
           this.bd.actualizar('usuarios',usuario,doc.id);                    // Actualiza el estado del cliente.               
           this.auth.registrarUsuario(usuario.correo,usuario.contrasenia);   // Registra el usuario en la BD. Asi puede ingresar al login. Con el estado aceptado.
           this.auth.mandarCorreoElectronico(usuario.correo);                // Le envia un correo electrónico informado lo sucedido.
+          }
+
+          else
+          {
+            usuario.estado = estado;                                          // El cliente pasa a estar aceptado.
+            this.bd.actualizar('usuarios',usuario,doc.id);                    // Actualiza el estado del cliente.              
+          }
+
          }
         
          this.listaUsuarios = []; // esto pone la lista vacía para que quede facherisima.

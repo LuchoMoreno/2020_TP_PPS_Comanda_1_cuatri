@@ -34,6 +34,7 @@ export class AltaClientePage implements OnInit {
 
   pickedName : string;
   miFormulario : FormGroup;
+  miFormularioAnonimo : FormGroup;
 
   /*nombre : string;
   apellido : string;
@@ -72,12 +73,17 @@ export class AltaClientePage implements OnInit {
     private st : AngularFireStorage,
     private complemetos : ComplementosService) {
       this.miFormulario = this.formBuilder.group({
-        nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,10}$')]],
-        apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,10}$')]],
+        nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,20}$')]],
+        apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,20}$')]],
         dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
         contrasenia: ['', [Validators.pattern('^[a-z0-9_-]{6,18}$')]],
         correo: ['', [Validators.required, Validators.email] ],
      });
+
+
+     this.miFormularioAnonimo = this.formBuilder.group({
+      nombreAnonimo: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{3,20}$')]],
+   });
    }
    
   ngOnInit() {
@@ -100,21 +106,38 @@ export class AltaClientePage implements OnInit {
 
   registrar()
   {
+
     if(this.pathImagen != null){   
 
       this.st.storage.ref(this.pathImagen).getDownloadURL().then((link) =>
       {
 
         this.usuarioJson.foto = link;
-        this.bd.crear('usuarios',this.usuarioJson);
+
+        if (this.pickedName == "Cliente")
+        {
+          this.bd.crear('usuarios',this.usuarioJson);
+        }
+        else
+        {
+          this.bd.crear('usuarios',this.anonimoJson);
+        }
+        
 
       });
 
     }
     else
     {
-      this.bd.crear('usuarios',this.usuarioJson);
 
+      if (this.pickedName == "Cliente")
+        {
+          this.bd.crear('usuarios',this.usuarioJson);
+        }
+        else
+        {
+          this.bd.crear('usuarios',this.anonimoJson);
+        }
     }
 
     this.complemetos.presentToastConMensajeYColor("El estado del cliente esta pendiente al registro.","primary");

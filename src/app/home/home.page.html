@@ -70,8 +70,11 @@
 
 <ion-content>
 
-  <div *ngIf = "perfilUsuario == 'Metre'">
+  <div *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'"  >
+    
   <ion-card *ngFor="let usuario of listaUsuarios">
+
+    <div *ngIf = "usuario.perfil == 'Cliente'">
     {{usuario.nombre}}
     <br>
     {{usuario.apellido}}
@@ -80,6 +83,16 @@
     <br>
     <ion-button color="success" (click)="organizarUsuario(usuario,'aceptado')"> Aceptar</ion-button>
     <ion-button color="danger" (click)="organizarUsuario(usuario,'rechazado')"> Rechazar</ion-button>
+   </div>
+
+
+   <div *ngIf = "usuario.perfil == 'Anonimo'">
+    {{usuario.nombre}}
+    <br>
+    <ion-button color="success" (click)="organizarUsuario(usuario,'aceptado')"> Aceptar</ion-button>
+    <ion-button color="danger" (click)="organizarUsuario(usuario,'rechazado')"> Rechazar</ion-button>
+   </div>
+
   </ion-card>
  
 </div> 
