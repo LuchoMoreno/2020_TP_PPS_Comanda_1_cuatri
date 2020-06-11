@@ -35,20 +35,27 @@ export class HomePage {
 
   ngOnInit() {
 
+    // Con esto obtengo el usuario del LocalStorage (el cual yo entré)
     let auxUsuario = JSON.parse(localStorage.getItem("usuario"));
-    this.perfilUsuario = auxUsuario.perfil;
-    //console.log(this.perfilUsuario);
 
+    // Voy a asignar el perfil del usuario para luego mostrarlo en el HTML.
+    this.perfilUsuario = auxUsuario.perfil;
+
+
+    // Voy a obtener la colección de usuarios y la guardo en FB.
     let fb = this.firestore.collection('usuarios');
    
-    fb.valueChanges().subscribe(datos =>{
+
+    // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+    fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+      
       this.listaUsuarios = [];
+
       datos.forEach( (dato:any) =>{
 
-        if(dato.estado == 'esperando')
+        if(dato.estado == 'esperando') // Verifico que el estado sea esperando.
         {
-
-          this.listaUsuarios.push(dato);
+          this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
         }
        
       });
@@ -101,28 +108,39 @@ export class HomePage {
 
   organizarUsuario(usuario,estado){
 
-    let indice = this.listaUsuarios.indexOf(usuario); // Encontrar el indice que quiero borrar
-    this.listaUsuarios.splice(indice,1); // Borrar
 
+    let indice = this.listaUsuarios.indexOf(usuario); // Encontrar el indice del usuario.
+
+    this.listaUsuarios.splice(indice,1); // Borrar exclusivamente ese índice.
+    // Esto borra de la LISTA, no de la base de datos.
+
+
+    // A partir de acá empiezo a realizar cambios en la base de datos.
+
+    // Obtengo la coleción y me suscribo a ella.
     this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
       querySnapShot.forEach((doc) => {
 
-        
+      
+        // Correo de la BD == Correo de la lista.
        if(doc.data().correo == usuario.correo)
        {
+
+        // Si lo rechaza.
          if(estado == "rechazado")
          {
-          usuario.estado = estado;
-          this.bd.actualizar('usuarios',usuario,doc.id);
+          usuario.estado = estado;                        // El cliente pasa a estar rechazado.
+          this.bd.actualizar('usuarios',usuario,doc.id);  // Actualiza el estado del cliente.
          }
-         else{
-          usuario.estado = estado;
-          this.bd.actualizar('usuarios',usuario,doc.id);
-          this.auth.registrarUsuario(usuario.correo,usuario.contrasenia);
-          this.auth.mandarCorreoElectronico(usuario.correo);
+
+         else{    // Estado aceptado.
+          usuario.estado = estado;                                          // El cliente pasa a estar aceptado.
+          this.bd.actualizar('usuarios',usuario,doc.id);                    // Actualiza el estado del cliente.               
+          this.auth.registrarUsuario(usuario.correo,usuario.contrasenia);   // Registra el usuario en la BD. Asi puede ingresar al login. Con el estado aceptado.
+          this.auth.mandarCorreoElectronico(usuario.correo);                // Le envia un correo electrónico informado lo sucedido.
          }
         
-         this.listaUsuarios = [];
+         this.listaUsuarios = []; // esto pone la lista vacía para que quede facherisima.
        }
 
       })

@@ -41,16 +41,9 @@ registrarUsuario(email : string, contraseña : string)
 
 mandarCorreoElectronico(email : string)
 {
-  
-  return new Promise((resolve, rejected) => {
 
-    this.AFauth.sendPasswordResetEmail(email)
-    
-    .then (user => resolve(user))
-    
-    .catch(err => rejected(err))
-  
-    });
+    return this.AFauth.sendPasswordResetEmail(email);
+
 }
 
 
@@ -58,7 +51,3 @@ mandarCorreoElectronico(email : string)
 }
 
 
-
-/* 
-this.AFauth.signInWithEmailAndPassword(email, password).then 
-  (res => {console.log(res)}).catch(err => console.log("ERROR!: " + err))*/
