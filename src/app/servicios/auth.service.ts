@@ -18,7 +18,7 @@ login(email : string, password : string){
 
   this.AFauth.signInWithEmailAndPassword(email, password)
   
-  .then (user => resolve(user))
+  .then (user => resolve(user.user.email))
   
   .catch(err => rejected(err))
 

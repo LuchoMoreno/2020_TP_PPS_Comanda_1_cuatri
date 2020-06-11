@@ -13,8 +13,6 @@ import { AuthService } from '../servicios/auth.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 
-
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -22,10 +20,14 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 })
 export class HomePage {
 
-  perfilUsuario : string;
+  perfilUsuario : any;
   coleccionRef ;
- // usuarios;
+  tieneCorreo : string;
+ 
+  // Lista de usuarios que se registran
   listaUsuarios = [];
+
+  // Lista de usuarios en espera
   listaEspera = [];
 
   constructor(private router : Router,
@@ -35,11 +37,12 @@ export class HomePage {
     private bd : DatabaseService,
     private auth : AuthService) {  }
 
+    // Informacion de la lista de espera
   usuarioMesa = {
     mesa : "",
     estadoMesa : "",
     nombreUsuario: "",
-    correoUsuario: "",
+    perfilUsuario : "",
   }
 
   anonimoNombre;
@@ -48,10 +51,93 @@ export class HomePage {
 
   ngOnInit() {
 
-    // Con esto obtengo el usuario del LocalStorage (el cual yo entré)
-    let auxUsuario = JSON.parse(localStorage.getItem("usuario"));
+    this.tieneCorreo  = localStorage.getItem('tieneCorreo');
 
+    if(this.tieneCorreo == 'conCorreo') // Si ingreso con correo, comprobara el perfil de la base de datos
+    {
+      
+       let auxCorreoUsuario = localStorage.getItem('correoUsuario'); // Obtenemos el correo del usuario que ingreso 
+       //this.perfilUsuario = this.bd.obtenerUsuariosBD('usuarios',auxCorreoUsuario); // Lo que obtenemos aca es el perfil del usuario 
+       //console.log(this.perfilUsuario);
+       this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+
+        querySnapShot.forEach(datos => {
+  
+          if(datos.data().correo == auxCorreoUsuario )
+          {
+            this.perfilUsuario = datos.data().perfil;
+
+            if(this.perfilUsuario == 'Dueño' || this.perfilUsuario == 'Supervisor')
+            {
+              // Voy a obtener la colección de usuarios y la guardo en FB.
+              console.log("Estoy aca dentro");
+            let fb = this.firestore.collection('usuarios');
+              
+      
+            // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+            fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+              
+              this.listaUsuarios = [];
+      
+              datos.forEach( (dato:any) =>{
+      
+                if(dato.estado == 'esperando') // Verifico que el estado sea esperando.
+                {
+                  this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
+                }
+                
+              });
+      
+            })
+            }
+      
+            // Si el perfil es metre le cargara la lista de espera
+            else if (this.perfilUsuario == 'Metre')
+            {
+              let fb = this.firestore.collection('listaEspera');
+              
+      
+            // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+            fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+              
+              this.listaUsuarios = [];
+      
+              datos.forEach( (dato:any) =>{
+      
+                if(dato.estadoMesa == 'enEspera') // Verifico que el estado sea esperando.
+                {
+                  this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
+                }
+                
+              });
+      
+               })
+            
+            }
+          
+          }
+        })
+  
+      })
+
+
+    
+
+    }
+    else // Si no ingreso con correo, automaticamente sabe que es un usuario anonimo
+    {
+      console.log("estoyDentroDelSinCorreo");
+      let nombreAnonimo = localStorage.getItem('nombreAnonimo');
+
+    }
+
+  
+
+    // Con esto obtengo el usuario del LocalStorage (el cual yo entré)
     // Voy a asignar el perfil del usuario para luego mostrarlo en el HTML.
+    /*let auxUsuario = JSON.parse(localStorage.getItem("usuario"));
+
+    
     this.perfilUsuario = auxUsuario.perfil;
 
 
@@ -61,7 +147,7 @@ export class HomePage {
       this.anonimoNombre = localStorage.getItem('anonimoNombre');
     }
 
-    if(this.perfilUsuario == 'Metre')
+    else if(this.perfilUsuario == 'Metre')
     {
 
       
@@ -108,7 +194,7 @@ export class HomePage {
  })
     }
    
-
+*/
 
   }
 
@@ -207,7 +293,7 @@ export class HomePage {
     
   }
 
-  listaDeEspera(nombre, foto)
+  listaDeEspera(nombre)
   {
     let auxMesa;
 
@@ -220,7 +306,7 @@ export class HomePage {
     
           
             // Correo de la BD == Correo de la lista.
-            if(doc.data().usuario == nombre && doc.data().foto  == foto)
+            if(doc.data().usuario == nombre )
             {
      
             this.usuarioAnonimo = doc.data();

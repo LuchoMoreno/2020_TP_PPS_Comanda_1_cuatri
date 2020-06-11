@@ -69,6 +69,7 @@
 
 
 <ion-content>
+  Esto es home
 
   <div *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'"  >
     
@@ -97,7 +98,7 @@
  
 </div> 
 
-<div *ngIf = "usuario.perfil == 'Anonimo'">
+<div *ngIf = "tieneCorreo != 'conCorreo'">
 
   <ion-button color="danger" (click)="listaDeEspera(usuario)"> Escanear codigo</ion-button>
 

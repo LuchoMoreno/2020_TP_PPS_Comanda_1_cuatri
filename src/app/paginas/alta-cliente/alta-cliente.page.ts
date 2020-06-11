@@ -36,8 +36,7 @@ export class AltaClientePage implements OnInit {
   pickedName : string;
   miFormulario : FormGroup;
   miFormularioAnonimo : FormGroup;
-  localStorageAnonimoFoto ;
-  localStorageAnonimoNombre;
+
 
   /*nombre : string;
   apellido : string;
@@ -118,6 +117,7 @@ export class AltaClientePage implements OnInit {
       {
 
         this.usuarioJson.foto = link;
+        this.anonimoJson.foto = link;
 
         if (this.pickedName == "Cliente")
         {
@@ -126,12 +126,11 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
-          this.localStorageAnonimoNombre  = localStorage.setItem('usuarioAnonimo',this.anonimoJson.nombre);
-          this.localStorageAnonimoFoto  = localStorage.setItem('usuarioAnonimo',this.anonimoJson.foto);
+          localStorage.setItem('usuarioAnonimo',this.anonimoJson.nombre); // Guardamos el nombre de anonimo en el localStorage
+          localStorage.setItem('tieneCorreo','sinCorreo'); // NO tiene correo
           this.router.navigate(['/home']);
         }
         
-
       });
 
     }
@@ -145,8 +144,8 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
-          this.localStorageAnonimoNombre  = localStorage.setItem('anonimoNombre',this.anonimoJson.nombre);
-          this.localStorageAnonimoFoto  = localStorage.setItem('anonimoFoto',this.anonimoJson.foto);
+          localStorage.setItem('nombreAnonimo',this.anonimoJson.nombre);
+          localStorage.setItem('tieneCorreo','sinCorreo'); // NO tiene correo
           this.router.navigate(['/home']);
         }
     }

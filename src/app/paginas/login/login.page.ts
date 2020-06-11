@@ -45,6 +45,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    localStorage.setItem('tieneCorreo','sinCorreo'); // Cuando iniciamos no tiene correo
   }
 
 
@@ -55,15 +56,18 @@ public onSubmitLogin()
 
   this.authService.login(this.email, this.password)
   
-  .then(res => { 
+  .then((res:any) => { 
 
+    
     this.complementos.presentLoading();
 
     let audio = new Audio();
     audio.src = 'assets/audio/login/sonidoBotonSUCESS.mp3';
     audio.play();
-
+    
     timer(2000).subscribe(() => {this.router.navigate(['/home']);
+    localStorage.setItem('correoUsuario',res); // Guardamos el correo de la persona que ingreso
+    localStorage.setItem('tieneCorreo','conCorreo'); // Verificamos si se ingreso con correo (por el anonimo)
   });
 
   }).catch(err => this.complementos.ngValidarError(err.code));
@@ -84,23 +88,13 @@ public onClearAll()
 
 // Selector de usuarios.
 
-/*pickUser(pickedName) {
-  this.users.forEach((user) => {
-    if (user.perfil === pickedName) {
-      this.email = user.email;
-      this.password = user.password;
-      return;
-    }
-  });
-}
-*/
 pickerUser(pickedName){
   this.listaUsuarios.forEach((user) =>{
     if(user.correo === pickedName)
     {
       this.email=user.correo;
       this.password=user.clave;
-      localStorage.setItem("usuario",JSON.stringify(user));
+      //localStorage.setItem("usuario",JSON.stringify(user));
       return;
     }
   })
