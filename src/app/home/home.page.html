@@ -97,6 +97,12 @@
  
 </div> 
 
+<div *ngIf = "usuario.perfil == 'Anonimo'">
+
+  <ion-button color="danger" (click)="listaDeEspera(usuario)"> Escanear codigo</ion-button>
+
+</div>
+
 
 </ion-content>
 

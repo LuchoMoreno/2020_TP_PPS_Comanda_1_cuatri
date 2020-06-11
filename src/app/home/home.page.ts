@@ -9,6 +9,9 @@ import {AngularFirestore} from "@angular/fire/firestore";
 import { DatabaseService } from '../servicios/database.service';
 import { AuthService } from '../servicios/auth.service';
 
+// Importamos el barcodeScanner
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 
 
 
@@ -23,15 +26,25 @@ export class HomePage {
   coleccionRef ;
  // usuarios;
   listaUsuarios = [];
+  listaEspera = [];
 
   constructor(private router : Router,
+    private barcodeScanner : BarcodeScanner,
     private menu: MenuController ,
     private firestore : AngularFirestore,
     private bd : DatabaseService,
     private auth : AuthService) {  }
 
-  
+  usuarioMesa = {
+    mesa : "",
+    estadoMesa : "",
+    nombreUsuario: "",
+    correoUsuario: "",
+  }
 
+  anonimoNombre;
+  anonimoFoto;
+  usuarioAnonimo : any ;
 
   ngOnInit() {
 
@@ -42,25 +55,59 @@ export class HomePage {
     this.perfilUsuario = auxUsuario.perfil;
 
 
-    // Voy a obtener la colección de usuarios y la guardo en FB.
-    let fb = this.firestore.collection('usuarios');
-   
+    if(this.perfilUsuario = 'Anonimo')
+    {
+      this.anonimoFoto = localStorage.getItem('anonimoFoto');
+      this.anonimoNombre = localStorage.getItem('anonimoNombre');
+    }
 
-    // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
-    fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+    if(this.perfilUsuario == 'Metre')
+    {
+
       
-      this.listaUsuarios = [];
+      let fb = this.firestore.collection('listaEspera');
+        
 
-      datos.forEach( (dato:any) =>{
+      // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+      fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+        
+        this.listaUsuarios = [];
 
-        if(dato.estado == 'esperando') // Verifico que el estado sea esperando.
-        {
-          this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
-        }
-       
-      });
+        datos.forEach( (dato:any) =>{
+
+          if(dato.estadoMesa == 'enEspera') // Verifico que el estado sea esperando.
+          {
+            this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
+          }
+          
+        });
 
     })
+      
+    }
+    else
+    {
+      // Voy a obtener la colección de usuarios y la guardo en FB.
+      let fb = this.firestore.collection('usuarios');
+        
+
+      // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+      fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+        
+        this.listaUsuarios = [];
+
+        datos.forEach( (dato:any) =>{
+
+          if(dato.estado == 'esperando') // Verifico que el estado sea esperando.
+          {
+            this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
+          }
+          
+        });
+
+ })
+    }
+   
 
 
   }
@@ -160,6 +207,38 @@ export class HomePage {
     
   }
 
+  listaDeEspera(nombre, foto)
+  {
+    let auxMesa;
+
+    this.barcodeScanner.scan().then(barcodeData => {
+
+      auxMesa = JSON.parse(barcodeData.text);
+
+        this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+          querySnapShot.forEach((doc) => {
+    
+          
+            // Correo de la BD == Correo de la lista.
+            if(doc.data().usuario == nombre && doc.data().foto  == foto)
+            {
+     
+            this.usuarioAnonimo = doc.data();
+            this.usuarioAnonimo.estadoMesa = auxMesa
+            this.bd.crear('listaEspera',this.usuarioAnonimo);
+     
+            }
+             
+              this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+    
+          })
+        })
+        
+
+      })
+      
+  
+  }
 
   
   

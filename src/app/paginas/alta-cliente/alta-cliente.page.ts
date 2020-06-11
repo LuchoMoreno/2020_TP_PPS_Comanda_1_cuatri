@@ -22,6 +22,7 @@ import { ComplementosService } from 'src/app/servicios/complementos.service';
 
 // BARCODE SCANNER:
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Router } from '@angular/router';
 
 
 
@@ -35,6 +36,8 @@ export class AltaClientePage implements OnInit {
   pickedName : string;
   miFormulario : FormGroup;
   miFormularioAnonimo : FormGroup;
+  localStorageAnonimoFoto ;
+  localStorageAnonimoNombre;
 
   /*nombre : string;
   apellido : string;
@@ -56,7 +59,8 @@ export class AltaClientePage implements OnInit {
     nombre : "",
     foto :  "../../../assets/icon/iconLogoMovimiento.png",
     perfil : "Anonimo",
-    estado : "esperando"
+    estado : "esperando",
+    estadoMesa : "sinMesa"
   };
   pathImagen : string;
 
@@ -66,6 +70,7 @@ export class AltaClientePage implements OnInit {
   ]
 
   constructor(
+    private router : Router,
     private barcodeScanner : BarcodeScanner,
     private camera : Camera,
     private bd : DatabaseService,
@@ -121,6 +126,9 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
+          this.localStorageAnonimoNombre  = localStorage.setItem('usuarioAnonimo',this.anonimoJson.nombre);
+          this.localStorageAnonimoFoto  = localStorage.setItem('usuarioAnonimo',this.anonimoJson.foto);
+          this.router.navigate(['/home']);
         }
         
 
@@ -137,6 +145,9 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
+          this.localStorageAnonimoNombre  = localStorage.setItem('anonimoNombre',this.anonimoJson.nombre);
+          this.localStorageAnonimoFoto  = localStorage.setItem('anonimoFoto',this.anonimoJson.foto);
+          this.router.navigate(['/home']);
         }
     }
 
@@ -216,7 +227,8 @@ export class AltaClientePage implements OnInit {
       nombre : "",
       foto :  "../../../assets/icon/iconLogoMovimiento.png",
       perfil : "Anonimo",
-      estado : "esperando"
+      estado : "esperando",
+      estadoMesa : "sinMesa"
     }
 
   }
