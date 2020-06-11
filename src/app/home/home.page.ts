@@ -21,7 +21,7 @@ export class HomePage {
 
   perfilUsuario : string;
   coleccionRef ;
-  usuarios;
+ // usuarios;
   listaUsuarios = [];
 
   constructor(private router : Router,
@@ -37,8 +37,7 @@ export class HomePage {
 
     let auxUsuario = JSON.parse(localStorage.getItem("usuario"));
     this.perfilUsuario = auxUsuario.perfil;
-    console.log(this.perfilUsuario);
-
+    //console.log(this.perfilUsuario);
 
     let fb = this.firestore.collection('usuarios');
    
@@ -102,8 +101,8 @@ export class HomePage {
 
   organizarUsuario(usuario,estado){
 
-    let indice = this.listaUsuarios.indexOf(usuario);
-    this.listaUsuarios.splice(indice,1);
+    let indice = this.listaUsuarios.indexOf(usuario); // Encontrar el indice que quiero borrar
+    this.listaUsuarios.splice(indice,1); // Borrar
 
     this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
       querySnapShot.forEach((doc) => {
@@ -120,8 +119,8 @@ export class HomePage {
           usuario.estado = estado;
           this.bd.actualizar('usuarios',usuario,doc.id);
           this.auth.registrarUsuario(usuario.correo,usuario.contrasenia);
+          this.auth.mandarCorreoElectronico(usuario.correo);
          }
-       
         
          this.listaUsuarios = [];
        }
