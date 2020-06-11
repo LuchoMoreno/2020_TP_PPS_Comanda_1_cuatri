@@ -26,7 +26,7 @@
         <ion-input type="text" [(ngModel)]="anonimoJson.nombre"  formControlName="nombre" placeholder="Nombre..."></ion-input>
       </ion-item>
   
-      <ion-item class="labels" >
+      <!-- <ion-item class="labels" >
         <br>
         <ion-input type="text" [(ngModel)]="anonimoJson.correo"  formControlName="correo" placeholder="Correo..."></ion-input>
       </ion-item>
@@ -34,12 +34,12 @@
       <ion-item class="labels" >
         <br>
         <ion-input type="password" [(ngModel)]="anonimoJson.contrasenia"  formControlName="contrasenia" placeholder="Contraseña..."></ion-input>
-      </ion-item>
+      </ion-item> -->
       
       <ion-button (click)="tomarFotografia()" class="btnRegistro"  [disabled]="!usuarioJson.dni" expand="block">Tomar foto</ion-button>
-      <br>
+    <br>
 
-      <ion-button (click)="registrar()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
+      <ion-button (click)="registrar('anonimo')" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
     
     </div>
 
@@ -83,7 +83,7 @@
       </ion-row>
     </ion-grid>
     
-    <ion-button (click)="registrar()" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
+    <ion-button (click)="registrar('cliente')" class="btnRegistro" [disabled]="!miFormulario.valid" expand="block">Registrarse</ion-button>
    
   </form>
 

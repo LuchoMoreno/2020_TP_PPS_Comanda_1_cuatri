@@ -45,7 +45,7 @@ export class AltaClientePage implements OnInit {
     apellido : "",
     dni : "",
     foto :  "../../../assets/icon/iconLogoMovimiento.png",
-    perfil : "",
+    perfil : "Cliente",
     correo: "",
     contrasenia: "",
     estado : "esperando"
@@ -54,9 +54,8 @@ export class AltaClientePage implements OnInit {
   anonimoJson = {
     nombre : "",
     foto :  "../../../assets/icon/iconLogoMovimiento.png",
-    perfil : "",
-    correo: "",
-    contrasenia: ""
+    perfil : "Anonimo",
+    estado : "esperando"
   };
   pathImagen : string;
 
@@ -84,10 +83,6 @@ export class AltaClientePage implements OnInit {
   ngOnInit() {
   
     this.pickedName = "Cliente";
-    
-  
-   
-
   }
 
   pickerUser(pickedName){
@@ -181,6 +176,27 @@ export class AltaClientePage implements OnInit {
 
   }
 
+  limpiarCampos()
+  {
+    this.usuarioJson = {
+      nombre : "",
+      apellido : "",
+      dni : "",
+      foto :  "../../../assets/icon/iconLogoMovimiento.png",
+      perfil : "Cliente",
+      correo: "",
+      contrasenia: "",
+      estado : "esperando"
+    };
+  
+    this.anonimoJson = {
+      nombre : "",
+      foto :  "../../../assets/icon/iconLogoMovimiento.png",
+      perfil : "Anonimo",
+      estado : "esperando"
+    }
+
+  }
 
 
 
