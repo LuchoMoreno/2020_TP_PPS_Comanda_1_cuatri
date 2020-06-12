@@ -24,6 +24,9 @@ export class HomePage {
   coleccionRef ;
   tieneCorreo : string;
  
+  // Nombre del usuario anonimo que se va aguardar en la lista de espera.
+  nombreAnonimo;
+
   // Lista de usuarios que se registran
   listaUsuarios = [];
 
@@ -95,18 +98,19 @@ export class HomePage {
             else if (this.perfilUsuario == 'Metre')
             {
               let fb = this.firestore.collection('listaEspera');
+
               
       
             // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
             fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
               
-              this.listaUsuarios = [];
+              this.listaEspera = [];
       
               datos.forEach( (dato:any) =>{
       
                 if(dato.estadoMesa == 'enEspera') // Verifico que el estado sea esperando.
                 {
-                  this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
+                  this.listaEspera.push(dato);      // <--- LISTA DE USUARIOS.
                 }
                 
               });
@@ -126,8 +130,8 @@ export class HomePage {
     }
     else // Si no ingreso con correo, automaticamente sabe que es un usuario anonimo
     {
-      console.log("estoyDentroDelSinCorreo");
-      let nombreAnonimo = localStorage.getItem('nombreAnonimo');
+      
+      this.nombreAnonimo = localStorage.getItem('nombreAnonimo');
 
     }
 
@@ -293,7 +297,7 @@ export class HomePage {
     
   }
 
-  listaDeEspera(nombre)
+  listaDeEspera()
   {
     let auxMesa;
 
@@ -306,12 +310,16 @@ export class HomePage {
     
           
             // Correo de la BD == Correo de la lista.
-            if(doc.data().usuario == nombre )
+            if(doc.data().usuario == this.nombreAnonimo)
             {
      
-            this.usuarioAnonimo = doc.data();
-            this.usuarioAnonimo.estadoMesa = auxMesa
-            this.bd.crear('listaEspera',this.usuarioAnonimo);
+            //this.usuarioAnonimo = doc.data();
+            //this.usuarioAnonimo.estadoMesa = auxMesa
+            alert("estoy acá");
+            this.usuarioMesa.nombreUsuario = doc.data().nombre;
+            this.usuarioMesa.estadoMesa = auxMesa;
+            this.usuarioMesa.perfilUsuario = doc.data().perfil;
+            this.bd.crear('listaEspera', this.usuarioMesa);
      
             }
              
