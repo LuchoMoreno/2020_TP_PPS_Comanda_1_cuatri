@@ -9,7 +9,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
 import { DatabaseService } from '../servicios/database.service';
 import { AuthService } from '../servicios/auth.service';
 
-// Importamos el barcodeScanner
+// BARCODE SCANNER:
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 
@@ -297,6 +297,7 @@ export class HomePage {
     
   }
 
+/*
   listaDeEspera()
   {
     let auxMesa;
@@ -305,35 +306,82 @@ export class HomePage {
 
       auxMesa = JSON.parse(barcodeData.text);
 
+
+      alert("ESCANEO ESTO" + auxMesa);
+
+      if (auxMesa == "enEspera")
+      {
+
+        alert("estado UNO" + auxMesa);
+
         this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
           querySnapShot.forEach((doc) => {
     
           
             // Correo de la BD == Correo de la lista.
-            if(doc.data().usuario == this.nombreAnonimo)
+    
+            if(doc.data().nombre == this.nombreAnonimo)
+  
             {
      
-            //this.usuarioAnonimo = doc.data();
-            //this.usuarioAnonimo.estadoMesa = auxMesa
-            alert("estoy acá");
+              alert("estado DOS" + auxMesa);
+
             this.usuarioMesa.nombreUsuario = doc.data().nombre;
-            this.usuarioMesa.estadoMesa = auxMesa;
+            this.usuarioMesa.estadoMesa = "enEspera";
             this.usuarioMesa.perfilUsuario = doc.data().perfil;
+  
             this.bd.crear('listaEspera', this.usuarioMesa);
-     
+            
             }
-             
+  
               this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
     
           })
         })
+
         
+      }
+
+    
+      })
+
+  }
+*/
+
+  listaEsperaQR()
+  {
+    let auxMesa;
+
+    this.barcodeScanner.scan().then(barcodeData => {
+
+    auxMesa = JSON.parse(barcodeData.text);
+
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().nombre == this.nombreAnonimo)
+        {
+          if(auxMesa == 101010)
+          {
+                this.usuarioMesa.nombreUsuario = doc.data().nombre;
+                this.usuarioMesa.estadoMesa = "enEspera";
+                this.usuarioMesa.perfilUsuario = doc.data().perfil;
+                this.bd.crear('listaEspera', this.usuarioMesa);
+          }
+          
+        }
+
+          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
 
       })
-      
-  
+
+    })
+
+
+     }).catch(err => {
+         console.log('Error', err);
+     });
+     
   }
 
-  
-  
 }

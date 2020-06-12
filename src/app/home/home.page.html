@@ -98,9 +98,31 @@
  
 </div> 
 
+
+<div *ngIf = "perfilUsuario == 'Metre'">
+
+  <ion-card *ngFor="let mesa of listaEspera">
+
+    <div *ngIf = "mesa.estadoMesa == 'enEspera'">
+    {{mesa.nombreUsuario}}
+    <br>
+    {{mesa.perfilUsuario}}
+    <br>
+    {{mesa.estadoMesa}}
+    <br>
+    <ion-button color="success"> Aceptar</ion-button>
+    <ion-button color="danger"> Rechazar</ion-button>
+   </div>
+
+  </ion-card>
+
+</div> 
+
+
+
 <div *ngIf = "tieneCorreo != 'conCorreo'">
 
-  <ion-button color="danger" (click)="listaDeEspera()"> Escanear codigo</ion-button>
+  <ion-button color="danger" (click)="listaEsperaQR()"> Escanear codigo</ion-button>
 
 </div>
 
