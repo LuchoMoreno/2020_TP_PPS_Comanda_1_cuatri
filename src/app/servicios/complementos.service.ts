@@ -68,16 +68,6 @@ export class ComplementosService {
   }
   
  
-async  presentCunstomLoading() {
-  const loading = await this.loadingController.create({
-    message: '<ion-img src="../../icon/iconLogoMovimiento.png" alt="loading..."></ion-img>',
-    cssClass: 'scale-down-center',
-    translucent: true,
-    showBackdrop: false,
-    spinner: null,
-    duration: 2000
-  });
-}
 
 
 // Valido absolutamente todos los posibles errores. 

@@ -65,6 +65,13 @@ export class HomePage {
   // Correo del usuario que ingreso
   correoUsuario : string;
 
+  // Mensaje avisando al cliente  su asignacion de mesa
+  informarEstadoMesa ={
+    mesa: "",
+    seAsignoMesa : "no",
+  };
+
+
   ngOnInit() {
 
     this.complemento.presentLoading();
@@ -133,10 +140,30 @@ export class HomePage {
                })
             
             }
-            // Si el perfil es cliente, podra usar el qr
+            //Si el perfil del usuario que ingreso es un cliente, comprobara el estado de lista de espera
             else if (this.perfilUsuario == 'Cliente')
             {
+              // Obtenemos el correo del usuario que 
               this.correoCliente = this.correoUsuario ;
+              let fb = this.firestore.collection('listaEspera');
+          
+              fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+              
+              this.listaEspera = [];
+      
+              datos.forEach( (datoCl:any) =>{
+                
+                // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
+                if(datoCl.estadoMesa == 'mesaAsignada' && datoCl.nombreUsuario == this.infoUsuario.nombre) 
+                {
+                  this.informarEstadoMesa.mesa = datoCl.mesa;
+                  this.informarEstadoMesa.seAsignoMesa = "si";
+                }
+                
+                });
+      
+               })
+
             }
           
           }
@@ -155,70 +182,7 @@ export class HomePage {
 
     }
 
-  
 
-    // Con esto obtengo el usuario del LocalStorage (el cual yo entré)
-    // Voy a asignar el perfil del usuario para luego mostrarlo en el HTML.
-    /*let auxUsuario = JSON.parse(localStorage.getItem("usuario"));
-
-    
-    this.perfilUsuario = auxUsuario.perfil;
-
-
-    if(this.perfilUsuario = 'Anonimo')
-    {
-      this.anonimoFoto = localStorage.getItem('anonimoFoto');
-      this.anonimoNombre = localStorage.getItem('anonimoNombre');
-    }
-
-    else if(this.perfilUsuario == 'Metre')
-    {
-
-      
-      let fb = this.firestore.collection('listaEspera');
-        
-
-      // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
-      fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
-        
-        this.listaUsuarios = [];
-
-        datos.forEach( (dato:any) =>{
-
-          if(dato.estadoMesa == 'enEspera') // Verifico que el estado sea esperando.
-          {
-            this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
-          }
-          
-        });
-
-    })
-      
-    }
-    else
-    {
-      // Voy a obtener la colección de usuarios y la guardo en FB.
-      let fb = this.firestore.collection('usuarios');
-        
-
-      // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
-      fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
-        
-        this.listaUsuarios = [];
-
-        datos.forEach( (dato:any) =>{
-
-          if(dato.estado == 'esperando') // Verifico que el estado sea esperando.
-          {
-            this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
-          }
-          
-        });
-
- })
-    }
-
-*/
 
   }
 
@@ -246,7 +210,7 @@ export class HomePage {
      
   }
 
-
+  // PARA EL DUEÑO O SUPERVISOR -> aceptara o rechazara al cliente o anonimo, se le carga el estado del boton y los dtos del usuario
   organizarUsuario(usuario,estado){
 
 
@@ -301,7 +265,7 @@ export class HomePage {
     
   }
 
-
+  // PARA EL ANONIMO ->Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
   listaEsperaQRAnonimo()
   {
     let auxMesa;
@@ -338,7 +302,7 @@ export class HomePage {
      
   }
 
-  // Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
+  // PARA EL CLIENTE -> Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
   listaEsperaQRCliente()
   {
     let auxMesa;
@@ -368,19 +332,24 @@ export class HomePage {
 
     })
 
-
      }).catch(err => {
          console.log('Error', err);
      });
      
   }
 
+ // PARA TODOS -> Cerrara sesion, redireccionara a login y se vaciara el correoUsuario
   cerrarSesion()
   {
     this.correoUsuario  = "";
     this.router.navigate(['/login']);
   }
 
-
+   // PARA EL METRE -> cuando se seleccione un usuario en espera, se redireccionara a la pagina de  listado-mesas y se guardara en el local storage la info del usuario seleccionado
+  comprobarMesas(mesa)
+  {
+    localStorage.setItem('usuarioSelMesa',JSON.stringify(mesa));
+    this.router.navigate(['/listado-mesas']);
+  }
 
 }

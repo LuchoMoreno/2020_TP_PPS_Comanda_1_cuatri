@@ -242,7 +242,7 @@
         <br>
         {{mesa.estadoMesa}}
         <br>
-        <ion-button color="success" routerLink="/listado-mesas" expand="block"> Asignar mesa</ion-button>
+        <ion-button color="success" (click)="comprobarMesas(mesa)" expand="block"> Asignar mesa</ion-button>
       </ion-card-content>
     
     
@@ -254,15 +254,26 @@
 
 <div *ngIf = "tieneCorreo != 'conCorreo'">
 
+  
   <ion-button color="danger" (click)="listaEsperaQRAnonimo()"> Escanear codigo</ion-button>
 
 </div>
 
 
-
+<!-- Si el perfil del usuario es cliente  -->
 <div *ngIf = "perfilUsuario == 'Cliente'">
 
-  <ion-button color="danger" (click)="listaEsperaQRCliente()"> Escanear codigo</ion-button>
+<!-- Si el estado de la mesa del cliente no se asigno, se le mostrara el boton para escanear el codigo qr   -->
+  <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'no'">
+   
+    <ion-button color="danger" (click)="listaEsperaQRCliente()"> Escanear codigo</ion-button>
+  </div>
+<!-- Si el estado de la mesa del cliente se asigno, se le mostrara la mesa que se le asigno   -->
+  <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
+    <h2>SE LE ASIGNO LA MESA NRO = {{informarEstadoMesa.mesa}}</h2>
+    <!--Agregar boton para escanear la mesa-->
+  </div>
+  
 
 </div>
 
