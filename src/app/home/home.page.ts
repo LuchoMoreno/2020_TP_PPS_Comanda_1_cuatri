@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 // IMPORTO EL ROUTER COMO ULTIMO PASO.
 import { Router } from "@angular/router";
-import { MenuController } from '@ionic/angular';
+import { MenuController, LoadingController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import {AngularFirestore} from "@angular/fire/firestore";
 import { DatabaseService } from '../servicios/database.service';
@@ -11,6 +11,7 @@ import { AuthService } from '../servicios/auth.service';
 
 // BARCODE SCANNER:
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { ComplementosService } from '../servicios/complementos.service';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class HomePage {
     private menu: MenuController ,
     private firestore : AngularFirestore,
     private bd : DatabaseService,
+    public complemento: ComplementosService,
+
     private auth : AuthService) {  }
 
     // Informacion de la lista de espera
@@ -48,27 +51,40 @@ export class HomePage {
     perfilUsuario : "",
   }
 
+  // Datos del anonimo
   anonimoNombre;
   anonimoFoto;
   usuarioAnonimo : any ;
+  
+  // Se obtiene el correo del cliente
+  correoCliente ;
+
+  // Se obtiene la info de la persona que ingreso
+  infoUsuario : any;
+
+  // Correo del usuario que ingreso
+  correoUsuario : string;
 
   ngOnInit() {
+
+    this.complemento.presentLoading();
 
     this.tieneCorreo  = localStorage.getItem('tieneCorreo');
 
     if(this.tieneCorreo == 'conCorreo') // Si ingreso con correo, comprobara el perfil de la base de datos
     {
       
-       let auxCorreoUsuario = localStorage.getItem('correoUsuario'); // Obtenemos el correo del usuario que ingreso 
+       this.correoUsuario = localStorage.getItem('correoUsuario'); // Obtenemos el correo del usuario que ingreso 
        //this.perfilUsuario = this.bd.obtenerUsuariosBD('usuarios',auxCorreoUsuario); // Lo que obtenemos aca es el perfil del usuario 
        //console.log(this.perfilUsuario);
        this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
 
         querySnapShot.forEach(datos => {
   
-          if(datos.data().correo == auxCorreoUsuario )
+          if(datos.data().correo == this.correoUsuario  )
           {
             this.perfilUsuario = datos.data().perfil;
+            this.infoUsuario = datos.data();
 
             if(this.perfilUsuario == 'Dueño' || this.perfilUsuario == 'Supervisor')
             {
@@ -99,7 +115,6 @@ export class HomePage {
             {
               let fb = this.firestore.collection('listaEspera');
 
-              
       
             // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
             fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
@@ -117,6 +132,11 @@ export class HomePage {
       
                })
             
+            }
+            // Si el perfil es cliente, podra usar el qr
+            else if (this.perfilUsuario == 'Cliente')
+            {
+              this.correoCliente = this.correoUsuario ;
             }
           
           }
@@ -197,7 +217,7 @@ export class HomePage {
 
  })
     }
-   
+
 */
 
   }
@@ -225,22 +245,6 @@ export class HomePage {
     }
      
   }
-
-
-  /*
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
-  openEnd() {
-    this.menu.open('end');
-  }
-
-  openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
-  }*/
 
 
   organizarUsuario(usuario,estado){
@@ -297,58 +301,8 @@ export class HomePage {
     
   }
 
-/*
-  listaDeEspera()
-  {
-    let auxMesa;
 
-    this.barcodeScanner.scan().then(barcodeData => {
-
-      auxMesa = JSON.parse(barcodeData.text);
-
-
-      alert("ESCANEO ESTO" + auxMesa);
-
-      if (auxMesa == "enEspera")
-      {
-
-        alert("estado UNO" + auxMesa);
-
-        this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
-          querySnapShot.forEach((doc) => {
-    
-          
-            // Correo de la BD == Correo de la lista.
-    
-            if(doc.data().nombre == this.nombreAnonimo)
-  
-            {
-     
-              alert("estado DOS" + auxMesa);
-
-            this.usuarioMesa.nombreUsuario = doc.data().nombre;
-            this.usuarioMesa.estadoMesa = "enEspera";
-            this.usuarioMesa.perfilUsuario = doc.data().perfil;
-  
-            this.bd.crear('listaEspera', this.usuarioMesa);
-            
-            }
-  
-              this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
-    
-          })
-        })
-
-        
-      }
-
-    
-      })
-
-  }
-*/
-
-  listaEsperaQR()
+  listaEsperaQRAnonimo()
   {
     let auxMesa;
 
@@ -383,5 +337,50 @@ export class HomePage {
      });
      
   }
+
+  // Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
+  listaEsperaQRCliente()
+  {
+    let auxMesa;
+
+    this.barcodeScanner.scan().then(barcodeData => {
+
+    auxMesa = JSON.parse(barcodeData.text);
+
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().correo == this.correoCliente)
+        {
+          if(auxMesa == 101010)
+          {
+                this.usuarioMesa.nombreUsuario = doc.data().nombre;
+                this.usuarioMesa.estadoMesa = "enEspera";
+                this.usuarioMesa.perfilUsuario = doc.data().perfil;
+                this.bd.crear('listaEspera', this.usuarioMesa);
+          }
+          
+        }
+
+          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+
+      })
+
+    })
+
+
+     }).catch(err => {
+         console.log('Error', err);
+     });
+     
+  }
+
+  cerrarSesion()
+  {
+    this.correoUsuario  = "";
+    this.router.navigate(['/login']);
+  }
+
+
 
 }
