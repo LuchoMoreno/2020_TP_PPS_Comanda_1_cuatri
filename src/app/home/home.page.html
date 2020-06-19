@@ -162,7 +162,7 @@
 
   <ion-card>
     <ion-card-content>
-        Mesas disponibles : 
+      Mesas disponibles : 
     </ion-card-content>
     <ion-card-content>
       Mesas reservadas : 
@@ -184,7 +184,6 @@
         <br>
         <ion-button color="success" (click)="comprobarMesas(mesa)" expand="block"> Asignar mesa</ion-button>
       </ion-card-content>
-    
     
    </div>
 
@@ -237,9 +236,9 @@
             </ion-slide>
           </ion-slides>
 
-        <h4>Descripcion: {{producto.descripcion}}</h4>
-        <h4>Precio: {{producto.precio}}</h4>
-        <h4>Tiempo: {{producto.tiempo}}</h4>
+        <h4>{{producto.descripcion}}</h4>
+        <h4 class = "precioNombre" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
+        <h4>Tiempo: {{producto.tiempo}}m</h4>
       </ion-card>
       </div>
        
