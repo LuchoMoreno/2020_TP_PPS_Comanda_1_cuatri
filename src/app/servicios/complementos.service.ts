@@ -34,10 +34,12 @@ export class ComplementosService {
     
 
 
-  async presentLoading() {
+  async presentLoading() { // ./../../assets/icon/iconLogoMovimiento.png
     const loading = await this.loadingController.create({
-      message: 'Cargando...',
-      duration: 2000,
+      //message: `Cargando...`,
+      //message: `<img src="../../../assets/icon/iconLogoMovimiento.png" class = "intentoDeAnimacion">`,
+      message: `<img src="../../../assets/icon/gif.gif" class = "intentoDeAnimacion">`,
+      duration: 3000,
       translucent: true,
      // cssClass: 'custom-class custom-loading'
     });
