@@ -39,15 +39,31 @@ registrarUsuario(email : string, contraseña : string)
     });
 }
 
+/*
 mandarCorreoElectronico(email : string)
 {
 
-    return this.AFauth.sendPasswordResetEmail(email);
+    return new Promise((resolve, rejected) => {
+
+      this.AFauth.sendPasswordResetEmail(email)
+      
+      .then (email => resolve(email))
+      
+      .catch(err => rejected(err))
+      });
+
+}
+*/
+
+
+mandarCorreoElectronico(email : string)
+{
+  setTimeout(()=>{
+    this.AFauth.sendPasswordResetEmail(email);
+  },3000);
 
 }
 
 
-
 }
-
 
