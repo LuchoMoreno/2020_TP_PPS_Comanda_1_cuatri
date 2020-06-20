@@ -23,7 +23,7 @@ export class HomePage {
 
   perfilUsuario : any;
   coleccionRef ;
-  tieneCorreo : string;
+  tieneCorreo : string; // Comprobamos si tiene correo el usuario
  
   // Nombre del usuario anonimo que se va aguardar en la lista de espera.
   nombreAnonimo;
@@ -73,7 +73,7 @@ export class HomePage {
   };
 
   // Variable que nos mostrara los productos una vez escaneado el codigo qr
-  mostrarProductos : boolean = true;
+  mostrarProductos : boolean = false;
 
   // Lista de los productos que se mostraran
   listaProductos = [];
@@ -99,7 +99,6 @@ export class HomePage {
             this.perfilUsuario = datos.data().perfil;
             this.infoUsuario = datos.data();
             
-
             if(this.perfilUsuario == 'Dueño' || this.perfilUsuario == 'Supervisor')
             {
               // Voy a obtener la colección de usuarios y la guardo en FB.
@@ -115,16 +114,17 @@ export class HomePage {
       
                 if(dato.estado == 'esperando') // Verifico que el estado sea esperando.
                 {
-                  this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS.
+                  this.listaUsuarios.push(dato);      // <--- LISTA DE USUARIOS ESPERANDO
                 }
                 
-              });
+               });
       
-            })
+              })
             }
 
             else if (this.perfilUsuario == 'Mozo')
             {
+              // ** verificamos que al mozo le carguen las consultas
               let fb = this.firestore.collection('listaEspera');
   
               // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
@@ -148,6 +148,7 @@ export class HomePage {
             // Si el perfil es metre le cargara la lista de espera
             else if (this.perfilUsuario == 'Metre')
             {
+              this.infoUsuario = datos.data();
               let fb = this.firestore.collection('listaEspera');
 
       
@@ -201,14 +202,12 @@ export class HomePage {
   
       })
 
-
-    
-
     }
+
     else // Si no ingreso con correo, automaticamente sabe que es un usuario anonimo
     {
       
-      this.nombreAnonimo = localStorage.getItem('nombreAnonimo');
+      this.nombreAnonimo = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
 
     }
 
@@ -240,7 +239,7 @@ export class HomePage {
      
   }
 
-  // PARA EL DUEÑO O SUPERVISOR -> aceptara o rechazara al cliente o anonimo, se le carga el estado del boton y los dtos del usuario
+  // PARA EL DUEÑO O SUPERVISOR -> aceptara o rechazara al cliente se le carga el estado del boton y los dtos del usuario
   organizarUsuario(usuario,estado){
 
 
@@ -395,10 +394,11 @@ export class HomePage {
 
     auxMesa = JSON.parse(barcodeData.text);
 
+    let auxMesaString = auxMesa.toString();
     this.firestore.collection('listaMesas').get().subscribe((querySnapShot) => {
       querySnapShot.forEach((doc) => {
 
-        if(doc.data().numero == auxMesa) //Recorremos las mesas y comprobamos que coincida
+        if(doc.data().numero == auxMesaString) //Recorremos las mesas y comprobamos que coincida
         {
           this.mostrarProductos = true;
         }

@@ -71,6 +71,32 @@
       <br>
       </ion-list>
 
+      <!-- Si es un cliente anonimo -->
+      <ion-list *ngIf = "perfilUsuario == 'Anonimo'" align="center">
+
+        <ion-item >
+            <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
+
+          <ion-label>
+            <h2>Nombre :</h2> <p> {{infoUsuario.nombre}}</p>
+            <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+          </ion-label>
+
+        </ion-item>
+
+        <ion-list *ngIf = "perfilUsuario == 'Mozo'" align="center">
+
+          <ion-item >
+              <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
+  
+            <ion-label>
+              <h2>Correo :</h2> <p> {{infoUsuario.correo}}</p>
+              <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+            </ion-label>
+  
+          </ion-item>
+  
+
       <ion-list *ngIf = "perfilUsuario == 'Cocinero'" align="center">
 
         <ion-item>
@@ -143,14 +169,6 @@
           </ion-row>
         </ion-grid>
   
-   </div>
-
-
-   <div *ngIf = "usuario.perfil == 'Anonimo'">
-    {{usuario.nombre}}
-    <br>
-    <ion-button color="success" (click)="organizarUsuario(usuario,'aceptado')"> Aceptar</ion-button>
-    <ion-button color="danger" (click)="organizarUsuario(usuario,'rechazado')"> Rechazar</ion-button>
    </div>
 
   </ion-card>
