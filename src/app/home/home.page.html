@@ -17,7 +17,7 @@
 
 
 
-  <ion-content > 
+  <ion-content  > 
 
       <ion-list *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'" align="center">
 
@@ -138,12 +138,14 @@
 
 <div *ngIf = "perfilUsuario == 'Mozo'" >
   <ion-card *ngFor="let espera of listaEspera">
-    <ion-card-content>La mesa {{espera.mesa}} quiere realizar una consulta.</ion-card-content>
-    <ion-button >Consulta con exito</ion-button>
+    <ion-card-content>La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
+    <ion-card-content>{{espera.consultaDescripcion}}</ion-card-content>
+    <ion-button espand="block" >Consulta con exito</ion-button>
   </ion-card>
 
 </div>
 
+<!--*****************************************************************************************************-->
 <div *ngIf = "perfilUsuario == 'Dueño' || perfilUsuario == 'Supervisor'"  >
     
   <ion-card *ngFor="let usuario of listaUsuarios" >
@@ -178,6 +180,7 @@
  
 </div> 
 
+<!--*****************************************************************************************************-->
 
 <div *ngIf = "perfilUsuario == 'Metre'">
 
@@ -215,19 +218,21 @@
 <div *ngIf = "tieneCorreo != 'conCorreo'">
 
   
-  <ion-button color="danger" (click)="listaEsperaQRAnonimo()"> Escanear codigo</ion-button>
+  <ion-button color="danger" (click)="listaEsperaQRAnonimo()"  expand="block"> Escanear codigo</ion-button>
   
 
 </div>
 
 
-<!-- Si el perfil del usuario es cliente  -->
+<!--*****************************************************************************************************-->
+
+<!-- Si el perfil del usuario es CLIENTE  -->
 <div *ngIf = "perfilUsuario == 'Cliente'">
 
 <!-- Si el estado de la mesa del cliente no se asigno, se le mostrara el boton para escanear el codigo qr   -->
   <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'no'">
    
-    <ion-button color="danger" (click)="listaEsperaQRCliente()"> Escanear codigo</ion-button>
+    <ion-button color="danger" (click)="listaEsperaQRCliente()"  expand="block"> Escanear codigo</ion-button>
   </div>
 <!-- Si el estado de la mesa del cliente se asigno, se le mostrara la mesa que se le asigno   -->
   <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
@@ -237,9 +242,33 @@
     </ion-card>
   
     <!--Agregar boton para escanear la mesa-->
-    <ion-button color="danger" (click)="qrMesa()">QR Mesa</ion-button>
+    <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
     
     <div *ngIf = "mostrarProductos == true">
+
+      <ion-button color="success" (click)="desplegarConsulta()" expand="block">Consultar mozo</ion-button>
+
+
+      <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
+        
+        <ion-item class="labels" >
+          <ion-label position="stacked"  >Consulta:</ion-label>
+          <br>
+          <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
+             </ion-col>
+            <ion-col col-6>
+              <ion-button (click)="cancelarConsulta()" expand="block" color="warning">Cancelar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+  
+      </ion-card>
 
       <div *ngFor = "let producto of listaProductos">
         <ion-card>
@@ -257,13 +286,12 @@
             </ion-slide>
           </ion-slides>
 
-        <h4>{{producto.descripcion}}</h4>
-        <h4 class = "precioNombre" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
-        <h4>Tiempo: {{producto.tiempo}}m</h4>
+        <h4 style="color:black">{{producto.descripcion}}</h4>
+        <h4 style="color:black" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
+        <h4 style="color:black">Tiempo: {{producto.tiempo}}m</h4>
       </ion-card>
       </div>
        
-      <ion-button color="success" (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block">Consultar mozo</ion-button>
 
     </div>
   </div>

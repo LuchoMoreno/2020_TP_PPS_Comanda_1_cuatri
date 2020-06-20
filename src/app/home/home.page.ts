@@ -49,7 +49,8 @@ export class HomePage {
     estadoMesa : "",
     nombreUsuario: "",
     perfilUsuario : "",
-    consulta: "noRealizo"
+    consulta: "noRealizo",
+    consultaDescripcion : "",
   }
 
   // Datos del anonimo
@@ -265,6 +266,7 @@ export class HomePage {
          {
           usuario.estado = estado;                        // El cliente pasa a estar rechazado.
           this.bd.actualizar('usuarios',usuario,doc.id);  // Actualiza el estado del cliente.
+          this.listaUsuarios = [];
          }
 
          else{    // Estado aceptado.
@@ -275,13 +277,15 @@ export class HomePage {
           usuario.estado = estado;                                          // El cliente pasa a estar aceptado.
           this.bd.actualizar('usuarios',usuario,doc.id);                    // Actualiza el estado del cliente.               
           this.auth.registrarUsuario(usuario.correo,usuario.contrasenia);   // Registra el usuario en la BD. Asi puede ingresar al login. Con el estado aceptado.
-          this.auth.mandarCorreoElectronico(usuario.correo);                // Le envia un correo electrónico informado lo sucedido.
+          this.auth.mandarCorreoElectronico(usuario.correo);    
+          this.listaUsuarios = [];            // Le envia un correo electrónico informado lo sucedido.
           }
 
           else
           {
             usuario.estado = estado;                                          // El cliente pasa a estar aceptado.
-            this.bd.actualizar('usuarios',usuario,doc.id);                    // Actualiza el estado del cliente.              
+            this.bd.actualizar('usuarios',usuario,doc.id);    
+            this.listaUsuarios = [];                // Actualiza el estado del cliente.              
           }
 
          }
@@ -300,6 +304,27 @@ export class HomePage {
   // PARA EL ANONIMO ->Recorre la coleccion de usuarios de la bd verificando su nombre
   listaEsperaQRAnonimo()
   {
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().nombre == this.nombreAnonimo.nombre && doc.data().foto == this.nombreAnonimo.foto)
+        {
+
+                this.usuarioMesa.nombreUsuario = doc.data().nombre;
+                this.usuarioMesa.estadoMesa = "enEspera";
+                this.usuarioMesa.perfilUsuario = doc.data().perfil;
+                this.bd.crear('listaEspera', this.usuarioMesa);
+          
+        }
+
+          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+
+      })
+
+    })
+
+
+    /*
     let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
@@ -330,13 +355,34 @@ export class HomePage {
 
      }).catch(err => {
          console.log('Error', err);
-     });
+     });*/
      
   }
 
   // PARA EL CLIENTE -> Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
   listaEsperaQRCliente()
   {
+
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().correo == this.correoCliente)
+        {
+ 
+                this.usuarioMesa.nombreUsuario = doc.data().nombre;
+                this.usuarioMesa.estadoMesa = "enEspera";
+                this.usuarioMesa.perfilUsuario = doc.data().perfil;
+                this.bd.crear('listaEspera', this.usuarioMesa);
+          // Tendria que poner una validacion que compruebe que la  mesa esta vacia, ocupada, desocupada
+          
+        }
+
+          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+
+      })
+
+    })
+    /*
     let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
@@ -367,7 +413,7 @@ export class HomePage {
 
      }).catch(err => {
          console.log('Error', err);
-     });
+     });*/
      
   }
 
@@ -375,6 +421,8 @@ export class HomePage {
   cerrarSesion()
   {
     this.correoUsuario  = "";
+    localStorage.removeItem('tieneCorreo');
+    localStorage.removeItem('correoUsuario');
     this.router.navigate(['/login']);
   }
 
@@ -388,7 +436,9 @@ export class HomePage {
   // PARA CLIENTES Y ANONIMOS -> El usuario al escanear el codigo qr de la mesa podra ver los productos
   qrMesa()
   {
-    let auxMesa;
+    this.mostrarProductos = true;
+    
+    /*let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
 
@@ -409,7 +459,7 @@ export class HomePage {
 
      }).catch(err => {
          console.log('Error', err);
-     });
+     });*/
   }
 
   // PARA LOS CLIENTES Y ANONIMOS -> Cargara un listado completo de los productos
@@ -443,7 +493,9 @@ export class HomePage {
         {
           auxConsulta = dato.data();
           auxConsulta.consulta = "realizoConsulta";
+          auxConsulta.consultaDescripcion = this.consulta;
           this.bd.actualizar('listaEspera',auxConsulta,dato.id);
+          this.cancelarConsulta();
         }
 
       })
@@ -452,7 +504,23 @@ export class HomePage {
       
   }
 
+  // Creamos la bandera que lo activara
+  deplegarConsultaMozo : boolean = false;
+
+  // VARIABLE CONSULTA 
+  consulta  : string;
+
+  // PARA EL CLIENTE Y ANONIMO -> Abrira una mini pestaña para mostrar si se envia o no
+  desplegarConsulta()
+  {
+    this.deplegarConsultaMozo = true;
+  }
   
+  cancelarConsulta()
+  {
+    this.consulta = "";
+    this.deplegarConsultaMozo = false;
+  }
 
 
 }

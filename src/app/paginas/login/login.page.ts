@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
     {id:3, correo:"mozo@mozo.com", clave:"333333", perfil:"Mozo"},
     {id:4, correo:"cocinero@cocinero.com", clave:"444444", perfil:"Cocinero"},
     {id:5, correo:"metre@metre.com", clave:"555555", perfil:"Metre"},
-    {id:6, correo:"anonimo@anonimo.com", clave:"666666", perfil:"Anonimo"}
+    //{id:6, correo:"anonimo@anonimo.com", clave:"666666", perfil:"Anonimo"}
    ]
 
 
@@ -45,7 +45,9 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    localStorage.setItem('tieneCorreo','sinCorreo'); // Cuando iniciamos no tiene correo
+    //localStorage.setItem('tieneCorreo','sinCorreo'); // Cuando iniciamos no tiene correo
+    localStorage.removeItem('tieneCorreo');
+    localStorage.removeItem('correoUsuario');
   }
 
 
@@ -68,6 +70,7 @@ public onSubmitLogin()
     timer(2000).subscribe(() => {this.router.navigate(['/home']);
     localStorage.setItem('correoUsuario',res); // Guardamos el correo de la persona que ingreso
     localStorage.setItem('tieneCorreo','conCorreo'); // Verificamos si se ingreso con correo (por el anonimo)
+    this.onClearAll();
   });
 
   }).catch(err => this.complementos.ngValidarError(err.code));
@@ -80,9 +83,9 @@ public onClearAll()
   this.email = null;
   this.password = null;
 
-  let audio = new Audio();
-  audio.src = 'assets/audio/login/sonidoBotonBORRAR.mp3';
-  audio.play();
+  // let audio = new Audio();
+  // audio.src = 'assets/audio/login/sonidoBotonBORRAR.mp3';
+  // audio.play();
 }
 
 

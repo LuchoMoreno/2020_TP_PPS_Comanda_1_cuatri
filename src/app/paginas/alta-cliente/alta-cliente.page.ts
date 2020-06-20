@@ -51,7 +51,8 @@ export class AltaClientePage implements OnInit {
     perfil : "Cliente",
     correo: "",
     contrasenia: "",
-    estado : "esperando"
+    estado : "esperando",
+    estadoMesa : "sinMesa",
   };
 
   anonimoJson = {
@@ -126,7 +127,7 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
-          localStorage.setItem('usuarioAnonimo',this.anonimoJson.nombre); // Guardamos el nombre de anonimo en el localStorage
+          localStorage.setItem('usuarioAnonimo',JSON.stringify(this.anonimoJson)); // Guardamos el nombre de anonimo en el localStorage
           localStorage.setItem('tieneCorreo','sinCorreo'); // NO tiene correo
           this.router.navigate(['/home']);
         }
@@ -137,19 +138,19 @@ export class AltaClientePage implements OnInit {
     else
     {
 
-      if (this.pickedName == "Cliente")
+      if(this.pickedName == "Cliente")
         {
           this.bd.crear('usuarios',this.usuarioJson);
         }
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
-          localStorage.setItem('nombreAnonimo',this.anonimoJson.nombre);
+          localStorage.setItem('nombreAnonimo',JSON.stringify(this.anonimoJson)); // Guardamos la foto y el nombre del anonimo
           localStorage.setItem('tieneCorreo','sinCorreo'); // NO tiene correo
           this.router.navigate(['/home']);
         }
     }
-
+    this.limpiarCampos();
     this.complemetos.presentToastConMensajeYColor("El estado del cliente esta pendiente al registro.","primary");
   }
 
@@ -219,7 +220,8 @@ export class AltaClientePage implements OnInit {
       perfil : "Cliente",
       correo: "",
       contrasenia: "",
-      estado : "esperando"
+      estado : "esperando",
+      estadoMesa : "sinMesa"
     };
   
     this.anonimoJson = {
