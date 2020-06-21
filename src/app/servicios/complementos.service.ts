@@ -38,7 +38,7 @@ export class ComplementosService {
     const loading = await this.loadingController.create({
       //message: `Cargando...`,
       //message: `<img src="../../../assets/icon/iconLogoMovimiento.png" class = "intentoDeAnimacion">`,
-      message: `<img src="../../../assets/icon/gif.gif" class = "intentoDeAnimacion">`,
+      message: `<img src="../../../assets/icon/gifAnimado.gif">`,
       duration: 3000,
       translucent: true,
      // cssClass: 'custom-class custom-loading'
