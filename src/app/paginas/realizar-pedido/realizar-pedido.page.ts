@@ -9,12 +9,23 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class RealizarPedidoPage implements OnInit {
 
   listaProductos = [];
+  cantidadPedido = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+  pickedCant :string;
+  jsonDatos:any;
+
+  listaPedido : any;
+  jsonPedido = {
+    nombreProducto : "",
+    cantidad : this.cantidadPedido
+  }
 
   constructor( private firestore : AngularFirestore) { }
 
   ngOnInit() {
 
     this.cargarProductos();
+    console.log(this.listaPedido);
+
 
   }
 
@@ -37,4 +48,23 @@ export class RealizarPedidoPage implements OnInit {
 
     })
   }
+
+ 
+
+ seleccionCantidad(pickedCant,producto){
+    this.listaProductos.forEach((auxProducto) =>{
+      if(auxProducto.nombre === producto.nombre)
+      {
+        this.pickedCant = pickedCant;
+       this.jsonDatos.nombre = producto.nombre;
+       this.jsonDatos.cantidad = pickedCant;
+       console.log(producto);
+      return
+      }
+    })
+  
+ 
+  } 
+
+ 
 }

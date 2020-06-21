@@ -6,10 +6,17 @@
 
 <ion-content>
 
-  <div *ngIf="let producto of listaProductos">
+  <div *ngFor = "let producto of listaProductos">
     <ion-card>
-      
-    </ion-card>
+    <h1>{{producto.nombre}}  =  {{pickedCant}}</h1>
+
+   <ion-item>
+        <ion-label>Cantidad</ion-label>
+        <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
+          <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+  </ion-card>
   </div>
 
 </ion-content>
