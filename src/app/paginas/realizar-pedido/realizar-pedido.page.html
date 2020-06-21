@@ -4,7 +4,56 @@
   </ion-toolbar>
 </ion-header>
  
+
+  
+
+
 <ion-content>
+
+  <ion-button (click)="desplegarPedido()" expand="block">CONFIRMAR PEDIDO</ion-button>
+
+      <ion-card class="todoCompleto" *ngIf="variabledesplegarPedido == true" >
+              
+        <ion-item class="labels" >
+          <ion-label position="stacked">INFORMACION DEL PEDIDO:</ion-label>
+          <br>
+
+          <div *ngIf="pedidoEnFormatoJSON != null" >
+
+          Su pedido son los siguientes platos:
+
+          <h1> Platos principales: </h1>
+          {{pedidoEnFormatoJSON.platosPlato}}
+
+          <br>
+          <h1> Bebidas: </h1>
+          {{pedidoEnFormatoJSON.platosBebida}}
+
+          <br>
+          <h1> Postres: </h1>
+          {{pedidoEnFormatoJSON.platosPostre}}
+
+          </div>
+  
+
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <ion-button (click)="confirmarPedido" expand="block" color="success">Confirmar</ion-button>
+            </ion-col>
+            <ion-col col-6>
+              <ion-button (click)="cancelarPedido()" expand="block" color="warning">Cancelar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card>
+
+
+      <br>
+      <br>
  
 
       <ion-card style = "background: lightyellow">
@@ -137,9 +186,6 @@
 
 
   </div>
-
-
-
 
   
 </ion-content>

@@ -41,6 +41,10 @@ export class RealizarPedidoPage implements OnInit {
   contadorPostres;
   
 
+  // PURA ESTÉTICA:
+
+  variabledesplegarPedido : boolean;
+
   // VARIABLES DE VERO.
 
   listaProductos = [];
@@ -69,6 +73,8 @@ export class RealizarPedidoPage implements OnInit {
     this.contadorPlatos = 0;
     this.contadorBebidas = 0;
     this.contadorPostres = 0;
+
+    this.variabledesplegarPedido = false;
   }
 
 
@@ -156,7 +162,6 @@ export class RealizarPedidoPage implements OnInit {
     this.tipoPlatoPedido = this.tipoPlatoPedido + "," + plato;
     console.log(this.tipoPlatoPedido);
 
-
     console.log(this.pedidoEnFormatoJSON);
 
 
@@ -164,9 +169,31 @@ export class RealizarPedidoPage implements OnInit {
 
 
 
-  agregarTodoAJSON()
-  {
 
+
+
+  // ACA ES PURO ESTÉTICA, SOLO PARA CONFIRMAR EL PEDIDO.
+
+
+  // PARA EL CLIENTE Y ANONIMO -> Abrira una mini pestaña para mostrar si se envia o no
+  desplegarPedido()
+  {
+    this.variabledesplegarPedido = true;
+    console.log(this.variabledesplegarPedido);
   }
+
+
+  confirmarPedido()
+  {
+    
+  }
+  
+  cancelarPedido()
+  {
+    this.pedidoEnFormatoJSON = null; // LO NULLEA.
+    this.pedidoEnFormatoJSON = {platosPlato : [], platosBebida : [], platosPostre : []}; // LO VACÍA.
+    this.variabledesplegarPedido = false;
+  }
+
 
 }
