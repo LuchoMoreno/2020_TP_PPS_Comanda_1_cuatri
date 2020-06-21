@@ -8,6 +8,15 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class RealizarPedidoPage implements OnInit {
 
+
+  pedidoEnFormatoJSON = {
+    platosPlato : [],
+    platosBebida : [],
+    platosPostre : [],
+  };
+
+
+
   listaProductosTipoPlato = [];
   cantidadPedidoTipoPlato = [];
   pickedCantTipoPlato : string;
@@ -23,6 +32,13 @@ export class RealizarPedidoPage implements OnInit {
   cantidadPedidoTipoPostre = [];
   pickedCantTipoPostre : string;
 
+
+  // IMPORTANTISIMOS
+  tipoPlatoPedido : string = null;
+  contador;
+  
+
+  // VARIABLES DE VERO.
 
   listaProductos = [];
   cantidadPedido = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
@@ -43,9 +59,11 @@ export class RealizarPedidoPage implements OnInit {
 
     this.cargarProductos();
     console.log(this.listaPedido);
-    this.listaProductosTipoPlato = this.cargarProductosTipo("Plato")
-    this.listaProductosTipoBebida = this.cargarProductosTipo("Bebida")
-    this.listaProductosTipoPostre = this.cargarProductosTipo("Postre")
+    this.listaProductosTipoPlato = this.cargarProductosTipo("Plato");
+    this.listaProductosTipoBebida = this.cargarProductosTipo("Bebida");
+    this.listaProductosTipoPostre = this.cargarProductosTipo("Postre");
+
+    this.contador = 0;
   }
 
 
@@ -86,6 +104,7 @@ export class RealizarPedidoPage implements OnInit {
   } 
 
 
+
   cargarProductosTipo(tipoProducto : string) : any
   {
 
@@ -103,6 +122,31 @@ export class RealizarPedidoPage implements OnInit {
     })
 
     return listaProductos;
+  }
+
+
+  cargarJSONPedidosPlatos(plato : string)
+  {
+   
+   // ACA LO PIENSO DE MANERA 1, TIPO LISTA.
+
+    this.tipoPlatoPedido = this.tipoPlatoPedido + "," + plato;
+    console.log(this.tipoPlatoPedido);
+
+
+    // ACA LO PIENSO COMO ARRAY, FACHERISIMO LA VERDAD.
+    this.pedidoEnFormatoJSON.platosPlato[this.contador] = plato;
+    
+    console.log(this.pedidoEnFormatoJSON);
+
+    this.contador = this.contador + 1;
+  }
+
+
+
+  agregarTodoAJSON()
+  {
+
   }
 
 }
