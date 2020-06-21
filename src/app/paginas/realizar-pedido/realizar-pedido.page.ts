@@ -35,7 +35,10 @@ export class RealizarPedidoPage implements OnInit {
 
   // IMPORTANTISIMOS
   tipoPlatoPedido : string = null;
-  contador;
+
+  contadorPlatos;
+  contadorBebidas;
+  contadorPostres;
   
 
   // VARIABLES DE VERO.
@@ -63,7 +66,9 @@ export class RealizarPedidoPage implements OnInit {
     this.listaProductosTipoBebida = this.cargarProductosTipo("Bebida");
     this.listaProductosTipoPostre = this.cargarProductosTipo("Postre");
 
-    this.contador = 0;
+    this.contadorPlatos = 0;
+    this.contadorBebidas = 0;
+    this.contadorPostres = 0;
   }
 
 
@@ -125,21 +130,36 @@ export class RealizarPedidoPage implements OnInit {
   }
 
 
-  cargarJSONPedidosPlatos(plato : string)
+  cargarJSONPedidosPlatos(plato : string, tipoDePlato : string)
   {
    
+    if (tipoDePlato == "Plato")
+    {
+
+      this.pedidoEnFormatoJSON.platosPlato[this.contadorPlatos] = plato;
+      this.contadorPlatos = this.contadorPlatos + 1;
+    }
+
+    if (tipoDePlato == "Bebida")
+    {
+      this.pedidoEnFormatoJSON.platosBebida[this.contadorBebidas] = plato;
+      this.contadorBebidas = this.contadorBebidas + 1;
+    }
+
+    if (tipoDePlato == "Postre")
+    {
+      this.pedidoEnFormatoJSON.platosPostre[this.contadorPostres] = plato;
+      this.contadorPostres = this.contadorPostres + 1;
+    }
    // ACA LO PIENSO DE MANERA 1, TIPO LISTA.
 
     this.tipoPlatoPedido = this.tipoPlatoPedido + "," + plato;
     console.log(this.tipoPlatoPedido);
 
 
-    // ACA LO PIENSO COMO ARRAY, FACHERISIMO LA VERDAD.
-    this.pedidoEnFormatoJSON.platosPlato[this.contador] = plato;
-    
     console.log(this.pedidoEnFormatoJSON);
 
-    this.contador = this.contador + 1;
+
   }
 
 

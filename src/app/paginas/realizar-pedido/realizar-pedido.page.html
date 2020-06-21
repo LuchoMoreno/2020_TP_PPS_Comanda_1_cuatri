@@ -31,7 +31,7 @@
                 </ion-slide>
               </ion-slides>
 
-            <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre)" expand="block">Agregar</ion-button>
+            <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo)" expand="block">Agregar</ion-button>
             <ion-label>
               <h1>{{producto.nombre}}  =  {{pickedCant}}</h1>
             </ion-label>
@@ -77,7 +77,7 @@
             </ion-slide>
           </ion-slides>
 
-        <ion-button (click)="agregarTodoAJSON()" expand="block">Agregar</ion-button>
+          <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo)" expand="block">Agregar</ion-button>
         <ion-label>
           <h1>{{bebida.nombre}}  =  {{pickedCant}}</h1>
         </ion-label>
@@ -120,7 +120,7 @@
             </ion-slide>
           </ion-slides>
 
-        <ion-button (click)="agregarTodoAJSON()" expand="block">Agregar</ion-button>
+          <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo)" expand="block">Agregar</ion-button>
         <ion-label>
           <h1>{{postre.nombre}}  =  {{pickedCant}}</h1>
         </ion-label>
