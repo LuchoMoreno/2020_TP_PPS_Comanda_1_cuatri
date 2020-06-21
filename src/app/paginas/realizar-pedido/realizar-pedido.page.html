@@ -3,20 +3,142 @@
     <ion-title>Lista pedidos</ion-title>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content>
+ 
+      <ion-card style = "background: lightyellow">
+      <ion-card-content>
+      PLATOS PRINCIPALES
+      </ion-card-content>
+      </ion-card>
 
-  <div *ngFor = "let producto of listaProductos">
-    <ion-card>
-    <h1>{{producto.nombre}}  =  {{pickedCant}}</h1>
+      <div *ngFor = "let producto of listaProductosTipoPlato">
+        
+          <ion-card>
 
-   <ion-item>
-        <ion-label>Cantidad</ion-label>
-        <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
-          <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
-        </ion-select>
+            <ion-item >
+              
+              <ion-slides pager="true">
+                <ion-slide>
+                <img [src]="producto.fotos[2]" style=" height: 50%; width: 50%">
+                </ion-slide>
+                <ion-slide>
+                <img [src]="producto.fotos[1]" style=" height: 50%; width: 50%">
+                </ion-slide>
+                <ion-slide>
+                <img [src]="producto.fotos[2]" style=" height: 50%; width: 50%">
+                </ion-slide>
+              </ion-slides>
+
+    
+            <ion-label>
+              <h1>{{producto.nombre}}  =  {{pickedCant}}</h1>
+            </ion-label>
+    
+          </ion-item>
+         
+           <ion-item>
+             
+                <ion-label>Cantidad</ion-label>
+                <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
+                  <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
+                </ion-select>
+
+            </ion-item>
+          </ion-card>
+    
+    
+      </div>
+
+
+  
+    <ion-card style = "background: lightyellow">
+    <ion-card-content>
+      BEBIDAS
+    </ion-card-content>
+    </ion-card>
+
+      <div *ngFor = "let bebida of listaProductosTipoBebida">
+
+        <ion-card>
+
+        <ion-item >
+              
+          <ion-slides pager="true">
+            <ion-slide>
+            <img [src]="bebida.fotos[2]" style=" height: 50%; width: 50%">
+            </ion-slide>
+            <ion-slide>
+            <img [src]="bebida.fotos[1]" style=" height: 50%; width: 50%">
+            </ion-slide>
+            <ion-slide>
+            <img [src]="bebida.fotos[2]" style=" height: 50%; width: 50%">
+            </ion-slide>
+          </ion-slides>
+
+
+        <ion-label>
+          <h1>{{bebida.nombre}}  =  {{pickedCant}}</h1>
+        </ion-label>
+
       </ion-item>
-  </ion-card>
+       
+         <ion-item>
+              <ion-label>Cantidad</ion-label>
+              <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
+                <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+        </ion-card>
+  
+  
+    </div>
+     
+
+      <ion-card style = "background: lightyellow">
+      <ion-card-content>
+      POSTRES
+      </ion-card-content>
+      </ion-card>
+    <div *ngFor = "let postre of listaProductosTipoPostre">
+
+
+      <ion-card>
+        
+        <ion-item >
+              
+          <ion-slides pager="true">
+            <ion-slide>
+            <img [src]="postre.fotos[2]" style=" height: 50%; width: 50%">
+            </ion-slide>
+            <ion-slide>
+            <img [src]="postre.fotos[1]" style=" height: 50%; width: 50%">
+            </ion-slide>
+            <ion-slide>
+            <img [src]="postre.fotos[2]" style=" height: 50%; width: 50%">
+            </ion-slide>
+          </ion-slides>
+
+
+        <ion-label>
+          <h1>{{postre.nombre}}  =  {{pickedCant}}</h1>
+        </ion-label>
+
+      </ion-item>
+     
+       <ion-item>
+            <ion-label>Cantidad</ion-label>
+            <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
+              <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+      </ion-card>
+
+
   </div>
 
+
+
+
+  
 </ion-content>

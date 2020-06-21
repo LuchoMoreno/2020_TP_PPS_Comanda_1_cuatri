@@ -49,7 +49,8 @@ export class AltaProductoPage implements OnInit {
 
   listaProductos = [ 
     { tipo : "Plato" },
-    { tipo : "Bebida" }
+    { tipo : "Bebida" },
+    { tipo : "Postre" }
   ]
 
   constructor(

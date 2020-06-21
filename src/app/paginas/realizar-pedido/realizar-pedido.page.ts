@@ -8,12 +8,30 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class RealizarPedidoPage implements OnInit {
 
+  listaProductosTipoPlato = [];
+  cantidadPedidoTipoPlato = [];
+  pickedCantTipoPlato : string;
+
+
+
+  listaProductosTipoBebida = [];
+  cantidadPedidoTipoBebida = [];
+  pickedCantTipoBebida : string;
+
+
+  listaProductosTipoPostre = [];
+  cantidadPedidoTipoPostre = [];
+  pickedCantTipoPostre : string;
+
+
   listaProductos = [];
   cantidadPedido = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
   pickedCant :string;
   jsonDatos:any;
 
+
   listaPedido : any;
+
   jsonPedido = {
     nombreProducto : "",
     cantidad : this.cantidadPedido
@@ -25,8 +43,9 @@ export class RealizarPedidoPage implements OnInit {
 
     this.cargarProductos();
     console.log(this.listaPedido);
-
-
+    this.listaProductosTipoPlato = this.cargarProductosTipo("Plato")
+    this.listaProductosTipoBebida = this.cargarProductosTipo("Bebida")
+    this.listaProductosTipoPostre = this.cargarProductosTipo("Postre")
   }
 
 
@@ -55,7 +74,7 @@ export class RealizarPedidoPage implements OnInit {
     this.listaProductos.forEach((auxProducto) =>{
       if(auxProducto.nombre === producto.nombre)
       {
-        this.pickedCant = pickedCant;
+       this.pickedCant = pickedCant;
        this.jsonDatos.nombre = producto.nombre;
        this.jsonDatos.cantidad = pickedCant;
        console.log(producto);
@@ -66,5 +85,24 @@ export class RealizarPedidoPage implements OnInit {
  
   } 
 
- 
+
+  cargarProductosTipo(tipoProducto : string) : any
+  {
+
+    var listaProductos = [];
+    this.firestore.collection("productos").get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        // Correo de la BD == Correo de la lista.
+       if(doc.data().tipo == tipoProducto)
+       {
+        listaProductos.push(doc.data());  
+       }
+
+      })
+    })
+
+    return listaProductos;
+  }
+
 }
