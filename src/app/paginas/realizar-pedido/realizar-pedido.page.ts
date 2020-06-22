@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+
+// IMPORTO SERVICIO DE BASE DE DATOS
+import { DatabaseService } from "../../servicios/database.service";
+
+
+// IMPORTO SERVICIO DE BASE DE DATOS
+import { ComplementosService } from "../../servicios/complementos.service";
+
+
 @Component({
   selector: 'app-realizar-pedido',
   templateUrl: './realizar-pedido.page.html',
@@ -14,6 +23,8 @@ export class RealizarPedidoPage implements OnInit {
     platosBebida : [],
     platosPostre : [],
     precioTotal : 0,
+    estadoChef : "enEspera",
+    estadoBartender : "enEspera",
   };
 
 
@@ -39,6 +50,7 @@ export class RealizarPedidoPage implements OnInit {
   contadorPlatos;
   contadorBebidas;
   contadorPostres;
+  contadorVecesQueConfirmaPedido;
   
 
   // PURA ESTÉTICA:
@@ -60,7 +72,9 @@ export class RealizarPedidoPage implements OnInit {
     cantidad : this.cantidadPedido
   }
 
-  constructor( private firestore : AngularFirestore) { }
+  constructor( private firestore : AngularFirestore,
+    private bd : DatabaseService,
+    private complementos : ComplementosService) { }
 
   ngOnInit() {
 
@@ -73,6 +87,7 @@ export class RealizarPedidoPage implements OnInit {
     this.contadorPlatos = 0;
     this.contadorBebidas = 0;
     this.contadorPostres = 0;
+    this.contadorVecesQueConfirmaPedido = 0;
 
     this.variabledesplegarPedido = false;
   }
@@ -174,8 +189,6 @@ export class RealizarPedidoPage implements OnInit {
 
 
 
-
-
   // ACA ES PURO ESTÉTICA, SOLO PARA CONFIRMAR EL PEDIDO.
 
 
@@ -183,29 +196,59 @@ export class RealizarPedidoPage implements OnInit {
   desplegarPedido()
   {
     this.variabledesplegarPedido = true;
-    console.log(this.variabledesplegarPedido);
+  }
+
+  desplegarInversoPedido()
+  {
+    this.variabledesplegarPedido = false;
   }
 
 
   confirmarPedido()
   {
-    
+
+    if (this.contadorVecesQueConfirmaPedido == 0)
+    {
+      this.complementos.presentToastConMensajeYColor("Pedido generado con éxito. Será redirigido al menú!", "success")
+      this.bd.crear('pedidos',this.pedidoEnFormatoJSON);
+      this.contadorVecesQueConfirmaPedido = 1;
+    }
+
+    else
+    {
+      this.complementos.presentToastConMensajeYColor("¡Su orden ya fue cargada!", "warning")
+    }
+
+   
   }
   
   cancelarPedido()
   {
-    //this.pedidoEnFormatoJSON = {platosPlato : [], platosBebida : [], platosPostre : []}; // LO VACÍA.
-    this.pedidoEnFormatoJSON.platosPlato = [];
-    this.pedidoEnFormatoJSON.platosBebida = [];
-    this.pedidoEnFormatoJSON.platosPostre = [];
-    this.pedidoEnFormatoJSON.precioTotal = 0;
-    this.variabledesplegarPedido = false;
+    if (this.contadorVecesQueConfirmaPedido == 0)
+    {
+      this.pedidoEnFormatoJSON.platosPlato = [];
+      this.pedidoEnFormatoJSON.platosBebida = [];
+      this.pedidoEnFormatoJSON.platosPostre = [];
+      this.pedidoEnFormatoJSON.precioTotal = 0;
 
+
+      this.contadorPlatos = 0;
+      this.contadorBebidas = 0;
+      this.contadorPostres = 0;
+
+      this.complementos.presentToastConMensajeYColor("¡El pedido fue cancelado!", "success")
+    }
+    else
+    {
+      this.complementos.presentToastConMensajeYColor("¡No puede cancelar un pedido ya enviado!", "warning")
+    }
     
-    this.contadorPlatos = 0;
-    this.contadorBebidas = 0;
-    this.contadorPostres = 0;
   }
+
+
+  // CON ESTO AGREGO A UNA COLECCIÓN.
+
+
 
 
 }
