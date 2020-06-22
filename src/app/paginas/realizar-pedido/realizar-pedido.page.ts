@@ -200,6 +200,11 @@ export class RealizarPedidoPage implements OnInit {
     this.pedidoEnFormatoJSON.platosPostre = [];
     this.pedidoEnFormatoJSON.precioTotal = 0;
     this.variabledesplegarPedido = false;
+
+    
+    this.contadorPlatos = 0;
+    this.contadorBebidas = 0;
+    this.contadorPostres = 0;
   }
 
 
