@@ -33,6 +33,10 @@
           <h1> Postres: </h1>
           {{pedidoEnFormatoJSON.platosPostre}}
 
+          <br>
+          <h1> Precio total del pedido: </h1>
+          {{pedidoEnFormatoJSON.precioTotal}}
+
           </div>
   
 
@@ -51,11 +55,7 @@
 
       </ion-card>
 
-
-      <br>
-      <br>
  
-
       <ion-card style = "background: lightyellow">
       <ion-card-content>
       PLATOS PRINCIPALES
@@ -80,7 +80,7 @@
                 </ion-slide>
               </ion-slides>
 
-            <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo)" expand="block">Agregar</ion-button>
+            <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio)" expand="block">Agregar</ion-button>
             <ion-label>
               <h1>{{producto.nombre}}  =  {{pickedCant}}</h1>
             </ion-label>
@@ -126,7 +126,7 @@
             </ion-slide>
           </ion-slides>
 
-          <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo)" expand="block">Agregar</ion-button>
+          <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio)" expand="block">Agregar</ion-button>
         <ion-label>
           <h1>{{bebida.nombre}}  =  {{pickedCant}}</h1>
         </ion-label>
@@ -169,7 +169,7 @@
             </ion-slide>
           </ion-slides>
 
-          <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo)" expand="block">Agregar</ion-button>
+          <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio)" expand="block">Agregar</ion-button>
         <ion-label>
           <h1>{{postre.nombre}}  =  {{pickedCant}}</h1>
         </ion-label>
@@ -189,3 +189,23 @@
 
   
 </ion-content>
+
+
+<ion-footer class="ion-no-border">
+
+
+  <!--
+
+  <div>
+<br>
+ <h4 class = "precioNombre" >PRECIO TOTAL: </h4>  <h4 class = "precio">${{pedidoEnFormatoJSON.precioTotal}}</h4>
+<br>
+  </div>
+
+  -->
+
+ 
+  <ion-button color = "success" expand="block">PRECIO TOTAL: ${{pedidoEnFormatoJSON.precioTotal}}</ion-button>
+
+
+</ion-footer>

@@ -13,8 +13,8 @@ export class RealizarPedidoPage implements OnInit {
     platosPlato : [],
     platosBebida : [],
     platosPostre : [],
+    precioTotal : 0,
   };
-
 
 
   listaProductosTipoPlato = [];
@@ -136,7 +136,7 @@ export class RealizarPedidoPage implements OnInit {
   }
 
 
-  cargarJSONPedidosPlatos(plato : string, tipoDePlato : string)
+  cargarJSONPedidosPlatos(plato : string, tipoDePlato : string, precio : number)
   {
    
     if (tipoDePlato == "Plato")
@@ -144,18 +144,22 @@ export class RealizarPedidoPage implements OnInit {
 
       this.pedidoEnFormatoJSON.platosPlato[this.contadorPlatos] = plato;
       this.contadorPlatos = this.contadorPlatos + 1;
+      this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
     }
 
     if (tipoDePlato == "Bebida")
     {
       this.pedidoEnFormatoJSON.platosBebida[this.contadorBebidas] = plato;
       this.contadorBebidas = this.contadorBebidas + 1;
+      this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+      
     }
 
     if (tipoDePlato == "Postre")
     {
       this.pedidoEnFormatoJSON.platosPostre[this.contadorPostres] = plato;
       this.contadorPostres = this.contadorPostres + 1;
+      this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
     }
    // ACA LO PIENSO DE MANERA 1, TIPO LISTA.
 
@@ -190,8 +194,11 @@ export class RealizarPedidoPage implements OnInit {
   
   cancelarPedido()
   {
-    this.pedidoEnFormatoJSON = null; // LO NULLEA.
-    this.pedidoEnFormatoJSON = {platosPlato : [], platosBebida : [], platosPostre : []}; // LO VACÍA.
+    //this.pedidoEnFormatoJSON = {platosPlato : [], platosBebida : [], platosPostre : []}; // LO VACÍA.
+    this.pedidoEnFormatoJSON.platosPlato = [];
+    this.pedidoEnFormatoJSON.platosBebida = [];
+    this.pedidoEnFormatoJSON.platosPostre = [];
+    this.pedidoEnFormatoJSON.precioTotal = 0;
     this.variabledesplegarPedido = false;
   }
 
