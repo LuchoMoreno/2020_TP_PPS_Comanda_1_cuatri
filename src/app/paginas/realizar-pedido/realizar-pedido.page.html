@@ -84,8 +84,10 @@
 
       <div *ngFor = "let producto of listaProductosTipoPlato">
         
-          <ion-card>
-
+        <ion-card style="background-color: black;">
+          <ion-card-content align="center" style="font-size: 20px;color: white;">
+           {{producto.nombre}}
+          </ion-card-content>
             <ion-item >
               
               <ion-slides pager="true">
@@ -100,16 +102,25 @@
                 </ion-slide>
               </ion-slides>
 
-            <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio)" expand="block">Agregar</ion-button>
-            <ion-label>
+
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-6>
+                    <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
+                   </ion-col>
+                  <ion-col col-6>
+                    <ion-button (click)="removerJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio,producto)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+              <ion-label>
               <h1>{{producto.nombre}}  =  {{pickedCant}}</h1>
             </ion-label>
     
           </ion-item>
          
-          
           </ion-card>
-    
     
       </div>
 
@@ -123,8 +134,10 @@
 
       <div *ngFor = "let bebida of listaProductosTipoBebida">
 
-        <ion-card>
-
+        <ion-card style="background-color: black;">
+          <ion-card-content align="center" style="font-size: 20px;color: white;">
+           {{bebida.nombre}}
+          </ion-card-content>
         <ion-item >
               
           <ion-slides pager="true">
@@ -139,7 +152,17 @@
             </ion-slide>
           </ion-slides>
 
-          <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio)" expand="block">Agregar</ion-button>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
+               </ion-col>
+              <ion-col col-6>
+                <ion-button (click)="removerJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
         <ion-label>
           <h1>{{bebida.nombre}}  =  {{pickedCant}}</h1>
         </ion-label>
@@ -153,16 +176,18 @@
     </div>
      
 
-      <ion-card style = "background: lightyellow">
+      <ion-card style = "background: lightyellow" >
       <ion-card-content>
       POSTRES ------- Cantidad pedida: {{contadorPostres}}
       </ion-card-content>
       </ion-card>
-    <div *ngFor = "let postre of listaProductosTipoPostre">
+    <div *ngFor = "let postre of listaProductosTipoPostre" >
 
 
-      <ion-card>
-        
+      <ion-card style="background-color: black;">
+        <ion-card-content align="center" style="font-size: 20px;color: white;">
+         {{postre.nombre}}
+        </ion-card-content>
         <ion-item >
               
           <ion-slides pager="true">
@@ -176,8 +201,17 @@
             <img [src]="postre.fotos[2]" style=" height: 50%; width: 50%">
             </ion-slide>
           </ion-slides>
-
-          <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio)" expand="block">Agregar</ion-button>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
+               </ion-col>
+              <ion-col col-6>
+                <ion-button (click)="removerJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+         
         <ion-label>
           <h1>{{postre.nombre}}  =  {{pickedCant}}</h1>
         </ion-label>

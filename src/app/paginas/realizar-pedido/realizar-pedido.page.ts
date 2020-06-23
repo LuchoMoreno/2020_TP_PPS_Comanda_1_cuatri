@@ -183,7 +183,64 @@ export class RealizarPedidoPage implements OnInit {
 
   // CON ESTO AGREGO A UNA COLECCIÓN.
 
+  removerJSONPedidosPlatos(plato : string, tipoDePlato : string, precio : number)
+  {
+   
+    if (tipoDePlato == "Plato")
+    {
 
+      let auxIndice = this.pedidoEnFormatoJSON.platosPlato.indexOf(plato);
+
+      if(auxIndice >= 0 ){
+        let retorno = this.pedidoEnFormatoJSON.platosPlato.splice(auxIndice,1);
+
+          if(this.pedidoEnFormatoJSON.precioTotal > 0 && retorno.length > 0)
+          {
+            this.contadorPlatos = this.contadorPlatos - 1;
+            this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
+          }
+      }
+    }
+
+    if (tipoDePlato == "Bebida")
+    {
+
+      let auxIndice = this.pedidoEnFormatoJSON.platosBebida.indexOf(plato);
+
+      if(auxIndice >= 0 ){
+        let retorno = this.pedidoEnFormatoJSON.platosBebida.splice(auxIndice,1);
+
+          if(this.pedidoEnFormatoJSON.precioTotal > 0 && retorno.length > 0)
+          {
+            this.contadorBebidas = this.contadorBebidas - 1;
+            this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
+          }
+      }
+
+
+    }
+
+    if (tipoDePlato == "Postre")
+    {
+      let auxIndice = this.pedidoEnFormatoJSON.platosPostre.indexOf(plato);
+
+      if(auxIndice >= 0 ){
+        let retorno = this.pedidoEnFormatoJSON.platosPostre.splice(auxIndice,1);
+
+          if(this.pedidoEnFormatoJSON.precioTotal > 0 && retorno.length > 0)
+          {
+            this.contadorPostres = this.contadorPostres - 1;
+            this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
+          }
+      }
+     
+    }
+
+
+   console.log(this.pedidoEnFormatoJSON);
+
+
+  }
 
 
 }
