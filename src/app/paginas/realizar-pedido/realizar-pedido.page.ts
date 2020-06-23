@@ -23,8 +23,9 @@ export class RealizarPedidoPage implements OnInit {
     platosBebida : [],
     platosPostre : [],
     precioTotal : 0,
-    estadoChef : "enEspera",
-    estadoBartender : "enEspera",
+    estadoChef : "",
+    estadoBartender : "",
+    mesa : "",
   };
 
 

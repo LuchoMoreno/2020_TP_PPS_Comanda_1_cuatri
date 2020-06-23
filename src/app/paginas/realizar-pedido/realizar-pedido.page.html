@@ -5,7 +5,22 @@
 </ion-header>
  
 
-  
+<!--
+
+   <ion-item>
+             
+                <ion-label>Cantidad</ion-label>
+                <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
+                  <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
+                </ion-select>
+
+    </ion-item>
+
+
+
+
+-->
+
 
 
 <ion-content>
@@ -63,7 +78,7 @@
  
       <ion-card style = "background: lightyellow">
       <ion-card-content>
-      PLATOS PRINCIPALES
+      PLATOS PRINCIPALES ------- Cantidad pedida: {{contadorPlatos}}
       </ion-card-content>
       </ion-card>
 
@@ -92,14 +107,7 @@
     
           </ion-item>
          
-           <ion-item>
-             
-                <ion-label>Cantidad</ion-label>
-                <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
-                  <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
-                </ion-select>
-
-            </ion-item>
+          
           </ion-card>
     
     
@@ -109,7 +117,7 @@
   
     <ion-card style = "background: lightyellow">
     <ion-card-content>
-      BEBIDAS
+      BEBIDAS ------- Cantidad pedida: {{contadorBebidas}}
     </ion-card-content>
     </ion-card>
 
@@ -138,12 +146,7 @@
 
       </ion-item>
        
-         <ion-item>
-              <ion-label>Cantidad</ion-label>
-              <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
-                <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
-              </ion-select>
-            </ion-item>
+        
         </ion-card>
   
   
@@ -152,7 +155,7 @@
 
       <ion-card style = "background: lightyellow">
       <ion-card-content>
-      POSTRES
+      POSTRES ------- Cantidad pedida: {{contadorPostres}}
       </ion-card-content>
       </ion-card>
     <div *ngFor = "let postre of listaProductosTipoPostre">
@@ -181,12 +184,6 @@
 
       </ion-item>
      
-       <ion-item>
-            <ion-label>Cantidad</ion-label>
-            <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
-              <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
-            </ion-select>
-          </ion-item>
       </ion-card>
 
 
