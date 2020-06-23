@@ -30,19 +30,8 @@ export class RealizarPedidoPage implements OnInit {
 
 
   listaProductosTipoPlato = [];
-  cantidadPedidoTipoPlato = [];
-  pickedCantTipoPlato : string;
-
-
-
   listaProductosTipoBebida = [];
-  cantidadPedidoTipoBebida = [];
-  pickedCantTipoBebida : string;
-
-
   listaProductosTipoPostre = [];
-  cantidadPedidoTipoPostre = [];
-  pickedCantTipoPostre : string;
 
 
   // IMPORTANTISIMOS
@@ -58,29 +47,14 @@ export class RealizarPedidoPage implements OnInit {
 
   variabledesplegarPedido : boolean;
 
-  // VARIABLES DE VERO.
 
-  listaProductos = [];
-  cantidadPedido = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
-  pickedCant :string;
-  jsonDatos:any;
-
-
-  listaPedido : any;
-
-  jsonPedido = {
-    nombreProducto : "",
-    cantidad : this.cantidadPedido
-  }
-
+  
   constructor( private firestore : AngularFirestore,
     private bd : DatabaseService,
     private complementos : ComplementosService) { }
 
   ngOnInit() {
 
-    this.cargarProductos();
-    console.log(this.listaPedido);
     this.listaProductosTipoPlato = this.cargarProductosTipo("Plato");
     this.listaProductosTipoBebida = this.cargarProductosTipo("Bebida");
     this.listaProductosTipoPostre = this.cargarProductosTipo("Postre");
@@ -95,42 +69,6 @@ export class RealizarPedidoPage implements OnInit {
 
 
   
-  // PARA LOS CLIENTES Y ANONIMOS -> Cargara un listado completo de los productos
-  cargarProductos()
-  {
-    let fb = this.firestore.collection('productos');
-              
-    fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
-      
-      this.listaProductos = [];
-
-      datos.forEach( (dato:any) =>{
-
-     this.listaProductos.push(dato);      // <--- LISTA DE USUARIOS.
-        
-      });
-
-    })
-  }
-
- 
-
- seleccionCantidad(pickedCant,producto){
-    this.listaProductos.forEach((auxProducto) =>{
-      if(auxProducto.nombre === producto.nombre)
-      {
-       this.pickedCant = pickedCant;
-       this.jsonDatos.nombre = producto.nombre;
-       this.jsonDatos.cantidad = pickedCant;
-       console.log(producto);
-      return
-      }
-    })
-  
- 
-  } 
-
-
 
   cargarProductosTipo(tipoProducto : string) : any
   {
@@ -177,16 +115,12 @@ export class RealizarPedidoPage implements OnInit {
       this.contadorPostres = this.contadorPostres + 1;
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
     }
-   // ACA LO PIENSO DE MANERA 1, TIPO LISTA.
 
-    this.tipoPlatoPedido = this.tipoPlatoPedido + "," + plato;
-    console.log(this.tipoPlatoPedido);
 
     console.log(this.pedidoEnFormatoJSON);
 
 
   }
-
 
 
 
