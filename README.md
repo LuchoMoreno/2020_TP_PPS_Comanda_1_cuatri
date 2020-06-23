@@ -80,26 +80,70 @@
 
 ### Luciano 
 
-- Lógica de las notificaciones push, con cambios de estado en clientes [PENDIENTE / APROBADO]
-- Mejoras en la función que envía CORREO al usuario registrado. Tenia un error mínimo. 
-- Arreglos completos al agregar un usuario. Los mismos pueden ser aceptados o rechazados sin error.
-- QR: Se crea el QR para pedir una mesa.
-- Lista de espera Metre terminada -> El metre puede ver los usuarios que necesitan mesa.
-- Generación de APKS para testeos generales.
+- Lógica de las notificaciones push, con cambios de estado en clientes [PENDIENTE / APROBADO]. :white_check_mark:
+- Mejoras en la función que envía CORREO al usuario registrado. Tenia un error mínimo. :white_check_mark: 
+- Arreglos completos al agregar un usuario. Los mismos pueden ser aceptados o rechazados sin error. :white_check_mark:
+- QR: Se crea el QR para pedir una mesa. :white_check_mark:
+- Lista de espera Metre terminada -> El metre puede ver los usuarios que necesitan mesa. :white_check_mark:
+- Generación de APKS para testeos generales. :white_check_mark:
+
 
 ### Verónica  
 
-- Creación del código de las aplicaciones push. El cliente debe ser aprobado posterior a su registro.
-- Creación del MENU para cargar clientes.
-- CORREO: Se le envía un correo al usuario registrado.
-- QR : Se crea el QR de cliente anónimo.
-- Lista de espera Metre terminada -> El metre puede dar una mesa.
+- Creación del código de las aplicaciones push. El cliente debe ser aprobado posterior a su registro. :white_check_mark:
+- Creación del MENU para cargar clientes. :white_check_mark:
+- CORREO: Se le envía un correo al usuario registrado. :white_check_mark:
+- QR : Se crea el QR de cliente anónimo. :white_check_mark:
+- Lista de espera Metre terminada -> El metre puede dar una mesa. :white_check_mark:
+- Agrego página listado-mesas + correciones del home y se realizan mejoras visuales. :white_check_mark:
+- El metre asigna una mesa a un cliente -> Comprueba el estado de la mesa lo cambia y cambia el estado del cliente. :white_check_mark:
 
 <h4></h4>
 
 
 ## :bulb: Semana del 14/06 al 20/06
 
+
+### Luciano 
+
+- Modificaciones generales en el diseño de productos. :white_check_mark:
+- Creación de spinners de carga personalizados con logo de la empresa. :white_check_mark:
+
+
+### Verónica  
+
+- Modificaciones generales en el diseño de la aplicación. :white_check_mark:
+- Generación de interfaz para que el cliente envie su consulta al mozo. :white_check_mark:
+
+
+<h4></h4>
+
+
 ## :bulb: Semana del 21/06 al 27/06
+
+
+### Luciano 
+
+- Creación de la pagina realizar-pedido. :white_check_mark:
+- Realizar pedido: Parte visual. :white_check_mark: 
+- Ahora se puede agregar un producto en el pedido. :white_check_mark:
+- Los usuarios ahora ven el precio constantemente de su pedido. :white_check_mark: 
+- Validaciones para que el usuario NO pueda apretar varias veces un botón. :white_check_mark:
+- Se guarda la colección de pedidos generados en la base de datos. :white_check_mark:
+
+
+### Verónica  
+
+- Creación de la pagina realizar-pedido. :white_check_mark:
+- Realizar pedido: Parte visual. :white_check_mark:
+- Los platos se van a dividir en Plato Principal - Bebidas - Postres. :white_check_mark:
+- Ahora se puede eliminar un producto del pedido. :white_check_mark:
+- Se crea la colección para guardar los pedidos generados. Se incluyen estados. :white_check_mark:
+
+
+<h4></h4>
+
+
+## :bulb: Semana del 28/06 al 04/07
 
 
