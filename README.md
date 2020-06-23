@@ -108,13 +108,14 @@
 
 - Modificaciones generales en el diseño de productos. :white_check_mark:
 - Creación de spinners de carga personalizados con logo de la empresa. :white_check_mark:
+- Semana de parciales - Poco tiempo para codear. :heavy_exclamation_mark:
 
 
 ### Verónica  
 
 - Modificaciones generales en el diseño de la aplicación. :white_check_mark:
 - Generación de interfaz para que el cliente envie su consulta al mozo. :white_check_mark:
-
+- Semana de parciales - Poco tiempo para codear. :heavy_exclamation_mark:
 
 <h4></h4>
 
@@ -126,6 +127,7 @@
 
 - Creación de la pagina realizar-pedido. :white_check_mark:
 - Realizar pedido: Parte visual. :white_check_mark: 
+- Realizar pedido: Parte lógica (60%). :white_check_mark: 
 - Ahora se puede agregar un producto en el pedido. :white_check_mark:
 - Los usuarios ahora ven el precio constantemente de su pedido. :white_check_mark: 
 - Validaciones para que el usuario NO pueda apretar varias veces un botón. :white_check_mark:
@@ -136,6 +138,7 @@
 
 - Creación de la pagina realizar-pedido. :white_check_mark:
 - Realizar pedido: Parte visual. :white_check_mark:
+- Realizar pedido: Parte lógica (40%). :white_check_mark: 
 - Los platos se van a dividir en Plato Principal - Bebidas - Postres. :white_check_mark:
 - Ahora se puede eliminar un producto del pedido. :white_check_mark:
 - Se crea la colección para guardar los pedidos generados. Se incluyen estados. :white_check_mark:
