@@ -81,10 +81,19 @@
 ### Luciano 
 
 - Lógica de las notificaciones push, con cambios de estado en clientes [PENDIENTE / APROBADO]
+- Mejoras en la función que envía CORREO al usuario registrado. Tenia un error mínimo. 
+- Arreglos completos al agregar un usuario. Los mismos pueden ser aceptados o rechazados sin error.
+- QR: Se crea el QR para pedir una mesa.
+- Lista de espera Metre terminada -> El metre puede ver los usuarios que necesitan mesa.
+- Generación de APKS para testeos generales.
 
-### Verónica 
+### Verónica  
 
 - Creación del código de las aplicaciones push. El cliente debe ser aprobado posterior a su registro.
+- Creación del MENU para cargar clientes.
+- CORREO: Se le envía un correo al usuario registrado.
+- QR : Se crea el QR de cliente anónimo.
+- Lista de espera Metre terminada -> El metre puede dar una mesa.
 
 <h4></h4>
 
