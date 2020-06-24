@@ -78,18 +78,20 @@
       <ion-list *ngIf = "perfilUsuario == 'Anonimo'" align="center">
 
         <ion-item >
-            <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
+            <img [src]="nombreAnonimo.foto " style=" height: 50%; width: 30%; ">
 
           <ion-label>
-            <h2>Nombre :</h2> <p> {{infoUsuario.nombre}}</p>
-            <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+            <h2>Nombre :</h2> <p> {{nombreAnonimo.nombre}}</p>
+            <h2>Perfil : </h2><p> {{nombreAnonimo.perfil}}</p>
           </ion-label>
 
         </ion-item>
         <br>
 
             <!--Agregar boton para escanear la mesa-->
+            <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
     <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
+        </div>
     
       </ion-list>
 
@@ -104,9 +106,12 @@
             </ion-label>
   
           </ion-item>
+
+          <ion-button (click)="mostrarConsultas()" align="center" expand="block">Consultas</ion-button>
+          <ion-button (click)="mostrarPedidos()" align="center" expand="block">Pedidos</ion-button>
         </ion-list>
   
-
+        
       <ion-list *ngIf = "perfilUsuario == 'Cocinero'" align="center">
 
         <ion-item>
@@ -144,11 +149,41 @@
 <!-- CONTENIDO DEL MENU DE ADENTRO -->
 
 <div *ngIf = "perfilUsuario == 'Mozo'" >
-  <ion-card *ngFor="let espera of listaEspera">
-    <ion-card-content>La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
-    <ion-card-content>{{espera.consultaDescripcion}}</ion-card-content>
-    <ion-button expand="block" >Consulta con exito</ion-button>
-  </ion-card>
+
+  <div *ngIf="banderaMostrarPedidos == true">
+    <ion-card *ngFor="let pedido of listaPedidos">
+      <ion-card-content>La mesa {{pedido.mesa}} realizo el siguiente pedido:</ion-card-content>
+      <div *ngFor="let plato of pedido.platosPlato">
+        {{plato}} <br>
+      </div>
+      <div *ngFor="let plato of pedido.platosBebida">
+        {{plato}} <br>
+      </div>
+      <div *ngFor="let plato of pedido.platosPostre">
+        {{plato}} <br>
+      </div>
+    
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-button (click)="enviarPedidos(pedido.mesa)" expand="block" color="success">Enviar</ion-button>
+           </ion-col>
+          <ion-col col-6>
+            <ion-button (click)="cancelarPedido(pedido.mesa)" expand="block" color="warning">Cancelar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card>
+  </div>
+  <div *ngIf="banderaMostrarConsultas == true">
+    <ion-card *ngFor="let espera of listaEspera">
+      <ion-card-content>La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
+      <ion-card-content>{{espera.consultaDescripcion}}</ion-card-content>
+      <ion-button expand="block" >Consulta con exito</ion-button>
+    </ion-card>
+  </div>
+ 
 
 </div>
 
@@ -222,12 +257,88 @@
 
 </div> 
 
+<!--*****************************************************************************************************-->
+
+<!-- Si el perfil del usuario es ANONIMO  -->
+
 <div *ngIf = "tieneCorreo != 'conCorreo'">
 
+  <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'no'">
   
-  <ion-button color="danger" (click)="listaEsperaQRAnonimo()"  expand="block"> Escanear codigo</ion-button>
+    <ion-button color="danger" (click)="listaEsperaQRAnonimo()"  expand="block"> Escanear codigo</ion-button>
   
-
+  </div>
+  <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
+    <ion-card>
+      <h2>SE LE ASIGNO LA MESA NRO = {{informarEstadoMesa.mesa}}</h2>
+    </ion-card>
+    
+  
+      <div *ngIf = "mostrarProductos == true">
+  
+        <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <ion-button color="success" (click)="desplegarConsulta()" expand="block">Consultar mozo</ion-button>
+             </ion-col>
+            <ion-col col-6>
+              <ion-button color="warning" routerLink="/realizar-pedido" expand="block">Hacer pedido</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+  
+       
+  
+  
+        <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
+          
+          <ion-item class="labels" >
+            <ion-label position="stacked"  >Consulta:</ion-label>
+            <br>
+            <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
+          </ion-item>
+  
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
+               </ion-col>
+              <ion-col col-6>
+                <ion-button (click)="cancelarConsulta()" expand="block" color="warning">Cancelar</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+    
+        </ion-card>
+  
+        <div *ngFor = "let producto of listaProductos">
+          <ion-card>
+          <h1>{{producto.nombre}}</h1>
+  
+            <ion-slides pager="true">
+              <ion-slide>
+                <img [src]="producto.fotos[0]" alt="" width="100" height="100">
+              </ion-slide>
+              <ion-slide>
+                <img [src]="producto.fotos[1]" alt="" width="100" height="100">
+              </ion-slide>
+              <ion-slide>
+                <img [src]="producto.fotos[2]" alt="" width="100" height="100">
+              </ion-slide>
+            </ion-slides>
+  
+          <h4 style="color:black">{{producto.descripcion}}</h4>
+          <h4 style="color:black" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
+          <h4 style="color:black">Tiempo: {{producto.tiempo}}m</h4>
+        </ion-card>
+        </div>
+         
+  
+      </div>
+    </div>
+  
 </div>
 
 

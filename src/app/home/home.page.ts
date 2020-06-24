@@ -34,6 +34,9 @@ export class HomePage {
   // Lista de usuarios en espera
   listaEspera = [];
 
+  // Lista de pedidos
+  listaPedidos = [];
+
   constructor(private router : Router,
     private barcodeScanner : BarcodeScanner,
     private menu: MenuController ,
@@ -143,6 +146,23 @@ export class HomePage {
                 });
         
                  })
+
+                 this.correoCliente = this.correoUsuario ;
+                 let fb2 = this.firestore.collection('pedidos');
+   
+                 fb2.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+                 
+                 this.listaPedidos = [];
+         
+                   datos.forEach((dato:any) => {
+   
+                     if(dato.estadoPedido == 'enEspera'){
+   
+                       this.listaPedidos.push(dato);
+   
+                     }
+                   })
+                  })
             }
 
       
@@ -195,8 +215,8 @@ export class HomePage {
                })
               
             }
-            // SI EL PERFIL DE USUARIO ES UN MOZO
-          
+            
+        
           
           }
         })
@@ -208,8 +228,27 @@ export class HomePage {
     else // Si no ingreso con correo, automaticamente sabe que es un usuario anonimo
     {
       
-      this.nombreAnonimo = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
+      let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
+      this.nombreAnonimo = JSON.parse(variable);
+      this.perfilUsuario = "Anonimo";
+      let fb = this.firestore.collection('listaEspera');
+          
+      fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+      
+      this.listaEspera = [];
 
+      datos.forEach( (datoCl:any) =>{
+        
+        // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
+        if(datoCl.estadoMesa == 'mesaAsignada' && datoCl.nombreUsuario == this.nombreAnonimo.nombre) 
+        {
+          this.informarEstadoMesa.mesa = datoCl.mesa;
+          this.informarEstadoMesa.seAsignoMesa = "si";
+        }
+        
+        });
+
+       })
     }
 
     this.cargarProductos(); // Probamos a ver si funciona
@@ -307,6 +346,8 @@ export class HomePage {
     this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
       querySnapShot.forEach((doc) => {
 
+        console.log(this.nombreAnonimo.nombre);
+        console.log(this.nombreAnonimo.foto);
         if(doc.data().nombre == this.nombreAnonimo.nombre && doc.data().foto == this.nombreAnonimo.foto)
         {
 
@@ -314,7 +355,7 @@ export class HomePage {
                 this.usuarioMesa.estadoMesa = "enEspera";
                 this.usuarioMesa.perfilUsuario = doc.data().perfil;
                 this.bd.crear('listaEspera', this.usuarioMesa);
-          
+            console.log("estoy adentro");
         }
 
           this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
@@ -437,6 +478,7 @@ export class HomePage {
   qrMesa()
   {
     this.mostrarProductos = true;
+    localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
     
     /*let auxMesa;
 
@@ -521,6 +563,67 @@ export class HomePage {
     this.consulta = "";
     this.deplegarConsultaMozo = false;
   }
+
+
+  banderaMostrarPedidos = false;
+  banderaMostrarConsultas = false;
+  // PARA EL MOZO -> muestra los pedidos 
+  mostrarPedidos()
+  {
+    this.banderaMostrarPedidos = true;
+    this.banderaMostrarConsultas = false;
+  }
+
+  mostrarConsultas()
+  {
+    this.banderaMostrarPedidos = false;
+    this.banderaMostrarConsultas = true;
+  }
+
+  enviarPedidos(mesa)
+  {
+    let auxPedido;
+
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      
+      querySnapShot.forEach(dato => {
+
+        if(dato.data().mesa == mesa)
+        {
+          auxPedido = dato.data();
+          auxPedido.estadoChef = "enProceso";
+          auxPedido.estadoBartender = "enProceso";
+          auxPedido.estadoPedido = "enEspera";
+          this.bd.actualizar('pedidos',auxPedido,dato.id);
+          this.cancelarConsulta();
+        }
+
+      })
+    
+    });
+  }
+
+  cancelarPedido(mesa)
+  {
+    let auxPedido;
+
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      
+      querySnapShot.forEach(dato => {
+
+        if(dato.data().mesa == mesa)
+        {
+          auxPedido = dato.data();
+          auxPedido.estadoPedido = "cancelado";
+          this.bd.actualizar('pedidos',auxPedido,dato.id);
+          this.cancelarConsulta();
+        }
+
+      })
+    
+    });
+  }
+
 
 
 }

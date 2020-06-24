@@ -87,7 +87,14 @@
         <ion-card style="background-color: black;">
           <ion-card-content align="center" style="font-size: 20px;color: white;">
            {{producto.nombre}}
+           <div *ngIf="producto.nombre == 'Hamburguesa'" style="font-size: 20px;color: white;">
+            Cantidad :{{cantidadJson.cantHamb}}
+          </div>
+          <div *ngIf="producto.nombre == 'Pizza'" style="font-size: 20px;color: white;">
+            Cantidad :{{cantidadJson.cantPizza}}
+          </div>
           </ion-card-content>
+        
             <ion-item >
               
               <ion-slides pager="true">
@@ -137,6 +144,9 @@
         <ion-card style="background-color: black;">
           <ion-card-content align="center" style="font-size: 20px;color: white;">
            {{bebida.nombre}}
+           <div  style="font-size: 20px;color: white;">
+            Cantidad :{{cantidadJson.cantPepsi}}
+          </div>
           </ion-card-content>
         <ion-item >
               
@@ -187,6 +197,12 @@
       <ion-card style="background-color: black;">
         <ion-card-content align="center" style="font-size: 20px;color: white;">
          {{postre.nombre}}
+         <div *ngIf="postre.nombre == 'Volcan de chocolate'" style="font-size: 20px;color: white;">
+          Cantidad :{{cantidadJson.cantVolc}}
+        </div>
+        <div *ngIf="postre.nombre == 'Pastel de limón'" style="font-size: 20px;color: white;">
+          Cantidad :{{cantidadJson.cantLemon}}
+        </div>
         </ion-card-content>
         <ion-item >
               

@@ -26,8 +26,17 @@ export class RealizarPedidoPage implements OnInit {
     estadoChef : "",
     estadoBartender : "",
     mesa : "",
+    estadoPedido : "enEspera"
   };
 
+  cantidadJson ={
+    cantHamb : 0,
+    cantPizza : 0,
+    cantPepsi : 0,
+    cantVolc : 0,
+    cantLemon : 0,
+  }
+  listaCantidades = [];
 
   listaProductosTipoPlato = [];
   listaProductosTipoBebida = [];
@@ -65,6 +74,8 @@ export class RealizarPedidoPage implements OnInit {
     this.contadorVecesQueConfirmaPedido = 0;
 
     this.variabledesplegarPedido = false;
+    let mesa = localStorage.getItem("mesa");
+    this.pedidoEnFormatoJSON.mesa = mesa;
   }
 
 
@@ -92,13 +103,25 @@ export class RealizarPedidoPage implements OnInit {
 
   cargarJSONPedidosPlatos(plato : string, tipoDePlato : string, precio : number)
   {
-   
+ 
     if (tipoDePlato == "Plato")
     {
 
+      let bandera;
       this.pedidoEnFormatoJSON.platosPlato[this.contadorPlatos] = plato;
       this.contadorPlatos = this.contadorPlatos + 1;
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+      let cantidad = this.calcularCantidad(plato,'Plato','sumar');
+      
+      if(plato == 'Hamburguesa')
+      {
+        this.cantidadJson.cantHamb = cantidad;
+      }
+      if(plato == 'Pizza')
+      {
+        this.cantidadJson.cantPizza = cantidad;
+      }
+   
     }
 
     if (tipoDePlato == "Bebida")
@@ -106,7 +129,11 @@ export class RealizarPedidoPage implements OnInit {
       this.pedidoEnFormatoJSON.platosBebida[this.contadorBebidas] = plato;
       this.contadorBebidas = this.contadorBebidas + 1;
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
-      
+      let cantidad = this.calcularCantidad(plato,'Bebida','sumar');
+
+        this.cantidadJson.cantPepsi = cantidad;
+
+
     }
 
     if (tipoDePlato == "Postre")
@@ -114,11 +141,23 @@ export class RealizarPedidoPage implements OnInit {
       this.pedidoEnFormatoJSON.platosPostre[this.contadorPostres] = plato;
       this.contadorPostres = this.contadorPostres + 1;
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+      let cantidad = this.calcularCantidad(plato,'Postre','sumar');
+      
+      if(plato == 'Pastel de limón')
+      {
+        this.cantidadJson.cantLemon = cantidad;
+      }
+      if(plato == 'Volcan de chocolate')
+      {
+        this.cantidadJson.cantVolc = cantidad;
+      }
+
+      
     }
 
 
     console.log(this.pedidoEnFormatoJSON);
-
+    
 
   }
 
@@ -203,6 +242,18 @@ export class RealizarPedidoPage implements OnInit {
           {
             this.contadorPlatos = this.contadorPlatos - 1;
             this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
+            let cantidad = this.calcularCantidad(plato,'Plato','restar');
+      
+            if(plato == 'Hamburguesa')
+            {
+              this.cantidadJson.cantHamb = cantidad;
+            }
+            if(plato == 'Pizza')
+            {
+              this.cantidadJson.cantPizza = cantidad;
+            }
+            
+            
           }
       }
     }
@@ -219,6 +270,11 @@ export class RealizarPedidoPage implements OnInit {
           {
             this.contadorBebidas = this.contadorBebidas - 1;
             this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
+            let cantidad = this.calcularCantidad(plato,'Bebida','restar');
+      
+              this.cantidadJson.cantPepsi = cantidad;
+
+      
           }
       }
 
@@ -236,6 +292,16 @@ export class RealizarPedidoPage implements OnInit {
           {
             this.contadorPostres = this.contadorPostres - 1;
             this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
+            let cantidad = this.calcularCantidad(plato,'Postre','restar');
+      
+            if(plato == 'Pastel de limón')
+            {
+              this.cantidadJson.cantLemon = cantidad;
+            }
+            if(plato == 'Volcan de chocolate')
+            {
+              this.cantidadJson.cantVolc = cantidad;
+            }
           }
       }
      
@@ -247,5 +313,79 @@ export class RealizarPedidoPage implements OnInit {
 
   }
 
+  calcularCantidad(nombrePlato : string, tipo : string,funcionalidad : string)
+  {
+    let contador = 0 ;
+    if(funcionalidad == 'sumar')
+    {
+      if (tipo == 'Plato')
+      {
+        this.pedidoEnFormatoJSON.platosPlato.forEach( (dato : any) => {
+          if(nombrePlato == dato)
+          {
+            contador ++;
+          }
+    
+        })
+      }
+      else if(tipo == 'Postre')
+      {
+        this.pedidoEnFormatoJSON.platosPostre.forEach( (dato : any) => {
+          if(nombrePlato == dato)
+          {
+            contador ++;
+          }
+    
+        })
+      }
+      else
+      {
+        this.pedidoEnFormatoJSON.platosBebida.forEach( (dato : any) => {
+          if(nombrePlato == dato)
+          {
+            contador ++;
+          }
+    
+        })
+      }
+    }
+    else
+    {
+      if (tipo == 'Plato')
+      {
+        this.pedidoEnFormatoJSON.platosPlato.forEach( (dato : any) => {
+          if(nombrePlato == dato)
+          {
+            contador --;
+          }
+    
+        })
+      }
+      else if(tipo == 'Postre')
+      {
+        this.pedidoEnFormatoJSON.platosPostre.forEach( (dato : any) => {
+          if(nombrePlato == dato)
+          {
+            contador --;
+          }
+    
+        })
+      }
+      else
+      {
+        this.pedidoEnFormatoJSON.platosBebida.forEach( (dato : any) => {
+          if(nombrePlato == dato)
+          {
+            contador --;
+          }
+    
+        })
+      }
+    }
+   
+  
+
+    return contador;
+  }
 
 }
