@@ -142,13 +142,18 @@ export class RealizarPedidoPage implements OnInit {
   confirmarPedido()
   {
 
-    if (this.contadorVecesQueConfirmaPedido == 0)
+    if (this.contadorVecesQueConfirmaPedido == 0 && this.pedidoEnFormatoJSON.precioTotal > 0)
     {
       this.complementos.presentToastConMensajeYColor("Pedido generado con éxito. Será redirigido al menú!", "success")
       this.bd.crear('pedidos',this.pedidoEnFormatoJSON);
       this.contadorVecesQueConfirmaPedido = 1;
     }
 
+    else if(this.contadorVecesQueConfirmaPedido == 0 && this.pedidoEnFormatoJSON.precioTotal == 0)
+    {
+      this.complementos.presentToastConMensajeYColor("¡Debe cargar productos!", "warning")
+    }
+    
     else
     {
       this.complementos.presentToastConMensajeYColor("¡Su orden ya fue cargada!", "warning")
