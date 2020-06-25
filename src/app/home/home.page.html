@@ -70,9 +70,20 @@
         </ion-item>
       <br>
           <!--Agregar boton para escanear la mesa-->
-    <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
+          
+          <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
+            <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
+                </div>
+            
+    <div *ngIf="mostrarCuentaBoton == true">
+      <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block">Encuesta</ion-button>
+    </div>
     
-      </ion-list>
+    <div *ngIf="mostrarEncuestaBoton == true">
+      <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block">Cuenta</ion-button>
+    </div>
+
+  </ion-list>
 
       <!-- Si es un cliente anonimo -->
       <ion-list *ngIf = "perfilUsuario == 'Anonimo'" align="center">
@@ -92,7 +103,17 @@
             <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
     <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
         </div>
+                
+        <div *ngIf="mostrarCuentaBoton == true">
+          <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block">Encuesta</ion-button>
+        </div>
+        
+        <div *ngIf="mostrarEncuestaBoton == true">
+          <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block">Cuenta</ion-button>
+        </div>
     
+<!--***********************************************************************************************************************-->
+
       </ion-list>
 
         <ion-list *ngIf = "perfilUsuario == 'Mozo'" align="center">
@@ -108,11 +129,12 @@
           </ion-item>
 
           <ion-button (click)="mostrarConsultas()" align="center" expand="block">Consultas</ion-button>
-          <ion-button (click)="mostrarPedidos()" align="center" expand="block">Pedidos</ion-button>
+          <ion-button (click)="mostrarPedidos()" align="center" expand="block">Pedidos pendientes</ion-button>
+          <ion-button (click)="mostrarPedidosFinalizados()" align="center" expand="block">Pedidos finalizados</ion-button>
         </ion-list>
   
         
-      <ion-list *ngIf = "perfilUsuario == 'Cocinero'" align="center">
+      <ion-list *ngIf = "perfilUsuario == 'Cocinero' || perfilUsuario == 'BarTender'" align="center">
 
         <ion-item>
             <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
@@ -176,6 +198,7 @@
 
     </ion-card>
   </div>
+
   <div *ngIf="banderaMostrarConsultas == true">
     <ion-card *ngFor="let espera of listaEspera">
       <ion-card-content>La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
@@ -183,6 +206,24 @@
       <ion-button expand="block" >Consulta con exito</ion-button>
     </ion-card>
   </div>
+
+  <div *ngIf="mostrarPedidoFinalizado == true">
+    <ion-card *ngFor="let pedidoFin of listaPedidosFinalizados">
+      <ion-card-content>Los pedidos de la mesa {{pedidoFin.mesa}} estan preparados</ion-card-content>
+      <ion-card-content>     
+        <div *ngFor="let plato of pedidoFin.platosPlato">
+        {{plato}} <br>
+      </div>
+      <div *ngFor="let plato of pedidoFin.platosBebida">
+        {{plato}} <br>
+      </div>
+      <div *ngFor="let plato of pedidoFin.platosPostre">
+        {{plato}} <br>
+      </div></ion-card-content>
+      <ion-button expand="block" color="success" (click)="enviarPedidoFinalizado(pedidoFin.mesa)">Enviar</ion-button>
+    </ion-card>
+  </div>
+ 
  
 
 </div>
@@ -269,10 +310,23 @@
   
   </div>
   <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
-    <ion-card>
-      <h2>SE LE ASIGNO LA MESA NRO = {{informarEstadoMesa.mesa}}</h2>
+    <ion-card class="numeroMesa">
+      <ion-card-content>
+        Se le asigno la mesa <div> {{informarEstadoMesa.mesa}}</div>
+      </ion-card-content>
     </ion-card>
-    
+
+    <div *ngIf = "mostrarCuentaDiv == true">
+
+HOLA QUE TAL
+
+    </div>
+  
+    <div *ngIf = "mostrarEncuestaDiv == true">
+  
+      ESTOY PROBANDO
+  
+    </div>
   
       <div *ngIf = "mostrarProductos == true">
   
@@ -288,8 +342,6 @@
           </ion-row>
         </ion-grid>
       </ion-item>
-  
-       
   
   
         <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
@@ -355,10 +407,12 @@
 <!-- Si el estado de la mesa del cliente se asigno, se le mostrara la mesa que se le asigno   -->
   <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
   
-    <ion-card>
-      <h2>SE LE ASIGNO LA MESA NRO = {{informarEstadoMesa.mesa}}</h2>
+    <ion-card class="numeroMesa">
+      <ion-card-content>
+        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Se le asigno la mesa: </h4>  <h4 style="color: coral; font-size: 20px;float: center;">{{informarEstadoMesa.mesa}}</h4>
+      </ion-card-content>
     </ion-card>
-  
+    
 
     <div *ngIf = "mostrarProductos == true">
 
@@ -380,7 +434,7 @@
 
       <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
         
-        <ion-item class="labels" >
+        <ion-item style="background-color: black;">
           <ion-label position="stacked"  >Consulta:</ion-label>
           <br>
           <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
@@ -425,6 +479,66 @@
     </div>
   </div>
 </div>
+
+<!--*****************************************************************************************************-->
+
+<!-- Si el perfil del usuario es COCINERO  -->
+
+<div *ngIf = "perfilUsuario == 'Cocinero'">
+
+<ion-card *ngFor="let pedido of listaPedidoCocinero">
+  
+  <ion-card-content>
+    <div>
+      Mesa: {{pedido.mesa}}
+    </div>
+    <div *ngFor="let plato of pedido.platosPlato">
+      {{plato}}<br>
+    </div>
+    <div *ngFor="let postre of pedido.platosPostre">
+      {{postre}}
+    </div>
+
+    
+    <div *ngIf="pedido.estadoChef == 'enProceso'">
+      <ion-button color="success" (click)="elaborarPedido(pedido.mesa,'enPreparacion','Cocinero')" expand="block">Elaborar</ion-button>
+  </div>
+  <div *ngIf="pedido.estadoChef == 'enPreparacion'">
+    <ion-button color="danger" (click)="elaborarPedido(pedido.mesa,'finalizado','Cocinero')" expand="block">Enviar</ion-button>
+</div>
+
+  </ion-card-content>
+  
+</ion-card>
+</div>
+
+<!--*****************************************************************************************************-->
+
+<!-- Si el perfil del usuario es BAR TENDER  -->
+
+<div *ngIf = "perfilUsuario == 'BarTender'">
+  <ion-card *ngFor="let pedido of listaPedidoBartender">
+  
+    <ion-card-content>
+      <div>
+        Mesa: {{pedido.mesa}}
+      </div>
+      <div *ngFor="let bebida of pedido.platosBebida">
+        {{bebida}}
+      </div>
+
+      <div *ngIf="pedido.estadoBartender == 'enProceso'">
+          <ion-button color="success" (click)="elaborarPedido(pedido.mesa,'enPreparacion','BarTender')" expand="block">Elaborar</ion-button>
+      </div>
+      <div *ngIf="pedido.estadoBartender == 'enPreparacion'">
+        <ion-button color="danger" (click)="elaborarPedido(pedido.mesa,'finalizado','BarTender')" expand="block">Enviar</ion-button>
+    </div>
+    </ion-card-content>
+    
+  </ion-card>
+
+</div>
+
 
 </ion-content> 
   

@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
     {id:3, correo:"mozo@mozo.com", clave:"333333", perfil:"Mozo"},
     {id:4, correo:"cocinero@cocinero.com", clave:"444444", perfil:"Cocinero"},
     {id:5, correo:"metre@metre.com", clave:"555555", perfil:"Metre"},
-    //{id:6, correo:"anonimo@anonimo.com", clave:"666666", perfil:"Anonimo"}
+    {id:6, correo:"bartender@bartender.com", clave:"666666", perfil:"BarTender"}
    ]
 
 

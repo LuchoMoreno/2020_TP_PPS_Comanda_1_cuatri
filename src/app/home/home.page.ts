@@ -12,6 +12,7 @@ import { AuthService } from '../servicios/auth.service';
 // BARCODE SCANNER:
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ComplementosService } from '../servicios/complementos.service';
+import { flatten } from '@angular/compiler';
 
 
 @Component({
@@ -81,6 +82,13 @@ export class HomePage {
 
   // Lista de los productos que se mostraran
   listaProductos = [];
+
+  // Lista de los pedidos cargados con su respectivo perfil
+  listaPedidoCocinero=[];
+  listaPedidoBartender = [];
+
+  // Lista de pedidos finalizados
+  listaPedidosFinalizados = []
 
   ngOnInit() {
 
@@ -153,6 +161,7 @@ export class HomePage {
                  fb2.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
                  
                  this.listaPedidos = [];
+                 this.listaPedidosFinalizados = [];
          
                    datos.forEach((dato:any) => {
    
@@ -161,8 +170,61 @@ export class HomePage {
                        this.listaPedidos.push(dato);
    
                      }
+                     else if(dato.estadoBartender == 'finalizado' && dato.estadoChef == 'finalizado' && dato.estadoPedido == 'enPreparacion') // Pedir bebida
+                     {
+                       this.listaPedidosFinalizados.push(dato);
+                     }
                    })
                   })
+                  
+            }
+            // SI EL PERFIL ES COCINERO
+            else if (this.perfilUsuario == 'Cocinero')
+            {
+              this.infoUsuario = datos.data();
+              let fb = this.firestore.collection('pedidos');
+
+      
+            // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+            fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+              
+              this.listaPedidoCocinero = [];
+      
+              datos.forEach( (dato:any) =>{
+      
+                if((dato.estadoChef == 'enProceso' || dato.estadoChef == 'enPreparacion') && (dato.estadoPedido=="pendiente" || dato.estadoPedido=="enPreparacion")) // Verifico que el estado sea esperando.
+                {
+                  this.listaPedidoCocinero.push(dato);      // <--- LISTA DE USUARIOS.
+                }
+                
+              });
+      
+               })
+            
+            }
+
+            else if (this.perfilUsuario == 'BarTender')
+            {
+              this.infoUsuario = datos.data();
+              let fb = this.firestore.collection('pedidos');
+
+      
+            // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+            fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+              
+              this.listaPedidoBartender = [];
+      
+              datos.forEach( (dato:any) =>{
+      
+                if((dato.estadoBartender == 'enProceso' || dato.estadoBartender == 'enPreparacion') && (dato.estadoPedido=="pendiente" || dato.estadoPedido=="enPreparacion")) // Verifico que el estado sea esperando.
+                {
+                  this.listaPedidoBartender.push(dato);      // <--- LISTA DE USUARIOS.
+                }
+                
+              });
+      
+               })
+            
             }
 
       
@@ -474,12 +536,75 @@ export class HomePage {
     this.router.navigate(['/listado-mesas']);
   }
 
+  mostrarCuentaBoton = false;
+  mostrarEncuestaBoton = false;
+
+  mostrarCuentaDiv = false;
+  mostrarEncuestaDiv = false;
+
+  mostrarEncuestaLista()
+  {
+    this.mostrarCuentaDiv = false;
+    this.mostrarEncuestaDiv = true;
+    this.mostrarProductos = false;
+  }
+
+  mostrarCuentaLista()
+  {
+    this.mostrarCuentaDiv = true;
+    this.mostrarEncuestaDiv = false;
+    this.mostrarProductos = false;
+  }
+
+  banderaQrMesa = false;
   // PARA CLIENTES Y ANONIMOS -> El usuario al escanear el codigo qr de la mesa podra ver los productos
   qrMesa()
   {
+    this.mostrarCuentaDiv = false;
+    this.mostrarEncuestaDiv = false;
+
     this.mostrarProductos = true;
     localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
     
+    let fb = this.firestore.collection('pedidos');
+
+    // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+    fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+      
+      datos.forEach( (dato:any) =>{
+
+        if(this.informarEstadoMesa.mesa == dato.mesa ) // Verifico que el estado sea esperando.
+        {
+         
+          if(dato.estadoPedido == 'finalizado')
+          {
+            this.complemento.presentToastConMensajeYColor("Su pedido se finalizo con exito","success");
+            if(this.banderaQrMesa == true)
+            {
+              this.complemento.presentToastConMensajeYColor("Podra acceder a la encuesta y a la cuenta","success");
+              this.mostrarCuentaBoton = true;
+              this.mostrarEncuestaBoton = true;
+            }
+            else
+            {
+              this.banderaQrMesa = true;
+            }
+          }
+          else if(dato.estadoPedido == 'enProceso')
+          {
+            this.complemento.presentToastConMensajeYColor("Su pedido esta pendiente del mozo","primary");
+          }
+          else if(dato.estadoPedido == 'enPreparacion')
+          {
+            this.complemento.presentToastConMensajeYColor("Su pedido esta en preparacion","primary");
+          }
+
+    
+        }
+        
+      });
+
+    })
     /*let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
@@ -564,21 +689,34 @@ export class HomePage {
     this.deplegarConsultaMozo = false;
   }
 
-
+  //Banderas del MOZO
   banderaMostrarPedidos = false;
   banderaMostrarConsultas = false;
+  mostrarPedidoFinalizado:boolean = false;
+  
+
   // PARA EL MOZO -> muestra los pedidos 
   mostrarPedidos()
   {
     this.banderaMostrarPedidos = true;
     this.banderaMostrarConsultas = false;
+    this.mostrarPedidoFinalizado = false
   }
 
   mostrarConsultas()
   {
     this.banderaMostrarPedidos = false;
     this.banderaMostrarConsultas = true;
+    this.mostrarPedidoFinalizado = false
   }
+
+  mostrarPedidosFinalizados()
+  {
+    this.banderaMostrarPedidos = false;
+    this.banderaMostrarConsultas = false;
+    this.mostrarPedidoFinalizado = true;
+  }
+
 
   enviarPedidos(mesa)
   {
@@ -593,7 +731,7 @@ export class HomePage {
           auxPedido = dato.data();
           auxPedido.estadoChef = "enProceso";
           auxPedido.estadoBartender = "enProceso";
-          auxPedido.estadoPedido = "enEspera";
+          auxPedido.estadoPedido = "pendiente";
           this.bd.actualizar('pedidos',auxPedido,dato.id);
           this.cancelarConsulta();
         }
@@ -624,6 +762,81 @@ export class HomePage {
     });
   }
 
+  enviarPedidoFinalizado(mesa)
+  {
+    let auxPedido;
+
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      
+      querySnapShot.forEach(dato => {
+
+        if(dato.data().mesa == mesa)
+        {
+            auxPedido = dato.data();
+            auxPedido.estadoPedido = "finalizado"; // Cuando le da a enviar, el cliente escaneara el codigo QR donde el estado le saldra finalizado
+            this.bd.actualizar('pedidos',auxPedido,dato.id);
+        }
+
+      })
+    
+    });
+  }
+
+
+  // PARA EL BARTENDER O COCINERO -> PREPARARA EL PEDIDO 
+  // estados del pedido .. 
+  // enProceso -> cuando el mozo le asigna al bartender y/o al Cocinero
+  // enPreparacion -> cuando el bartender y/o el cocinero 
+  // finalizado -> cuando el pedido se finalizo
+  elaborarPedido(mesa, estadoPedido,perfil)
+  {
+    let auxPedido;
+    
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      
+      querySnapShot.forEach(dato => {
+
+        if(dato.data().mesa == mesa)
+        {
+          if(perfil == "BarTender" && estadoPedido == "enPreparacion")
+          {
+            auxPedido = dato.data();
+            auxPedido.estadoBartender =estadoPedido;
+            auxPedido.estadoPedido = estadoPedido;
+            this.bd.actualizar('pedidos',auxPedido,dato.id);
+            this.cancelarConsulta();
+          }
+          else if(perfil == "BarTender" && estadoPedido == "finalizado")
+          {
+            auxPedido = dato.data();
+            auxPedido.estadoBartender =estadoPedido;
+            this.bd.actualizar('pedidos',auxPedido,dato.id);
+            this.cancelarConsulta();
+          }
+          if(perfil == "Cocinero" && estadoPedido == "enPreparacion")
+          {
+            auxPedido = dato.data();
+            auxPedido.estadoChef =estadoPedido;
+            auxPedido.estadoPedido = estadoPedido;
+            this.bd.actualizar('pedidos',auxPedido,dato.id);
+            this.cancelarConsulta();
+          }
+          else if(perfil == "Cocinero" && estadoPedido == "finalizado")
+          {
+            auxPedido = dato.data();
+            auxPedido.estadoChef =estadoPedido;
+            this.bd.actualizar('pedidos',auxPedido,dato.id);
+            this.cancelarConsulta();
+          }
+          
+        }
+
+      })
+    
+    });
+  }
+
+  
 
 
 }
