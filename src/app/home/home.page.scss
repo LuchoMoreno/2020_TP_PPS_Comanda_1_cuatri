@@ -105,3 +105,13 @@ h4.precio
   font-size: 20px;
   color: orange;
 }
+
+
+#notifications-badge {
+  background-color: red;
+  position: absolute;
+  top: 5px;
+  right: -3px;
+  border-radius: 100%;
+  size: 20px;
+}

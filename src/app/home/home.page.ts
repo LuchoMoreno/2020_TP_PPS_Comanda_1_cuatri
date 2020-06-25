@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 // IMPORTO EL ROUTER COMO ULTIMO PASO.
 import { Router } from "@angular/router";
-import { MenuController, LoadingController } from '@ionic/angular';
+import { MenuController, LoadingController, AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import {AngularFirestore} from "@angular/fire/firestore";
 import { DatabaseService } from '../servicios/database.service';
@@ -13,6 +13,10 @@ import { AuthService } from '../servicios/auth.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ComplementosService } from '../servicios/complementos.service';
 import { flatten } from '@angular/compiler';
+import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
+import {AngularFireStorage} from "@angular/fire/storage"
+
+import * as firebase from 'firebase/app';
 
 
 @Component({
@@ -44,8 +48,10 @@ export class HomePage {
     private firestore : AngularFirestore,
     private bd : DatabaseService,
     public complemento: ComplementosService,
-
-    private auth : AuthService) {  }
+    private camera : Camera,
+    private auth : AuthService,
+    private st : AngularFireStorage,
+    public alertController: AlertController) {  }
 
     // Informacion de la lista de espera
   usuarioMesa = {
@@ -89,6 +95,13 @@ export class HomePage {
 
   // Lista de pedidos finalizados
   listaPedidosFinalizados = []
+
+  //Contadores para las notificaciones
+  //Para el mozo:
+  contadorMozoConsulta = 0;
+  contadorMozoPedidoFinalizado = 0;
+  contadorMozoPedidoPendiente= 0;
+
 
   ngOnInit() {
 
@@ -152,7 +165,9 @@ export class HomePage {
                   }
                   
                 });
-        
+                
+                this.contadorMozoConsulta = this.listaEspera.length;
+
                  })
 
                  this.correoCliente = this.correoUsuario ;
@@ -175,6 +190,10 @@ export class HomePage {
                        this.listaPedidosFinalizados.push(dato);
                      }
                    })
+
+                   
+                   this.contadorMozoPedidoPendiente = this.listaPedidos.length;
+                   this.contadorMozoPedidoFinalizado = this.listaPedidosFinalizados.length;
                   })
                   
             }
@@ -275,6 +294,25 @@ export class HomePage {
                 });
       
                })
+
+               let fb2 = this.firestore.collection('pedidos');
+          
+               fb2.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+               
+       
+               datos.forEach( (datoCl:any) =>{
+                 
+                 // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
+                 if(datoCl.estadoPedido=="finalizado" && datoCl.mesa == this.informarEstadoMesa.mesa) 
+                 {
+                  this.presentAlert();
+                 }
+                 
+                 });
+       
+                })
+
+
               
             }
             
@@ -834,9 +872,118 @@ export class HomePage {
       })
     
     });
+
+
   }
 
-  
+  gradoSatisfaccion ;
+  gradoSatisfaccionRes;
 
+  jsonEncuesta ={
+    preguntaUno: 0,
+    preguntaDos: 0,
+    fotos : [],
+  }
+
+  cambioRango(event){
+
+    this.gradoSatisfaccion = event.detail.value;
+  }
+  cambioRangoRes(event){
+
+    console.log(event.detail.value);
+    this.gradoSatisfaccionRes = event.detail.value;
+  }
+
+  async presentAlert() {
+
+      const alert = await this.alertController.create({
+        cssClass: 'danger',
+        header: 'Su pedido se a completado',
+        message: '<div>Hola</div>',
+        buttons: [
+          {
+            text:'Cancelar',
+            role:'cancel',
+            cssClass:'danger',
+            handler:(bla) =>{
+              console.log("confirm cancel:blah");
+            }
+
+          },
+          {
+            text:'Okey',
+            cssClass:'success',
+            handler: (ok) =>{
+              console.log("COnfirmar");
+            }
+          }
+
+        ]
+      });
+  
+      await alert.present();
+
+  }
+
+  pathImagen = [];
+  tomarTresFotografias()
+  {
+    if(this.jsonEncuesta.fotos.length <=3)
+    {
+    
+    const options: CameraOptions =  { 
+      quality:100,
+      targetHeight:600,
+      targetWidth:600,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    }
+  
+    this.camera.getPicture(options).then((imageData)=> {
+  
+      var base64Str = 'data:image/jpeg;base64,'+imageData;
+      //Para que la fotografia se muestre apenas se tomo
+  
+      var storageRef = firebase.storage().ref();
+     
+      let obtenerMili = new Date().getTime(); 
+  
+      var nombreFoto = "encuestas/"+obtenerMili+".jpg";
+  
+      var childRef = storageRef.child(nombreFoto);
+  
+      this.pathImagen.push(nombreFoto);
+  
+      childRef.putString(base64Str,'data_url').then(function(snapshot)
+      {
+        
+        this.pathImagen.array.forEach(element => {
+          this.st.storage.ref(element).getDownloadURL().then((link) =>
+          {
+            this.this.jsonEncuesta.fotos.push(link);
+          });
+        });
+       
+      })
+  
+    },(Err)=>{
+      alert(JSON.stringify(Err));
+      })
+    }
+  }
+
+  verEncuestas()
+  {
+
+  }
+
+  enviarEncuesta()
+  {
+    this.jsonEncuesta.preguntaUno=this.gradoSatisfaccion;
+    this.jsonEncuesta.preguntaDos=this.gradoSatisfaccionRes;
+     this.bd.crear('encuestas',this.jsonEncuesta);
+  } 
 
 }

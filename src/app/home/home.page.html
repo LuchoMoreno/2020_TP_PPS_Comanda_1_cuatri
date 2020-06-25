@@ -128,9 +128,16 @@
   
           </ion-item>
 
-          <ion-button (click)="mostrarConsultas()" align="center" expand="block">Consultas</ion-button>
-          <ion-button (click)="mostrarPedidos()" align="center" expand="block">Pedidos pendientes</ion-button>
-          <ion-button (click)="mostrarPedidosFinalizados()" align="center" expand="block">Pedidos finalizados</ion-button>
+          <ion-button (click)="mostrarConsultas()" align="center" expand="block" color="light">Consultas
+            <ion-badge id="notifications-badge" *ngIf="contadorMozoConsulta != 0" color="danger">{{contadorMozoConsulta}}</ion-badge>
+          </ion-button>
+
+          <ion-button (click)="mostrarPedidos()" align="center" expand="block" color="light">Pedidos pendientes
+            <ion-badge id="notifications-badge" *ngIf="contadorMozoPedidoPendiente != 0"color="danger">{{contadorMozoPedidoPendiente}}</ion-badge>
+          </ion-button>
+          <ion-button (click)="mostrarPedidosFinalizados()" align="center" expand="block" color="light">Pedidos finalizados
+            <ion-badge id="notifications-badge" *ngIf="contadorMozoPedidoFinalizado != 0" color="danger">{{contadorMozoPedidoFinalizado}}</ion-badge>
+          </ion-button>
         </ion-list>
   
         
@@ -412,6 +419,90 @@ HOLA QUE TAL
         <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Se le asigno la mesa: </h4>  <h4 style="color: coral; font-size: 20px;float: center;">{{informarEstadoMesa.mesa}}</h4>
       </ion-card-content>
     </ion-card>
+
+    
+    <div *ngIf = "mostrarCuentaDiv == true">
+
+    HOLA QUE TAL
+      
+    </div>
+        
+    <div *ngIf = "mostrarEncuestaDiv == true">
+        
+     <ion-card >
+       <h2 align="center">Encuesta</h2>
+
+       <div *ngIf="this.jsonEncuesta.fotos.length != 3">
+        <ion-fab-button color="primary"  color="light"  horizontal="center" vertical="top" (click)="tomarTresFotografias"><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
+       </div>
+
+       <div *ngIf="jsonEncuesta.fotos.length == 3">
+        <div *ngFor="let foto of jsonEncuesta.fotos ">
+          <img [src]="foto" alt="">
+        </div>
+       </div>
+
+       <br>
+       <div>¿Qué le parecio nuesta app?</div>
+        <div align="center">
+          <span *ngIf="gradoSatisfaccion ==1" style="margin-left:10px">Muy mala <span
+                  style="font-size: 150%;">😡</span></span>
+          <span *ngIf="gradoSatisfaccion==2 " style="margin-left:10px">Mala<span
+                  style="font-size: 150%;">😠</span></span>
+          <span *ngIf="gradoSatisfaccion ==3" style="margin-left:10px">Regular<span
+                  style="font-size: 150%;">😐</span></span>
+          <span *ngIf="gradoSatisfaccion==4 " style="margin-left:10px">Buena<span
+                  style="font-size: 150%;">🙂</span></span>
+          <span *ngIf="gradoSatisfaccion == 5" style="margin-left:10px">Muy buena<span
+                  style="font-size: 150%;">😊</span></span>
+      </div>
+       <ion-card-content>
+        <ion-item color="success">
+          <ion-range (ionChange)="cambioRango($event)" min="1" max="5" pin="true" color="light"  >
+            <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+            <ion-icon slot="end" name="sunny"></ion-icon>
+          </ion-range>
+
+        </ion-item>
+       </ion-card-content>
+       <div>¿Que le parecio el servicio del restaurante?</div>
+       <div align="center">
+         <span *ngIf="gradoSatisfaccionRes ==1" style="margin-left:10px">Muy mala <span
+                 style="font-size: 150%;">😡</span></span>
+         <span *ngIf="gradoSatisfaccionRes==2 " style="margin-left:10px">Mala<span
+                 style="font-size: 150%;">😠</span></span>
+         <span *ngIf="gradoSatisfaccionRes ==3" style="margin-left:10px">Regular<span
+                 style="font-size: 150%;">😐</span></span>
+         <span *ngIf="gradoSatisfaccionRes==4 " style="margin-left:10px">Buena<span
+                 style="font-size: 150%;">🙂</span></span>
+         <span *ngIf="gradoSatisfaccionRes == 5" style="margin-left:10px">Muy buena<span
+                 style="font-size: 150%;">😊</span></span>
+      </div>
+      <ion-card-content>
+       <ion-item color="success">
+         <ion-range (ionChange)="cambioRangoRes($event)" min="1" max="5" pin="true" color="light"  >
+           <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+           <ion-icon slot="end" name="sunny"></ion-icon>
+         </ion-range>
+
+       </ion-item>
+
+      </ion-card-content>
+      
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-button (click)="enviarEncuesta()" expand="block" color="success">Enviar</ion-button>
+           </ion-col>
+          <ion-col col-6>
+            <ion-button (click)="verEncuestas()" expand="block" color="warning">Cancelar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+     
+    </ion-card>
+        
+    </div>
     
 
     <div *ngIf = "mostrarProductos == true">
