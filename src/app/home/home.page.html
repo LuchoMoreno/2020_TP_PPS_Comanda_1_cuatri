@@ -80,7 +80,7 @@
     </div>
     
     <div *ngIf="mostrarEncuestaBoton == true">
-      <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block">Cuenta</ion-button>
+      <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block">Pedir cuenta</ion-button>
     </div>
 
   </ion-list>
@@ -423,7 +423,39 @@ HOLA QUE TAL
     
     <div *ngIf = "mostrarCuentaDiv == true">
 
-    HOLA QUE TAL
+    <ion-card>
+      <ion-card-content align="center">
+        CUENTA
+      </ion-card-content>
+
+        <ion-card-content *ngFor="let pedido of jsonCuenta.pedidos ">
+          Producto: {{pedido.nombreProducto}} ------- {{pedido.precioUnitario}}
+        </ion-card-content>
+      
+        <ion-card-content >
+          {{propina}}
+         </ion-card-content>
+      
+         <ion-card-content >
+          {{jsonCuenta.precioTotal}}
+         </ion-card-content>
+
+
+          <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <ion-button color="success" (click)="pagarCuenta()" expand="block">Pagar</ion-button>
+              </ion-col>
+              <ion-col col-6>
+                <ion-button color="warning"  (click)="darPropina()" expand="block">Dar propina</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+
+     
+    </ion-card>
       
     </div>
         

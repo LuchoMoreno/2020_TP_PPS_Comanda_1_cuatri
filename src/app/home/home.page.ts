@@ -587,12 +587,165 @@ export class HomePage {
     this.mostrarProductos = false;
   }
 
-  mostrarCuentaLista()
+  darPropina()
   {
+    let auxiliar;
+    this.barcodeScanner.scan().then(barcodeData => {
+
+      auxiliar = JSON.parse(barcodeData.text);
+
+        switch(auxiliar) // CAMBIAR ESTO SI NO FUNCIONA
+        {
+          case "Excelente":
+            this.propina = "Excelente -> 20%";
+            this.jsonCuenta.precioTotal = this.jsonCuenta.precioTotal  * 0.2 + this.jsonCuenta.precioTotal ;
+          break ;
+          case "Muy bien" :
+            this.propina = "Muy bien -> 15%";
+            this.jsonCuenta.precioTotal = this.jsonCuenta.precioTotal  * 0.15 + this.jsonCuenta.precioTotal;
+            break;
+          case "Bien" : 
+          this.propina = "Bien -> 10%";
+          this.jsonCuenta.precioTotal = this.jsonCuenta.precioTotal  * 0.1 + this.jsonCuenta.precioTotal;
+          break;
+          case "Regular" :
+            this.propina = "Regular -> 5%";
+            this.jsonCuenta.precioTotal = this.jsonCuenta.precioTotal  * 0.05 + this.jsonCuenta.precioTotal;
+            break;
+            case "Malo" :
+              this.propina = "Malo -> 0%";
+            break;
+        }
+        
+      }).catch(err => {
+        console.log('Error', err);
+})
+
+  }
+
+  propina
+
+  jsonCuenta = {
+    pedidos: [],
+    propina: this.propina,
+    precioTotal:0
+  }
+  mostrarCuentaLista()
+  { 
+    // Desactivamos y activamos los div
     this.mostrarCuentaDiv = true;
     this.mostrarEncuestaDiv = false;
     this.mostrarProductos = false;
+    // Se esperara 5 segundos para esperar la cuenta
+    this.complemento.presentLoading();
+
+    // Tenemos que recorrer y comparar
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().mesa == this.informarEstadoMesa.mesa) // Comparamos las mesas y nos dara el pedido de esa mesa
+        {
+            doc.data().platosPlato.forEach(element => {
+              this.firestore.collection('productos').get().subscribe((querySnapShot) => {
+                querySnapShot.forEach((docP) => { 
+       
+                  if(element == docP.data().nombre)
+                  {
+                    let jsonPedido = {
+                      precioUnitario : 0,
+                      nombreProducto : ""
+                    }
+                    jsonPedido.precioUnitario = docP.data().precio;
+                    jsonPedido.nombreProducto = element;
+                    this.jsonCuenta.pedidos.push(jsonPedido);
+                  }
+                })
+                   
+              });
+            });
+
+            doc.data().platosPostre.forEach(element => {
+              this.firestore.collection('productos').get().subscribe((querySnapShot) => {
+                querySnapShot.forEach((docP) => { 
+       
+                  if(element == docP.data().nombre)
+                  {
+                    let jsonPedido = {
+                      precioUnitario : 0,
+                      nombreProducto : ""
+                    }
+                    jsonPedido.precioUnitario = docP.data().precio;
+                    jsonPedido.nombreProducto = element;
+                    this.jsonCuenta.pedidos.push(jsonPedido);
+                  }
+                })
+                   
+              });
+            });
+
+            doc.data().platosBebida.forEach(element => {
+              this.firestore.collection('productos').get().subscribe((querySnapShot) => {
+                querySnapShot.forEach((docP) => { 
+       
+                  if(element == docP.data().nombre)
+                  {
+                    let jsonPedido = {
+                      precioUnitario : 0,
+                      nombreProducto : ""
+                    }
+                    jsonPedido.precioUnitario = docP.data().precio;
+                    jsonPedido.nombreProducto = element;
+                    this.jsonCuenta.pedidos.push(jsonPedido);
+                  }
+                })
+                   
+              });
+            });
+            this.jsonCuenta.precioTotal = doc.data().precioTotal;
+
+        }
+
+      })
+
+    
+    })
+
   }
+
+  pagarCuenta()
+  {
+    let auxPedido;
+    let auxLisEsp;
+
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+        if(doc.data().mesa == this.informarEstadoMesa.mesa)
+        {
+          auxPedido = doc.data();
+          auxPedido.estadoPedido = "pagado"
+          this.bd.actualizar("pedidos",auxPedido,doc.id);
+ 
+          this.firestore.collection('listaEspera').get().subscribe((querySnapShot) => {
+            querySnapShot.forEach((docDos) => {
+              if(this.informarEstadoMesa.mesa == docDos.data().mesa)
+              {
+                this.informarEstadoMesa.mesa = "";
+                this.informarEstadoMesa.seAsignoMesa = "no";
+                // this.firestore.doc(docDos.id).delete() -> Fijarse como borrlo de la lista de espera
+                this.mostrarCuentaBoton = false;
+                this.mostrarEncuestaBoton =false;
+                this.complemento.presentToastConMensajeYColor("Su pedido se pago con exito, gracias por venir!","success");
+              }
+            })
+          });
+        
+        }
+
+      })
+    });
+
+  }
+
 
   banderaQrMesa = false;
   // PARA CLIENTES Y ANONIMOS -> El usuario al escanear el codigo qr de la mesa podra ver los productos
@@ -985,5 +1138,8 @@ export class HomePage {
     this.jsonEncuesta.preguntaDos=this.gradoSatisfaccionRes;
      this.bd.crear('encuestas',this.jsonEncuesta);
   } 
+
+ 
+
 
 }
