@@ -94,13 +94,17 @@ export class HomePage {
   listaPedidoBartender = [];
 
   // Lista de pedidos finalizados
-  listaPedidosFinalizados = []
+  listaPedidosFinalizados = [];
 
   //Contadores para las notificaciones
   //Para el mozo:
   contadorMozoConsulta = 0;
   contadorMozoPedidoFinalizado = 0;
   contadorMozoPedidoPendiente= 0;
+  contadorMozoCuentaPagada = 0;
+
+  // Lista las cuentas pagadas
+  listaCuentasPagadas = [];
 
 
   ngOnInit() {
@@ -177,6 +181,7 @@ export class HomePage {
                  
                  this.listaPedidos = [];
                  this.listaPedidosFinalizados = [];
+                 this.listaCuentasPagadas = [];
          
                    datos.forEach((dato:any) => {
    
@@ -189,11 +194,16 @@ export class HomePage {
                      {
                        this.listaPedidosFinalizados.push(dato);
                      }
+                     else if(dato.estadoPedido == 'pagado')
+                     {
+                        this.listaCuentasPagadas.push(dato);
+                     }
                    })
 
                    
                    this.contadorMozoPedidoPendiente = this.listaPedidos.length;
                    this.contadorMozoPedidoFinalizado = this.listaPedidosFinalizados.length;
+                   this.contadorMozoCuentaPagada = this.listaCuentasPagadas.length;
                   })
                   
             }
@@ -623,7 +633,7 @@ export class HomePage {
 
   }
 
-  propina
+  propina;
 
   jsonCuenta = {
     pedidos: [],
@@ -732,9 +742,10 @@ export class HomePage {
                 this.informarEstadoMesa.mesa = "";
                 this.informarEstadoMesa.seAsignoMesa = "no";
                 // this.firestore.doc(docDos.id).delete() -> Fijarse como borrlo de la lista de espera
+                this.firestore.collection('listaEspera').doc(docDos.id).delete();
                 this.mostrarCuentaBoton = false;
                 this.mostrarEncuestaBoton =false;
-                this.complemento.presentToastConMensajeYColor("Su pedido se pago con exito, gracias por venir!","success");
+                this.complemento.presentToastConMensajeYColor("Su pago esta por ser confirmado, gracias por utilizarnos!","success");
               }
             })
           });
@@ -753,50 +764,9 @@ export class HomePage {
   {
     this.mostrarCuentaDiv = false;
     this.mostrarEncuestaDiv = false;
-
-    this.mostrarProductos = true;
+    //this.mostrarProductos = true;
     localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
-    
-    let fb = this.firestore.collection('pedidos');
-
-    // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
-    fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
-      
-      datos.forEach( (dato:any) =>{
-
-        if(this.informarEstadoMesa.mesa == dato.mesa ) // Verifico que el estado sea esperando.
-        {
-         
-          if(dato.estadoPedido == 'finalizado')
-          {
-            this.complemento.presentToastConMensajeYColor("Su pedido se finalizo con exito","success");
-            if(this.banderaQrMesa == true)
-            {
-              this.complemento.presentToastConMensajeYColor("Podra acceder a la encuesta y a la cuenta","success");
-              this.mostrarCuentaBoton = true;
-              this.mostrarEncuestaBoton = true;
-            }
-            else
-            {
-              this.banderaQrMesa = true;
-            }
-          }
-          else if(dato.estadoPedido == 'enProceso')
-          {
-            this.complemento.presentToastConMensajeYColor("Su pedido esta pendiente del mozo","primary");
-          }
-          else if(dato.estadoPedido == 'enPreparacion')
-          {
-            this.complemento.presentToastConMensajeYColor("Su pedido esta en preparacion","primary");
-          }
-
-    
-        }
-        
-      });
-
-    })
-    /*let auxMesa;
+    let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
 
@@ -806,18 +776,54 @@ export class HomePage {
     this.firestore.collection('listaMesas').get().subscribe((querySnapShot) => {
       querySnapShot.forEach((doc) => {
 
-        if(doc.data().numero == auxMesaString) //Recorremos las mesas y comprobamos que coincida
+        if(doc.data().numero == auxMesaString) //Recorremos las mesas y comprobamos que coincida // PONER CODIGO QR MESA
         {
+          
           this.mostrarProductos = true;
+
+          let fb = this.firestore.collection('pedidos');
+
+            // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+          fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+          
+          datos.forEach( (dato:any) =>{
+
+            if(this.informarEstadoMesa.mesa == dato.mesa ) // Verifico que el estado sea esperando.
+            {
+            
+              if(dato.estadoPedido == 'finalizado')
+              {
+                this.complemento.presentToastConMensajeYColor("Su pedido se finalizo con exito","success");
+                if(this.banderaQrMesa == true)
+                {
+                  this.complemento.presentToastConMensajeYColor("Podra acceder a la encuesta y a la cuenta","success");
+                  this.mostrarCuentaBoton = true;
+                  this.mostrarEncuestaBoton = true;
+                }
+                else
+                {
+                  this.banderaQrMesa = true;
+                }
+              }
+              else if(dato.estadoPedido == 'enProceso')
+              {
+                this.complemento.presentToastConMensajeYColor("Su pedido esta pendiente del mozo","primary");
+              }
+              else if(dato.estadoPedido == 'enPreparacion')
+              {
+                this.complemento.presentToastConMensajeYColor("Su pedido esta en preparacion","primary");
+              }
+
+        
+              }
+            });
+          })
         }
-
       })
-
     })
-
-     }).catch(err => {
+    }).catch(err => {
          console.log('Error', err);
-     });*/
+     });
   }
 
   // PARA LOS CLIENTES Y ANONIMOS -> Cargara un listado completo de los productos
@@ -884,7 +890,7 @@ export class HomePage {
   banderaMostrarPedidos = false;
   banderaMostrarConsultas = false;
   mostrarPedidoFinalizado:boolean = false;
-  
+  banderaMostrarCuentasPagadas = false;
 
   // PARA EL MOZO -> muestra los pedidos 
   mostrarPedidos()
@@ -892,13 +898,15 @@ export class HomePage {
     this.banderaMostrarPedidos = true;
     this.banderaMostrarConsultas = false;
     this.mostrarPedidoFinalizado = false
+    this.banderaMostrarCuentasPagadas = false;
   }
 
   mostrarConsultas()
   {
     this.banderaMostrarPedidos = false;
     this.banderaMostrarConsultas = true;
-    this.mostrarPedidoFinalizado = false
+    this.mostrarPedidoFinalizado = false;
+    this.banderaMostrarCuentasPagadas = false;
   }
 
   mostrarPedidosFinalizados()
@@ -906,6 +914,7 @@ export class HomePage {
     this.banderaMostrarPedidos = false;
     this.banderaMostrarConsultas = false;
     this.mostrarPedidoFinalizado = true;
+    this.banderaMostrarCuentasPagadas = false;
   }
 
 
@@ -1139,6 +1148,46 @@ export class HomePage {
      this.bd.crear('encuestas',this.jsonEncuesta);
   } 
 
+  mostrarCuentasPagadas()
+  {
+    this.banderaMostrarPedidos = false;
+    this.banderaMostrarConsultas = false;
+    this.mostrarPedidoFinalizado = false;
+    this.banderaMostrarCuentasPagadas = true;
+  }
+
+  // PARA EL MOZO -> Se libera la mesa una vez confirmado el pago
+  liberarMesa(mesa)
+  {
+    let auxMesa ;
+
+    this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
+      
+      querySnapShot.forEach(dato => {  
+        if(mesa == dato.data().mesa)
+        {
+          this.firestore.collection('listaMesas').get().subscribe((querySnapShot) => {
+      
+            querySnapShot.forEach(datoMesa => {  
+
+              if(mesa == datoMesa.data().numero)
+              {
+                auxMesa = datoMesa.data();
+                auxMesa.estado = "desocupada";
+                this.bd.actualizar("listaMesas",auxMesa,datoMesa.id);
+                this.firestore.collection('pedidos').doc(dato.id).delete();
+                this.complemento.presentToastConMensajeYColor("La mesa a sido liberada","success");
+              }
+
+             })
+
+          });
+        }
+
+      })
+
+    });
+  }
  
 
 

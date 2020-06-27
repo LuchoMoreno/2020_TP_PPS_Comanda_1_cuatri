@@ -135,9 +135,15 @@
           <ion-button (click)="mostrarPedidos()" align="center" expand="block" color="light">Pedidos pendientes
             <ion-badge id="notifications-badge" *ngIf="contadorMozoPedidoPendiente != 0"color="danger">{{contadorMozoPedidoPendiente}}</ion-badge>
           </ion-button>
+
           <ion-button (click)="mostrarPedidosFinalizados()" align="center" expand="block" color="light">Pedidos finalizados
             <ion-badge id="notifications-badge" *ngIf="contadorMozoPedidoFinalizado != 0" color="danger">{{contadorMozoPedidoFinalizado}}</ion-badge>
           </ion-button>
+
+          <ion-button (click)="mostrarCuentasPagadas()" align="center" expand="block" color="light">Cuentas pagadas
+            <ion-badge id="notifications-badge" *ngIf="contadorMozoCuentaPagada != 0" color="danger">{{contadorMozoCuentaPagada}}</ion-badge>
+          </ion-button>
+
         </ion-list>
   
         
@@ -203,6 +209,13 @@
         </ion-row>
       </ion-grid>
 
+    </ion-card>
+  </div>
+
+  <div *ngIf="banderaMostrarCuentasPagadas == true">
+    <ion-card *ngFor="let pagado of listaCuentasPagadas">
+      <ion-card-content>La mesa {{pagado.mesa}} a pagado la cuenta.</ion-card-content>
+      <ion-button expand="block" color="success" (click)="liberarMesa(pagado.mesa)">Liberar mesa</ion-button>
     </ion-card>
   </div>
 
@@ -274,18 +287,6 @@
 
 <div *ngIf = "perfilUsuario == 'Metre'">
 
-  <ion-card>
-    <ion-card-content>
-      Mesas disponibles : 
-    </ion-card-content>
-    <ion-card-content>
-      Mesas reservadas : 
-  </ion-card-content>
-  <ion-card-content>
-      Mesas ocupadas : 
-</ion-card-content>
-  </ion-card>
-
   <ion-card *ngFor="let mesa of listaEspera">
 
     <div *ngIf = "mesa.estadoMesa == 'enEspera'">
@@ -312,92 +313,198 @@
 <div *ngIf = "tieneCorreo != 'conCorreo'">
 
   <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'no'">
-  
     <ion-button color="danger" (click)="listaEsperaQRAnonimo()"  expand="block"> Escanear codigo</ion-button>
-  
   </div>
+  
   <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
+  
     <ion-card class="numeroMesa">
       <ion-card-content>
-        Se le asigno la mesa <div> {{informarEstadoMesa.mesa}}</div>
+        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Se le asigno la mesa: </h4>  <h4 style="color: coral; font-size: 20px;float: center;">{{informarEstadoMesa.mesa}}</h4>
       </ion-card-content>
     </ion-card>
 
+    
     <div *ngIf = "mostrarCuentaDiv == true">
 
-HOLA QUE TAL
+    <ion-card>
+      <ion-card-content align="center">
+        CUENTA
+      </ion-card-content>
 
-    </div>
-  
-    <div *ngIf = "mostrarEncuestaDiv == true">
-  
-      ESTOY PROBANDO
-  
-    </div>
-  
-      <div *ngIf = "mostrarProductos == true">
-  
-        <ion-item>
-        <ion-grid>
-          <ion-row>
-            <ion-col col-6>
-              <ion-button color="success" (click)="desplegarConsulta()" expand="block">Consultar mozo</ion-button>
-             </ion-col>
-            <ion-col col-6>
-              <ion-button color="warning" routerLink="/realizar-pedido" expand="block">Hacer pedido</ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-  
-  
-        <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
-          
-          <ion-item class="labels" >
-            <ion-label position="stacked"  >Consulta:</ion-label>
-            <br>
-            <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
-          </ion-item>
-  
+        <ion-card-content *ngFor="let pedido of jsonCuenta.pedidos ">
+          Producto: {{pedido.nombreProducto}} ------- {{pedido.precioUnitario}}
+        </ion-card-content>
+      
+        <ion-card-content >
+          {{propina}}
+         </ion-card-content>
+      
+         <ion-card-content >
+          {{jsonCuenta.precioTotal}}
+         </ion-card-content>
+
+
+          <ion-item>
           <ion-grid>
             <ion-row>
               <ion-col col-6>
-                <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
-               </ion-col>
+                <ion-button color="success" (click)="pagarCuenta()" expand="block">Pagar</ion-button>
+              </ion-col>
               <ion-col col-6>
-                <ion-button (click)="cancelarConsulta()" expand="block" color="warning">Cancelar</ion-button>
+                <ion-button color="warning"  (click)="darPropina()" expand="block">Dar propina</ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
-    
-        </ion-card>
-  
-        <div *ngFor = "let producto of listaProductos">
-          <ion-card>
-          <h1>{{producto.nombre}}</h1>
-  
-            <ion-slides pager="true">
-              <ion-slide>
-                <img [src]="producto.fotos[0]" alt="" width="100" height="100">
-              </ion-slide>
-              <ion-slide>
-                <img [src]="producto.fotos[1]" alt="" width="100" height="100">
-              </ion-slide>
-              <ion-slide>
-                <img [src]="producto.fotos[2]" alt="" width="100" height="100">
-              </ion-slide>
-            </ion-slides>
-  
-          <h4 style="color:black">{{producto.descripcion}}</h4>
-          <h4 style="color:black" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
-          <h4 style="color:black">Tiempo: {{producto.tiempo}}m</h4>
-        </ion-card>
-        </div>
-         
-  
-      </div>
+        </ion-item>
+
+     
+    </ion-card>
+      
     </div>
+        
+    <div *ngIf = "mostrarEncuestaDiv == true">
+        
+     <ion-card >
+       <h2 align="center">Encuesta</h2>
+
+       <div *ngIf="this.jsonEncuesta.fotos.length != 3">
+        <ion-fab-button color="primary"  color="light"  horizontal="center" vertical="top" (click)="tomarTresFotografias"><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
+       </div>
+
+       <div *ngIf="jsonEncuesta.fotos.length == 3">
+        <div *ngFor="let foto of jsonEncuesta.fotos ">
+          <img [src]="foto" alt="">
+        </div>
+       </div>
+
+       <br>
+       <div>¿Qué le parecio nuesta app?</div>
+        <div align="center">
+          <span *ngIf="gradoSatisfaccion ==1" style="margin-left:10px">Muy mala <span
+                  style="font-size: 150%;">😡</span></span>
+          <span *ngIf="gradoSatisfaccion==2 " style="margin-left:10px">Mala<span
+                  style="font-size: 150%;">😠</span></span>
+          <span *ngIf="gradoSatisfaccion ==3" style="margin-left:10px">Regular<span
+                  style="font-size: 150%;">😐</span></span>
+          <span *ngIf="gradoSatisfaccion==4 " style="margin-left:10px">Buena<span
+                  style="font-size: 150%;">🙂</span></span>
+          <span *ngIf="gradoSatisfaccion == 5" style="margin-left:10px">Muy buena<span
+                  style="font-size: 150%;">😊</span></span>
+      </div>
+       <ion-card-content>
+        <ion-item color="success">
+          <ion-range (ionChange)="cambioRango($event)" min="1" max="5" pin="true" color="light"  >
+            <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+            <ion-icon slot="end" name="sunny"></ion-icon>
+          </ion-range>
+
+        </ion-item>
+       </ion-card-content>
+       <div>¿Que le parecio el servicio del restaurante?</div>
+       <div align="center">
+         <span *ngIf="gradoSatisfaccionRes ==1" style="margin-left:10px">Muy mala <span
+                 style="font-size: 150%;">😡</span></span>
+         <span *ngIf="gradoSatisfaccionRes==2 " style="margin-left:10px">Mala<span
+                 style="font-size: 150%;">😠</span></span>
+         <span *ngIf="gradoSatisfaccionRes ==3" style="margin-left:10px">Regular<span
+                 style="font-size: 150%;">😐</span></span>
+         <span *ngIf="gradoSatisfaccionRes==4 " style="margin-left:10px">Buena<span
+                 style="font-size: 150%;">🙂</span></span>
+         <span *ngIf="gradoSatisfaccionRes == 5" style="margin-left:10px">Muy buena<span
+                 style="font-size: 150%;">😊</span></span>
+      </div>
+      <ion-card-content>
+       <ion-item color="success">
+         <ion-range (ionChange)="cambioRangoRes($event)" min="1" max="5" pin="true" color="light"  >
+           <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+           <ion-icon slot="end" name="sunny"></ion-icon>
+         </ion-range>
+
+       </ion-item>
+
+      </ion-card-content>
+      
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-button (click)="enviarEncuesta()" expand="block" color="success">Enviar</ion-button>
+           </ion-col>
+          <ion-col col-6>
+            <ion-button (click)="verEncuestas()" expand="block" color="warning">Cancelar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+     
+    </ion-card>
+        
+    </div>
+    
+
+    <div *ngIf = "mostrarProductos == true">
+
+      <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-button color="success" (click)="desplegarConsulta()" expand="block">Consultar mozo</ion-button>
+           </ion-col>
+          <ion-col col-6>
+            <ion-button color="warning" routerLink="/realizar-pedido" expand="block">Hacer pedido</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+     
+
+
+      <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
+        
+        <ion-item style="background-color: black;">
+          <ion-label position="stacked"  >Consulta:</ion-label>
+          <br>
+          <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
+             </ion-col>
+            <ion-col col-6>
+              <ion-button (click)="cancelarConsulta()" expand="block" color="warning">Cancelar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
   
+      </ion-card>
+
+      <div *ngFor = "let producto of listaProductos">
+        <ion-card>
+        <h1>{{producto.nombre}}</h1>
+
+          <ion-slides pager="true">
+            <ion-slide>
+              <img [src]="producto.fotos[0]" alt="" width="100" height="100">
+            </ion-slide>
+            <ion-slide>
+              <img [src]="producto.fotos[1]" alt="" width="100" height="100">
+            </ion-slide>
+            <ion-slide>
+              <img [src]="producto.fotos[2]" alt="" width="100" height="100">
+            </ion-slide>
+          </ion-slides>
+
+        <h4 style="color:black">{{producto.descripcion}}</h4>
+        <h4 style="color:black" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
+        <h4 style="color:black">Tiempo: {{producto.tiempo}}m</h4>
+      </ion-card>
+      </div>
+       
+
+    </div>
+  </div>
 </div>
 
 
