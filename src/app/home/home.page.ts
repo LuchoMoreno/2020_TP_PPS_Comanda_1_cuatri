@@ -553,110 +553,54 @@ export class HomePage {
      
 }
 
-/*
-  listaEsperaQRAnonimo()
-  {
-    let auxMesa;
 
-    this.barcodeScanner.scan().then(barcodeData => {
+listaEsperaQRAnonimo()
+{
 
-    auxMesa = JSON.parse(barcodeData.text);
-      
-      this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
-        querySnapShot.forEach((doc) => {
-  
-          if(doc.data().nombre == this.nombreAnonimo.nombre)
+  let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
+  let nombreAnonimo = JSON.parse(variable);
+
+
+  let auxiliar;
+  this.barcodeScanner.scan().then(barcodeData => {
+
+    auxiliar = barcodeData.text;
+
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+    querySnapShot.forEach((doc) => {
+
+        if(doc.data().nombre == nombreAnonimo.nombre) // VERIFICAR EL PUTO IF
+        {
+
+          switch(auxiliar) // CAMBIAR ESTO SI NO FUNCIONA
           {
-
-            if(auxMesa == 101010)
-            {
+            case "enEspera":
               this.usuarioMesa.nombreUsuario = doc.data().nombre;
               this.usuarioMesa.estadoMesa = "enEspera";
               this.usuarioMesa.perfilUsuario = doc.data().perfil;
               this.bd.crear('listaEspera', this.usuarioMesa);
-            }
+            break ;
 
-            else
-            {
+            default:
+
               this.firestore.collection('listaMesas').get().subscribe((qSnapSh => {
                 qSnapSh.forEach((mesa) => {
-                  if(mesa.data().numero == auxMesa)
+                  if(mesa.data().numero == auxiliar)
                   {
                     this.complemento.presentToastConMensajeYColor(`La mesa se encuentra ${mesa.data().estado} por favor, solicite al metre para asignarle una mesa.`,'danger');
                   }
                 })
               }))
-            }
-              
-        }
-
-          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
-
-      })
-
-    })
-
-
-     }).catch(err => {
-         console.log('Error', err);
-     });
-     
-  }
-*/
-
-
-listaEsperaQRAnonimo()
-{
-    let auxMesa;
-
-    this.barcodeScanner.scan().then(barcodeData => {
-
-    auxMesa = JSON.parse(barcodeData.text);
-
-    let auxMesaString = auxMesa.toString();
+            break;
+          }
     
-
-    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
-      querySnapShot.forEach((doc) => {
-
-        if(doc.data().nombre == this.nombreAnonimo.nombre)
-        {
-
-          alert("Entro primer IF");
-
-          if(auxMesaString == "enEspera")
-          {
-            this.usuarioMesa.nombreUsuario = doc.data().nombre;
-            this.usuarioMesa.estadoMesa = "enEspera";
-            this.usuarioMesa.perfilUsuario = doc.data().perfil;
-            this.bd.crear('listaEspera', this.usuarioMesa);
-          }
-
-          else 
-          {
-            this.firestore.collection('listaMesas').get().subscribe((qSnapSh => {
-              qSnapSh.forEach((mesa) => {
-                if(mesa.data().numero == auxMesaString)
-                {
-                  this.complemento.presentToastConMensajeYColor(`La mesa se encuentra ${mesa.data().estado} por favor, solicite al metre para asignarle una mesa.`,'danger');
-                }
-              })
-            }))
-          }
-            
       }
-
         this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
-
     })
-
   })
-
-
    }).catch(err => {
        console.log('Error', err);
    });
-   
 }
 
 
