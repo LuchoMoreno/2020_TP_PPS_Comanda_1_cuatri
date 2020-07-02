@@ -450,101 +450,11 @@ export class HomePage {
     
   }
 
-  // PARA EL ANONIMO ->Recorre la coleccion de usuarios de la bd verificando su nombre
-  listaEsperaQRAnonimo()
-  {
-   /* this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
-      querySnapShot.forEach((doc) => {
-
-        console.log(this.nombreAnonimo.nombre);
-        console.log(this.nombreAnonimo.foto);
-        if(doc.data().nombre == this.nombreAnonimo.nombre && doc.data().foto == this.nombreAnonimo.foto)
-        {
-
-                this.usuarioMesa.nombreUsuario = doc.data().nombre;
-                this.usuarioMesa.estadoMesa = "enEspera";
-                this.usuarioMesa.perfilUsuario = doc.data().perfil;
-                this.bd.crear('listaEspera', this.usuarioMesa);
-            console.log("estoy adentro");
-        }
-
-          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
-
-      })
-
-    })
-*/
-
-    
-    let auxMesa;
-
-    this.barcodeScanner.scan().then(barcodeData => {
-
-    auxMesa = barcodeData.text; // -> CAMBIE ESTO PARA VER SI FUNCIONA EL BARCODE SCANNER
-
-    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
-      querySnapShot.forEach((doc) => {
-
-        if(doc.data().nombre == this.nombreAnonimo)
-        {
-          if(auxMesa == 'enEspera') // PONER QR EN ESPERA
-          {
-                this.usuarioMesa.nombreUsuario = doc.data().nombre;
-                this.usuarioMesa.estadoMesa = "enEspera";
-                this.usuarioMesa.perfilUsuario = doc.data().perfil;
-                this.bd.crear('listaEspera', this.usuarioMesa);
-          }
-          else // PONER QR DE MESA 
-          {
-            this.firestore.collection('listaMesas').get().subscribe((qSnapSh => {
-              qSnapSh.forEach((mesa) => {
-                if(mesa.data().numero == auxMesa)
-                {
-                  this.complemento.presentToastConMensajeYColor(`La mesa se encuentra ${mesa.data().estado} por favor, solicite al metre para asignarle una mesa.`,'danger');
-                }
-              })
-            }))
-          }
-          
-        }
-
-          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
-
-      })
-
-    })
-
-
-     }).catch(err => {
-         console.log('Error', err);
-     });
-     
-  }
-
-  // PARA EL CLIENTE -> Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
-  listaEsperaQRCliente()
-  {
 /*
-    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
-      querySnapShot.forEach((doc) => {
+  // PARA EL CLIENTE -> Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
+  listaEsperaQRCliente() // ESTO FUNCIONA PERFECTO
+  {
 
-        if(doc.data().correo == this.correoCliente)
-        {
- 
-                this.usuarioMesa.nombreUsuario = doc.data().nombre;
-                this.usuarioMesa.estadoMesa = "enEspera";
-                this.usuarioMesa.perfilUsuario = doc.data().perfil;
-                this.bd.crear('listaEspera', this.usuarioMesa);
-          // Tendria que poner una validacion que compruebe que la  mesa esta vacia, ocupada, desocupada
-          
-        }
-
-          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
-
-      })
-
-    })
-    */
     let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
@@ -588,6 +498,169 @@ export class HomePage {
      });
      
   }
+*/
+
+  // PARA EL CLIENTE -> Recorre la coleccion de usuarios de la bd verificando el correo del cliente y no su nombre
+ 
+  listaEsperaQRCliente() // ESTO FUNCIONA PERFECTO
+  {
+
+    let auxiliar;
+    this.barcodeScanner.scan().then(barcodeData => {
+
+      //auxiliar = JSON.parse(barcodeData.text);
+      auxiliar = barcodeData.text;
+
+    
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().correo == this.correoCliente)
+        {
+          
+          switch(auxiliar) // CAMBIAR ESTO SI NO FUNCIONA
+          {
+            case "enEspera":
+              this.usuarioMesa.nombreUsuario = doc.data().nombre;
+              this.usuarioMesa.estadoMesa = "enEspera";
+              this.usuarioMesa.perfilUsuario = doc.data().perfil;
+              this.bd.crear('listaEspera', this.usuarioMesa);
+            break ;
+
+            default:
+
+              this.firestore.collection('listaMesas').get().subscribe((qSnapSh => {
+                qSnapSh.forEach((mesa) => {
+                  if(mesa.data().numero == auxiliar)
+                  {
+                    this.complemento.presentToastConMensajeYColor(`La mesa se encuentra ${mesa.data().estado} por favor, solicite al metre para asignarle una mesa.`,'danger');
+                  }
+                })
+              }))
+            break;
+          }
+        }
+          
+          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+
+      })
+
+    })
+
+     }).catch(err => {
+         console.log('Error', err);
+     });
+     
+}
+
+/*
+  listaEsperaQRAnonimo()
+  {
+    let auxMesa;
+
+    this.barcodeScanner.scan().then(barcodeData => {
+
+    auxMesa = JSON.parse(barcodeData.text);
+      
+      this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+        querySnapShot.forEach((doc) => {
+  
+          if(doc.data().nombre == this.nombreAnonimo.nombre)
+          {
+
+            if(auxMesa == 101010)
+            {
+              this.usuarioMesa.nombreUsuario = doc.data().nombre;
+              this.usuarioMesa.estadoMesa = "enEspera";
+              this.usuarioMesa.perfilUsuario = doc.data().perfil;
+              this.bd.crear('listaEspera', this.usuarioMesa);
+            }
+
+            else
+            {
+              this.firestore.collection('listaMesas').get().subscribe((qSnapSh => {
+                qSnapSh.forEach((mesa) => {
+                  if(mesa.data().numero == auxMesa)
+                  {
+                    this.complemento.presentToastConMensajeYColor(`La mesa se encuentra ${mesa.data().estado} por favor, solicite al metre para asignarle una mesa.`,'danger');
+                  }
+                })
+              }))
+            }
+              
+        }
+
+          this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+
+      })
+
+    })
+
+
+     }).catch(err => {
+         console.log('Error', err);
+     });
+     
+  }
+*/
+
+
+listaEsperaQRAnonimo()
+{
+    let auxMesa;
+
+    this.barcodeScanner.scan().then(barcodeData => {
+
+    auxMesa = JSON.parse(barcodeData.text);
+
+    let auxMesaString = auxMesa.toString();
+    
+
+    this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      querySnapShot.forEach((doc) => {
+
+        if(doc.data().nombre == this.nombreAnonimo.nombre)
+        {
+
+          alert("Entro primer IF");
+
+          if(auxMesaString == "enEspera")
+          {
+            this.usuarioMesa.nombreUsuario = doc.data().nombre;
+            this.usuarioMesa.estadoMesa = "enEspera";
+            this.usuarioMesa.perfilUsuario = doc.data().perfil;
+            this.bd.crear('listaEspera', this.usuarioMesa);
+          }
+
+          else 
+          {
+            this.firestore.collection('listaMesas').get().subscribe((qSnapSh => {
+              qSnapSh.forEach((mesa) => {
+                if(mesa.data().numero == auxMesaString)
+                {
+                  this.complemento.presentToastConMensajeYColor(`La mesa se encuentra ${mesa.data().estado} por favor, solicite al metre para asignarle una mesa.`,'danger');
+                }
+              })
+            }))
+          }
+            
+      }
+
+        this.listaEspera = []; // esto pone la lista vacía para que quede facherisima.
+
+    })
+
+  })
+
+
+   }).catch(err => {
+       console.log('Error', err);
+   });
+   
+}
+
+
+
 
  // PARA TODOS -> Cerrara sesion, redireccionara a login y se vaciara el correoUsuario
   cerrarSesion()
