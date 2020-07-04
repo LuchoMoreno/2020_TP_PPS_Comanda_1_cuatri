@@ -75,6 +75,15 @@
 <h4></h4>
 
 
+<p float="left">
+
+<img src="https://i.imgur.com/TxCbdnx.jpg" width="300" height="500">
+<img src="https://i.imgur.com/wKTMqFa.jpg" width="150" height="250"> 
+<img src="https://i.imgur.com/DSvCJqF.jpg" width="300" height="500"> 
+
+</p>
+
+
 ## :bulb: Semana del 07/06 al 13/06
 
 
@@ -99,6 +108,15 @@
 - El metre asigna una mesa a un cliente -> Comprueba el estado de la mesa lo cambia y cambia el estado del cliente. :white_check_mark:
 
 <h4></h4>
+
+
+<p float="left">
+
+<img src="https://i.imgur.com/FYaTT7K.jpg" width="300" height="500">
+<img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
+<img src="https://i.imgur.com/UdJ3ciq.jpg" width="300" height="500"> 
+
+</p>
 
 
 ## :bulb: Semana del 14/06 al 20/06
@@ -145,6 +163,23 @@
 
 
 <h4></h4>
+
+
+<p float="left">
+
+<img src="https://i.imgur.com/HU2td8x.jpg" width="300" height="500">
+<img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
+<img src="https://i.imgur.com/UdJ3ciq.jpg" width="300" height="500"> 
+
+</p>
+
+<p float="left">
+
+<img src="https://i.imgur.com/PXRVD18.jpg" width="300" height="500">
+<img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
+<img src="https://i.imgur.com/UdJ3ciq.jpg" width="300" height="500"> 
+
+</p>
 
 
 ## :bulb: Semana del 28/06 al 04/07 --- PRIMER ENTREGA
