@@ -106,10 +106,10 @@
               <ion-grid>
                 <ion-row>
                   <ion-col col-6>
-                    <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
+                    <ion-button (click)="cargarJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio, producto.tiempo)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
                    </ion-col>
                   <ion-col col-6>
-                    <ion-button (click)="removerJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio,producto)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
+                    <ion-button (click)="removerJSONPedidosPlatos(producto.nombre, producto.tipo, producto.precio, producto.tiempo)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -161,10 +161,10 @@
           <ion-grid>
             <ion-row>
               <ion-col col-6>
-                <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
+                <ion-button (click)="cargarJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio, bebida.tiempo)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
                </ion-col>
               <ion-col col-6>
-                <ion-button (click)="removerJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
+                <ion-button (click)="removerJSONPedidosPlatos(bebida.nombre, bebida.tipo, bebida.precio, bebida.tiempo)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -217,10 +217,10 @@
           <ion-grid>
             <ion-row>
               <ion-col col-6>
-                <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
+                <ion-button (click)="cargarJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio, postre.tiempo)" expand="block" color="success"><ion-icon name="add-circle-outline"></ion-icon>Agregar</ion-button>
                </ion-col>
               <ion-col col-6>
-                <ion-button (click)="removerJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
+                <ion-button (click)="removerJSONPedidosPlatos(postre.nombre, postre.tipo, postre.precio, postre.tiempo)" expand="block" color="danger"><ion-icon name="remove-circle-outline"></ion-icon>Eliminar</ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -253,7 +253,7 @@
 
   -->
 
- 
+  <ion-button color = "success" expand="block">TIEMPO TOTAL: ${{pedidoEnFormatoJSON.tiempoTotal}}</ion-button>
   <ion-button color = "success" expand="block">PRECIO TOTAL: ${{pedidoEnFormatoJSON.precioTotal}}</ion-button>
 
 

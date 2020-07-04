@@ -27,7 +27,8 @@ export class RealizarPedidoPage implements OnInit {
     estadoChef : "",
     estadoBartender : "",
     mesa : "",
-    estadoPedido : "enEspera"
+    estadoPedido : "enEspera",
+    tiempoTotal : 0,
   };
 
   cantidadJson ={
@@ -103,7 +104,7 @@ export class RealizarPedidoPage implements OnInit {
   }
 
 
-  cargarJSONPedidosPlatos(plato : string, tipoDePlato : string, precio : number)
+  cargarJSONPedidosPlatos(plato : string, tipoDePlato : string, precio : number, tiempoDelPlato : number)
   {
  
     if (tipoDePlato == "Plato")
@@ -112,7 +113,12 @@ export class RealizarPedidoPage implements OnInit {
       let bandera;
       this.pedidoEnFormatoJSON.platosPlato[this.contadorPlatos] = plato;
       this.contadorPlatos = this.contadorPlatos + 1;
+
+      // PLATA
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+
+      // TIEMPO:
+      this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
       
       //this.calcularCantidad(plato,'Plato','sumar');
       let cantidad = this.calcularCantidad(plato,'Plato','sumar');
@@ -132,7 +138,14 @@ export class RealizarPedidoPage implements OnInit {
     {
       this.pedidoEnFormatoJSON.platosBebida[this.contadorBebidas] = plato;
       this.contadorBebidas = this.contadorBebidas + 1;
+
+      // PLATA:
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+
+      // TIEMPO:
+      this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
+
+
       let cantidad = this.calcularCantidad(plato,'Bebida','sumar');
 
         this.cantidadJson.cantPepsi = cantidad;
@@ -144,7 +157,14 @@ export class RealizarPedidoPage implements OnInit {
     {
       this.pedidoEnFormatoJSON.platosPostre[this.contadorPostres] = plato;
       this.contadorPostres = this.contadorPostres + 1;
+
+      // PLATA: 
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+
+      // TIEMPO:
+      this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
+
+
       let cantidad = this.calcularCantidad(plato,'Postre','sumar');
       
       if(plato == 'Pastel de limón')
