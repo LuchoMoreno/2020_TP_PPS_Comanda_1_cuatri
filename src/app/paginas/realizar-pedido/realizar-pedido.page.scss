@@ -17,3 +17,26 @@ h4.precio
   color: green;
   display:inline;
 }
+
+.alineacion-derecha{
+
+  font-size: 15px;
+  color:#3a2e2e; 
+  text-align: left;
+
+}
+
+.precio
+{
+  text-align: right;
+  color: green;
+  display:inline;
+  float: right;
+}
+
+.tiempo
+{
+  text-align: center;
+  color: red;
+  display:inline;
+}

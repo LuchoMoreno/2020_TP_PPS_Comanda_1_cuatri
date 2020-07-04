@@ -129,7 +129,8 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
-          localStorage.setItem('usuarioAnonimo',JSON.stringify(this.anonimoJson)); // Guardamos el nombre de anonimo en el localStorage
+          //localStorage.setItem('usuarioAnonimo',JSON.stringify(this.anonimoJson)); // Guardamos el nombre de anonimo en el localStorage
+          localStorage.setItem('nombreAnonimo',this.anonimoJson.nombre); // -> Guardamos solo el nombre
           localStorage.setItem('tieneCorreo','sinCorreo'); // NO tiene correo
           this.complemetos.presentToastConMensajeYColor("Anónimo exitoso","primary");
           this.router.navigate(['/home']);
@@ -150,7 +151,9 @@ export class AltaClientePage implements OnInit {
         else
         {
           this.bd.crear('usuarios',this.anonimoJson);
-          localStorage.setItem('nombreAnonimo',JSON.stringify(this.anonimoJson)); // Guardamos la foto y el nombre del anonimo
+          
+          //localStorage.setItem('nombreAnonimo',JSON.stringify(this.anonimoJson)); // Guardamos la foto y el nombre del anonimo
+          localStorage.setItem('nombreAnonimo',this.anonimoJson.nombre); // -> Guardamos solo el nombre
           localStorage.setItem('tieneCorreo','sinCorreo'); // NO tiene correo
           this.router.navigate(['/home']);
           this.complemetos.presentToastConMensajeYColor("Anónimo exitoso","primary");

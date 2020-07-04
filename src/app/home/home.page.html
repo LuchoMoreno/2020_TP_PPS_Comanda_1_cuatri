@@ -25,8 +25,8 @@
             <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
 
           <ion-label>
-            <h2>Correo :</h2> <p> {{infoUsuario.correo}}</p>
-            <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+            <h2 style="color: black;">Correo :</h2> <p style="color: #332920;"> {{infoUsuario.correo}}</p>
+            <h2 style="color: black;">Perfil : </h2><p style="color: #332920;"> {{infoUsuario.perfil}}</p>
           </ion-label>
 
         </ion-item>
@@ -34,8 +34,8 @@
 
       <br>
 
-        <ion-button routerLink="/alta-empleado" align="center" expand="block" color="light">Registrar Empleado</ion-button>
-        <ion-button routerLink="/alta-cliente" align="center" expand="block" color="light" >Registrar Cliente</ion-button>
+        <ion-button routerLink="/alta-empleado" align="center" expand="block" color="light" shape="round">Registrar Empleado</ion-button>
+        <ion-button routerLink="/alta-cliente" align="center" expand="block" color="light" shape="round">Registrar Cliente</ion-button>
       </ion-list>
   
       <ion-list *ngIf = "perfilUsuario == 'Metre'" align="center">
@@ -44,27 +44,27 @@
             <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
 
           <ion-label>
-            <h2>Correo :</h2> <p> {{infoUsuario.correo}}</p>
-            <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+            <h2 style="color: black;">Correo :</h2> <p style="color: #332920;"> {{infoUsuario.correo}}</p>
+            <h2 style="color: black;">Perfil : </h2><p style="color: #332920;"> {{infoUsuario.perfil}}</p>
           </ion-label>
 
         </ion-item>
       <br>
 
-        <ion-button routerLink="/alta-empleado" align="center" expand="block">Registrar Empleado</ion-button>
-        <ion-button routerLink="/alta-cliente" align="center" expand="block">Registrar Cliente</ion-button>
+        <ion-button routerLink="/alta-empleado" align="center" expand="block" color="light" shape="round">Registrar Empleado</ion-button>
+        <ion-button routerLink="/alta-cliente" align="center" expand="block" color="light" shape="round">Registrar Cliente</ion-button>
       </ion-list>
 
       
       <!-- AGREGAR LOS DEMAS QUE FALTAN -->
       <ion-list *ngIf = "perfilUsuario == 'Cliente'" align="center">
 
-        <ion-item class = "confirmacionUsuario">
+        <ion-item >
             <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
 
           <ion-label>
-            <h2>Correo :</h2> <p> {{infoUsuario.correo}}</p>
-            <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+            <h2 style="color: black;" >Correo :</h2> <p style="color: #332920;"> {{infoUsuario.correo}}</p>
+            <h2 style="color: black;">Perfil : </h2><p style="color: #332920;"> {{infoUsuario.perfil}}</p>
           </ion-label>
 
         </ion-item>
@@ -72,15 +72,15 @@
           <!--Agregar boton para escanear la mesa-->
           
           <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
-            <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
-                </div>
+            <ion-button color="danger" (click)="qrMesa()"  expand="block" color="light" shape="round">QR Mesa</ion-button>
+          </div>
             
     <div *ngIf="mostrarCuentaBoton == true">
-      <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block">Encuesta</ion-button>
+      <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block" color="light" shape="round">Encuesta</ion-button>
     </div>
     
     <div *ngIf="mostrarEncuestaBoton == true">
-      <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block">Pedir cuenta</ion-button>
+      <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block" color="light" shape="round">Pedir cuenta</ion-button>
     </div>
 
   </ion-list>
@@ -92,8 +92,8 @@
             <img [src]="nombreAnonimo.foto " style=" height: 50%; width: 30%; ">
 
           <ion-label>
-            <h2>Nombre :</h2> <p> {{nombreAnonimo.nombre}}</p>
-            <h2>Perfil : </h2><p> {{nombreAnonimo.perfil}}</p>
+            <h2 style="color: black;">Nombre :</h2> <p style="color: #332920;"> {{nombreAnonimo.nombre}}</p>
+            <h2 style="color: black;">Perfil : </h2><p style="color: #332920;"> {{nombreAnonimo.perfil}}</p>
           </ion-label>
 
         </ion-item>
@@ -101,17 +101,17 @@
 
             <!--Agregar boton para escanear la mesa-->
             <div *ngIf = "informarEstadoMesa.seAsignoMesa == 'si'">
-    <ion-button color="danger" (click)="qrMesa()"  expand="block">QR Mesa</ion-button>
+    <ion-button color="danger" (click)="qrMesa()"  expand="block" color="light" shape="round">QR Mesa</ion-button>
         </div>
                 
         <div *ngIf="mostrarCuentaBoton == true">
-          <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block">Encuesta</ion-button>
+          <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block" color="light" shape="round">Encuesta</ion-button>
         </div>
         
         <div *ngIf="mostrarEncuestaBoton == true">
-          <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block">Cuenta</ion-button>
+          <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block" color="light" shape="round">Cuenta</ion-button>
         </div>
-    
+
 <!--***********************************************************************************************************************-->
 
       </ion-list>
@@ -122,25 +122,25 @@
               <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
   
             <ion-label>
-              <h2>Correo :</h2> <p> {{infoUsuario.correo}}</p>
-              <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+              <h2 style="color: black;">Correo :</h2> <p style="color: #332920;"> {{infoUsuario.correo}}</p>
+              <h2 style="color: black;">Perfil : </h2><p style="color: #332920;"> {{infoUsuario.perfil}}</p>
             </ion-label>
   
           </ion-item>
 
-          <ion-button (click)="mostrarConsultas()" align="center" expand="block" color="light">Consultas
-            <ion-badge id="notifications-badge" *ngIf="contadorMozoConsulta != 0" color="danger">{{contadorMozoConsulta}}</ion-badge>
+          <ion-button (click)="mostrarConsultas()" align="center" expand="block" color="light" shape="round">Consultas
+            <ion-badge id="notifications-badge" *ngIf="contadorMozoConsulta != 0" color="danger" >{{contadorMozoConsulta}}</ion-badge>
           </ion-button>
 
-          <ion-button (click)="mostrarPedidos()" align="center" expand="block" color="light">Pedidos pendientes
+          <ion-button (click)="mostrarPedidos()" align="center" expand="block" color="light" shape="round">Pedidos pendientes
             <ion-badge id="notifications-badge" *ngIf="contadorMozoPedidoPendiente != 0"color="danger">{{contadorMozoPedidoPendiente}}</ion-badge>
           </ion-button>
 
-          <ion-button (click)="mostrarPedidosFinalizados()" align="center" expand="block" color="light">Pedidos finalizados
+          <ion-button (click)="mostrarPedidosFinalizados()" align="center" expand="block" color="light" shape="round">Pedidos finalizados
             <ion-badge id="notifications-badge" *ngIf="contadorMozoPedidoFinalizado != 0" color="danger">{{contadorMozoPedidoFinalizado}}</ion-badge>
           </ion-button>
 
-          <ion-button (click)="mostrarCuentasPagadas()" align="center" expand="block" color="light">Cuentas pagadas
+          <ion-button (click)="mostrarCuentasPagadas()" align="center" expand="block" color="light" shape="round">Cuentas pagadas
             <ion-badge id="notifications-badge" *ngIf="contadorMozoCuentaPagada != 0" color="danger">{{contadorMozoCuentaPagada}}</ion-badge>
           </ion-button>
 
@@ -153,14 +153,14 @@
             <img [src]="infoUsuario.foto " style=" height: 50%; width: 30%; ">
 
           <ion-label>
-            <h2>Correo :</h2> <p> {{infoUsuario.correo}}</p>
-            <h2>Perfil : </h2><p> {{infoUsuario.perfil}}</p>
+            <h2 style="color: black;">Correo :</h2> <p style="color: #332920;"> {{infoUsuario.correo}}</p>
+            <h2 style="color: black;">Perfil : </h2><p style="color: #332920;"> {{infoUsuario.perfil}}</p>
           </ion-label>
 
         </ion-item>
       <br>
 
-        <ion-button routerLink="/alta-producto" align="center" expand="block">Agregar Producto</ion-button>
+        <ion-button routerLink="/alta-producto" align="center" expand="block" color="light" shape="round">Agregar Producto</ion-button>
       </ion-list>
 
       
@@ -244,8 +244,6 @@
     </ion-card>
   </div>
  
- 
-
 </div>
 
 <!--*****************************************************************************************************-->
@@ -324,7 +322,18 @@
       </ion-card-content>
     </ion-card>
 
-    
+
+    <div *ngIf="mensajeEscanearMesa != true">
+      <br>
+      <ion-card style="background-color:  #332920cb; border-radius: 20px;" >
+        <br>
+          <img src="../../assets/icon/qr.png" alt="" width="100px" height="100px" class="centrarImagenes">
+       <ion-card-content >
+          <h4 style="color:rgb(240, 240, 240); font-size: 25px;float: left;" >Para acceder a la lista de productos escanee el QR de la mesa presionando el boton del menu.</h4> 
+        </ion-card-content>
+      </ion-card>
+    </div>
+
     <div *ngIf = "mostrarCuentaDiv == true">
 
     <ion-card>
@@ -344,7 +353,6 @@
           {{jsonCuenta.precioTotal}}
          </ion-card-content>
 
-
           <ion-item>
           <ion-grid>
             <ion-row>
@@ -358,9 +366,8 @@
           </ion-grid>
         </ion-item>
 
-     
     </ion-card>
-      
+
     </div>
         
     <div *ngIf = "mostrarEncuestaDiv == true">
@@ -456,33 +463,30 @@
       </ion-grid>
     </ion-item>
 
-     
-
-
-      <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
+    <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true"  >
         
-        <ion-item style="background-color: black;">
-          <ion-label position="stacked"  >Consulta:</ion-label>
-          <br>
-          <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
-        </ion-item>
+      <ion-item style="background-color: #ffffff;" color="sucess" >
+        <ion-label position="stacked" color="success" style="background-color: #ffffff;" >Consulta:</ion-label>
+        <br>
+        <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.." style="background-color: #ffffff;"></ion-input>
+      </ion-item>
 
-        <ion-grid>
-          <ion-row>
-            <ion-col col-6>
-              <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
-             </ion-col>
-            <ion-col col-6>
-              <ion-button (click)="cancelarConsulta()" expand="block" color="warning">Cancelar</ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-  
-      </ion-card>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
+           </ion-col>
+          <ion-col col-6>
+            <ion-button (click)="cancelarConsulta()" expand="block" color="danger">Cancelar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card>
 
       <div *ngFor = "let producto of listaProductos">
-        <ion-card>
-        <h1>{{producto.nombre}}</h1>
+        <ion-card style="background-color: #332920ea;">
+        <h1 align="center" style="color: #ffffff;">{{producto.nombre}}</h1>
 
           <ion-slides pager="true">
             <ion-slide>
@@ -496,13 +500,12 @@
             </ion-slide>
           </ion-slides>
 
-        <h4 style="color:black">{{producto.descripcion}}</h4>
-        <h4 style="color:black" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
-        <h4 style="color:black">Tiempo: {{producto.tiempo}}m</h4>
+        <h4 style="color: #c9c9c9">{{producto.descripcion}}</h4>
+        <p class="alineacion-derecha" >Precio: <span class = "precio">${{producto.precio}}</span>  </p> 
+        <p class="alineacion-derecha" >Tiempo: <span class = "tiempo">{{producto.tiempo}} minutos</span>  </p> 
       </ion-card>
       </div>
        
-
     </div>
   </div>
 </div>
@@ -527,6 +530,17 @@
       </ion-card-content>
     </ion-card>
 
+    <div *ngIf="mensajeEscanearMesa == true">
+      <br>
+      <ion-card style="background-color:  #332920cb; border-radius: 20px;" >
+        <br>
+          <img src="../../assets/icon/qr.png" alt="" width="100px" height="100px" class="centrarImagenes">
+       <ion-card-content >
+          <h4 style="color:rgb(240, 240, 240); font-size: 25px;float: left;" >Para acceder a la lista de productos escanee el QR de la mesa presionando el boton del menu.</h4> 
+        </ion-card-content>
+      </ion-card>
+    </div>
+
     
     <div *ngIf = "mostrarCuentaDiv == true">
 
@@ -561,7 +575,6 @@
           </ion-grid>
         </ion-item>
 
-     
     </ion-card>
       
     </div>
@@ -644,9 +657,9 @@
     </div>
     
 
-    <div *ngIf = "mostrarProductos == true">
+    <div *ngIf = "mostrarProductos != true">
 
-      <ion-item>
+      <ion-item >
       <ion-grid>
         <ion-row>
           <ion-col col-6>
@@ -659,15 +672,12 @@
       </ion-grid>
     </ion-item>
 
-     
-
-
-      <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true" >
+      <ion-card class="todoCompleto" *ngIf="deplegarConsultaMozo == true"  >
         
-        <ion-item style="background-color: black;">
-          <ion-label position="stacked"  >Consulta:</ion-label>
+        <ion-item style="background-color: #ffffff;" color="sucess" >
+          <ion-label position="stacked" color="success" style="background-color: #ffffff;" >Consulta:</ion-label>
           <br>
-          <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.."></ion-input>
+          <ion-input type="text" [(ngModel)]="consulta" placeholder="Consulta.." style="background-color: #ffffff;"></ion-input>
         </ion-item>
 
         <ion-grid>
@@ -676,7 +686,7 @@
               <ion-button (click)="consultarMozo(informarEstadoMesa.mesa)" expand="block" color="success">Enviar</ion-button>
              </ion-col>
             <ion-col col-6>
-              <ion-button (click)="cancelarConsulta()" expand="block" color="warning">Cancelar</ion-button>
+              <ion-button (click)="cancelarConsulta()" expand="block" color="danger">Cancelar</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -684,8 +694,8 @@
       </ion-card>
 
       <div *ngFor = "let producto of listaProductos">
-        <ion-card>
-        <h1>{{producto.nombre}}</h1>
+        <ion-card style="background-color: #332920ea;">
+        <h1 align="center" style="color: #ffffff;">{{producto.nombre}}</h1>
 
           <ion-slides pager="true">
             <ion-slide>
@@ -699,13 +709,12 @@
             </ion-slide>
           </ion-slides>
 
-        <h4 style="color:black">{{producto.descripcion}}</h4>
-        <h4 style="color:black" >Precio: </h4>  <h4 class = "precio">${{producto.precio}}</h4>
-        <h4 style="color:black">Tiempo: {{producto.tiempo}}m</h4>
+        <h4 style="color: #c9c9c9">{{producto.descripcion}}</h4>
+        <p class="alineacion-derecha" >Precio: <span class = "precio">${{producto.precio}}</span>  </p> 
+        <p class="alineacion-derecha" >Tiempo: <span class = "tiempo">{{producto.tiempo}} minutos</span>  </p> 
       </ion-card>
       </div>
        
-
     </div>
   </div>
 </div>

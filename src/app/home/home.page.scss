@@ -33,11 +33,20 @@ h4.precioNombre
   display:inline;
 }
 
-h4.precio
+.precio
 {
+  text-align: center;
   color: green;
   display:inline;
 }
+
+.tiempo
+{
+  text-align: center;
+  color: red;
+  display:inline;
+}
+
 
 .menuEstatico{
 
@@ -47,48 +56,17 @@ h4.precio
 
 .todoCompleto{
   z-index: 9999999 !important;
-  width: 80%;
+  width: 300px;
+  height: 150px;
   position: fixed !important;
-  top: 50%;
+  top: 35%;
   left: 7%;
-  background-color:  rgb(48, 48, 48);
+  background-color:  #ffffff;
 }
 
-
-/*
-.intentoDeAnimacion
-{
-  animation: fadeIn ease 6s;
-  -webkit-animation: fadeIn ease 6s;
-  -moz-animation: fadeIn ease 6s;
-  -o-animation: fadeIn ease 6s;
-  -ms-animation: fadeIn ease 6s;
-}
-
-
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
-}
-
-
-@keyframes fadeIn {
-  0% {
-    opacity:0;
-  }
-  20% {
-    opacity:0;
-  }
-  100% {
-    opacity:1;
-  }
-}
-*/
 
 .numeroMesa{
-
+ 
   background-color:  #332920;
   font-family: Arial, Helvetica, sans-serif;
   color: snow;
@@ -116,27 +94,15 @@ h4.precio
   size: 20px;
 }
 
-
-/*
-ion-label p{
-  font-size:10px;
-  font-family:Verdana,Helvetica;
-  font-weight:bold;
-  text-align: center;
-  color: black;
+.centrarImagenes {
+  margin: 10px 34%;
+  position: relative;
 }
 
+.alineacion-derecha{
 
-ion-item.confirmacionUsuario{
-  color: grey;
+  font-size: 20px;
+  color:#ffffff; 
+  text-align: left;
+
 }
-
-
-
-/* SI QUEREMOS UTILIZAR H2 CON CLASES:
-ion-card h2.nombre{
-  color: lightblue;
-}
-
-HTML : <h2 class = "nombre"> {{nombreDelUsuario}} </h2>
-*/

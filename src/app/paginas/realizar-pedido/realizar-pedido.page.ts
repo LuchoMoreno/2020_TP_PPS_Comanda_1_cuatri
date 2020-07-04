@@ -323,7 +323,8 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosPlato.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            contador ++;
+            this.contadorPlatos + 1;
+            contador =  this.contadorPlatos;
           }
     
         })
@@ -333,7 +334,8 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosPostre.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            contador ++;
+            this.contadorPostres + 1;
+            contador =  this.contadorPostres;
           }
     
         })
@@ -343,7 +345,8 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosBebida.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            contador ++;
+            this.contadorBebidas + 1;
+            contador =  this.contadorBebidas;
           }
     
         })
@@ -356,7 +359,8 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosPlato.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            contador --;
+            this.contadorPlatos - 1;
+            contador =  this.contadorPlatos;
           }
     
         })
@@ -366,7 +370,8 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosPostre.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            contador --;
+            this.contadorPostres - 1;
+            contador =  this.contadorPostres;
           }
     
         })
@@ -376,7 +381,8 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosBebida.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            contador --;
+            this.contadorBebidas - 1;
+            contador =  this.contadorBebidas;
           }
     
         })

@@ -1,28 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Lista pedidos</ion-title>
+    <ion-title align="center">Lista pedidos</ion-title>
   </ion-toolbar>
 </ion-header>
  
-
-<!--
-
-   <ion-item>
-             
-                <ion-label>Cantidad</ion-label>
-                <ion-select [(ngModel)]="pickedCant"  placeholder="Cantidad" (click)="seleccionCantidad(pickedCant,producto)">
-                  <ion-select-option *ngFor="let cantidad of cantidadPedido" value="{{cantidad}}">{{cantidad}}</ion-select-option>
-                </ion-select>
-
-    </ion-item>
-
-
-
-
--->
-
-
-
 <ion-content>
 
   <ion-button (click)="desplegarPedido()" expand="block">CONFIRMAR PEDIDO</ion-button>
@@ -188,7 +169,8 @@
 
       <ion-card style = "background: lightyellow" >
       <ion-card-content>
-      POSTRES ------- Cantidad pedida: {{contadorPostres}}
+        <p class="alineacion-derecha" >POSTRES <span class = "precio">Cantidad pedida: {{contadorPostres}}</span>  </p> 
+
       </ion-card-content>
       </ion-card>
     <div *ngFor = "let postre of listaProductosTipoPostre" >

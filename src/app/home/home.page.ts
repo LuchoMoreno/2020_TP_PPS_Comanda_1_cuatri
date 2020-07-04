@@ -321,26 +321,39 @@ export class HomePage {
                  });
        
                 })
-
-
-              
             }
-            
-        
-          
           }
         })
-  
       })
-
     }
 
     else // Si no ingreso con correo, automaticamente sabe que es un usuario anonimo
     {
       
-      let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
-      this.nombreAnonimo = JSON.parse(variable);
+      // let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
+      // this.nombreAnonimo = JSON.parse(variable);
+      let variable = localStorage.getItem('nombreAnonimo');
       this.perfilUsuario = "Anonimo";
+
+      let fbPrimero = this.firestore.collection('usuarios');
+          
+      fbPrimero.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+      
+      this.listaEspera = [];
+
+      datos.forEach( (dato:any) =>{
+        
+        // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
+        if(dato.data().nombre == variable && dato.data().perfil == this.perfilUsuario) 
+        {
+          this.nombreAnonimo = dato.data();
+        }
+        
+        });
+
+       })
+
+
       let fb = this.firestore.collection('listaEspera');
           
       fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
@@ -796,13 +809,14 @@ listaEsperaQRAnonimo()
 
   }
 
-
+  mensajeEscanearMesa = false;
   banderaQrMesa = false;
   // PARA CLIENTES Y ANONIMOS -> El usuario al escanear el codigo qr de la mesa podra ver los productos
   qrMesa()
   {
     this.mostrarCuentaDiv = false;
     this.mostrarEncuestaDiv = false;
+    this.mensajeEscanearMesa = true;
     //this.mostrarProductos = true;
     localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
     let auxMesa;
@@ -900,6 +914,7 @@ listaEsperaQRAnonimo()
           auxConsulta.consultaDescripcion = this.consulta;
           this.bd.actualizar('listaEspera',auxConsulta,dato.id);
           this.cancelarConsulta();
+          this.complemento.presentToastConMensajeYColor("Su consulta se realizo con exito,espere a que el mozo se acerce.","success");
         }
 
       })
