@@ -46,7 +46,7 @@
 <p float="left">
 
 <img src="https://i.imgur.com/6iJZZM4.png" width="300" height="500">
-  
+<img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
 <img src="https://i.imgur.com/erVUmcX.png" width="300" height="500"> 
 
 </p>
@@ -147,6 +147,33 @@
 <h4></h4>
 
 
-## :bulb: Semana del 28/06 al 04/07
+## :bulb: Semana del 28/06 al 04/07 --- PRIMER ENTREGA
+
+
+### Luciano 
+
+- Solucion a un error, que vaciaba los campos y luego guardaba el usuario. :white_check_mark:
+- Se mejoró la lógica de los QRS, para que se pueda leer un texto proveniente del mismo. :white_check_mark: 
+- Se realizaron nuevas validaciones en caso que se lea un QR no correspondiente. :white_check_mark: 
+- Se solucionó el problema del usuario anonimo al leer un QR. :white_check_mark:
+- El tiempo de espera de un producto se verá reflejado en su orden. :white_check_mark: 
+- Se mejoró la lógica para sumar / restar el tiempo de espera de un producto. :white_check_mark: 
+
+
+
+### Verónica  
+
+- Se arreglo el punto 11, y el punto 12 se finalizo. :white_check_mark:
+- Se generaron nuevos QRS para distintas partes de la aplicación. :white_check_mark:
+- Se mejoró la parte lógica de cantidades de productos. :white_check_mark: 
+- Se mejoró el CSS de la LISTA de pedidos. :white_check_mark:
+- Se mejoró el CSS del METRE. :white_check_mark:
+- Se solucionó un error el cual NO mostraba la foto del usuario anónimo. :white_check_mark:
+
+
+<h4></h4>
+
+
+## :bulb: Semana del 05/07 al 12/07 --- ENTREGA DEFINITIVA
 
 
