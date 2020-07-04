@@ -1249,5 +1249,28 @@ listaEsperaQRAnonimo()
   }
  
 
+ // PARA EL MOZO -> Finaliza con exito una consulta
+ consultaConExito(espera)
+ {
+   let auxListaEspera;
+   
+  this.firestore.collection('listaEspera').get().subscribe((querySnapShot) => {
+      
+    querySnapShot.forEach(dato => {  
+
+      if(dato.data().mesa == espera.mesa)
+      {
+        auxListaEspera = dato.data();
+        auxListaEspera.consulta = 'noRealizo';
+        auxListaEspera.consultaDescripcion = '';
+        this.bd.actualizar('listaEspera',auxListaEspera,dato.id);
+        this.complemento.presentToastConMensajeYColor('La consulta fue completada con exito!','success');
+
+      }
+    })
+
+  })
+ }
+
 
 }

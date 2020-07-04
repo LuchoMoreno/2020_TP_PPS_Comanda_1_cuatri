@@ -186,25 +186,29 @@
 <div *ngIf = "perfilUsuario == 'Mozo'" >
 
   <div *ngIf="banderaMostrarPedidos == true">
-    <ion-card *ngFor="let pedido of listaPedidos">
-      <ion-card-content>La mesa {{pedido.mesa}} realizo el siguiente pedido:</ion-card-content>
-      <div *ngFor="let plato of pedido.platosPlato">
-        {{plato}} <br>
-      </div>
-      <div *ngFor="let plato of pedido.platosBebida">
-        {{plato}} <br>
-      </div>
-      <div *ngFor="let plato of pedido.platosPostre">
-        {{plato}} <br>
-      </div>
-    
+    <ion-card *ngFor="let pedido of listaPedidos" style="background-color: #332920ea;" >
+      <ion-card-content  style="color: #ffffff;">La mesa {{pedido.mesa}} realizo el siguiente pedido:
+        <br>
+        <div *ngFor="let plato of pedido.platosPlato">
+          {{plato}} <br>
+        </div>
+        <div *ngFor="let plato of pedido.platosBebida">
+          {{plato}} <br>
+        </div>
+        <div *ngFor="let plato of pedido.platosPostre">
+          {{plato}} <br>
+        </div>
+        <h4>Tiempo total: {{pedido.tiempoTotal}}</h4>
+      </ion-card-content>
+      
+      
       <ion-grid>
         <ion-row>
           <ion-col col-6>
             <ion-button (click)="enviarPedidos(pedido.mesa)" expand="block" color="success">Enviar</ion-button>
            </ion-col>
           <ion-col col-6>
-            <ion-button (click)="cancelarPedido(pedido.mesa)" expand="block" color="warning">Cancelar</ion-button>
+            <ion-button (click)="cancelarPedido(pedido.mesa)" expand="block" color="danger">Cancelar</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -213,24 +217,24 @@
   </div>
 
   <div *ngIf="banderaMostrarCuentasPagadas == true">
-    <ion-card *ngFor="let pagado of listaCuentasPagadas">
+    <ion-card *ngFor="let pagado of listaCuentasPagadas" style="background-color: #332920ea;">
       <ion-card-content>La mesa {{pagado.mesa}} a pagado la cuenta.</ion-card-content>
       <ion-button expand="block" color="success" (click)="liberarMesa(pagado.mesa)">Liberar mesa</ion-button>
     </ion-card>
   </div>
 
   <div *ngIf="banderaMostrarConsultas == true">
-    <ion-card *ngFor="let espera of listaEspera">
-      <ion-card-content>La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
-      <ion-card-content>{{espera.consultaDescripcion}}</ion-card-content>
-      <ion-button expand="block" >Consulta con exito</ion-button>
+    <ion-card *ngFor="let espera of listaEspera" style="background-color: #332920ea;">
+      <ion-card-content style="color: #ffffff;">La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
+      <ion-card-content style="color: #ffffff;">{{espera.consultaDescripcion}}</ion-card-content>
+      <ion-button expand="block" (click)="consultaConExito(espera)" >Consulta con exito</ion-button>
     </ion-card>
   </div>
 
   <div *ngIf="mostrarPedidoFinalizado == true">
-    <ion-card *ngFor="let pedidoFin of listaPedidosFinalizados">
-      <ion-card-content>Los pedidos de la mesa {{pedidoFin.mesa}} estan preparados</ion-card-content>
-      <ion-card-content>     
+    <ion-card *ngFor="let pedidoFin of listaPedidosFinalizados" style="background-color: #332920ea;">
+      <ion-card-content style="color: #ffffff;">Los pedidos de la mesa {{pedidoFin.mesa}} estan preparados</ion-card-content>
+      <ion-card-content style="color: #ffffff;">     
         <div *ngFor="let plato of pedidoFin.platosPlato">
         {{plato}} <br>
       </div>
@@ -297,7 +301,7 @@
     <div *ngIf = "mesa.estadoMesa == 'enEspera'">
       <ion-item color="transparent" style="background: transparent;" >
         <ion-avatar slot="end">
-          <img src="../../assets/icon/iconLogoMovimiento.png">
+          <img src="../../assets/icon/reloj.png">
         </ion-avatar>
         <ion-label>
           <p style="color:rgb(240, 240, 240); font-size: 15px" >Estado:

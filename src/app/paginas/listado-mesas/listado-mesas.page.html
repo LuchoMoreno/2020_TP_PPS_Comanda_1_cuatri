@@ -1,19 +1,34 @@
 <ion-header>
   <ion-toolbar align="center">
-    <ion-title>Listado de las mesas disponibles</ion-title>
+    <ion-back-button defaultHref="/home" slot="start" color="light"  icon="arrow-back-circle"></ion-back-button>
+    <ion-title>Mesas disponibles</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div *ngFor = "let mesita of listadoMesas">
-    <ion-card>
+    <ion-card style="background-color: #332920ea;">
+      
       <ion-card-content>
-        Numero de mesa : {{mesita.numero}}
+        <ion-item color="transparent" style="background: transparent;" >
+          <ion-avatar slot="end">
+            <img src="../../assets/icon/mesa.png">
+          </ion-avatar>
+          
+          <ion-label>
+            <p style="color:rgb(240, 240, 240); font-size: 15px" > Numero de mesa:
+              <span style="font-size: 15px; color: chocolate;"> {{mesita.numero}}</span> 
+            </p> <br>
+            <p style="color:rgb(240, 240, 240); font-size: 15px;" >Estado de mesa :
+              <span style="font-size: 15px; color: chocolate;"> {{mesita.estado}}</span> 
+            </p> 
+          </ion-label>
+        
+        </ion-item>
+
       </ion-card-content>
-      <ion-card-content>
-        Estado de mesa : {{mesita.estado}}
-      </ion-card-content>
-      <ion-button routerLink="/home" (click)="asignarMesa(mesita)">Asignar esta mesa</ion-button>
+      
+      <ion-button routerLink="/home" (click)="asignarMesa(mesita)" expand="block" color="primary">Asignar esta mesa</ion-button>
     </ion-card>
   </div>
 
