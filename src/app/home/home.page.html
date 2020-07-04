@@ -285,17 +285,16 @@
 
 <div *ngIf = "perfilUsuario == 'Metre'">
 
-  <ion-card *ngFor="let mesa of listaEspera">
+  <ion-card *ngFor="let mesa of listaEspera" style="background-color:  #332920cb; border-radius: 15px;">
+
 
     <div *ngIf = "mesa.estadoMesa == 'enEspera'">
       <ion-card-content>
-        {{mesa.nombreUsuario}}
-        <br>
-        {{mesa.perfilUsuario}}
-        <br>
-        {{mesa.estadoMesa}}
-        <br>
-        <ion-button color="success" (click)="comprobarMesas(mesa)" expand="block"> Asignar mesa</ion-button>
+        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Mesa: </h4>  <h5 style="color: rgb(170, 212, 154); font-size: 20px;"> {{mesa.estadoMesa}}</h5>
+        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Nombre: </h4>  <h5 style="color: rgb(170, 212, 154); font-size: 20px;"> {{mesa.nombreUsuario}}</h5>
+        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Perfil: </h4>  <h5 style="color: rgb(170, 212, 154); font-size: 20px;"> {{mesa.perfilUsuario}}</h5>
+      <br>
+        <ion-button color="success" (click)="comprobarMesas(mesa)" expand="block" color="success">Asignar mesa</ion-button>
       </ion-card-content>
     
    </div>
@@ -530,7 +529,7 @@
       </ion-card-content>
     </ion-card>
 
-    <div *ngIf="mensajeEscanearMesa == true">
+    <div *ngIf="mensajeEscanearMesa != true">
       <br>
       <ion-card style="background-color:  #332920cb; border-radius: 20px;" >
         <br>
@@ -657,7 +656,7 @@
     </div>
     
 
-    <div *ngIf = "mostrarProductos != true">
+    <div *ngIf = "mostrarProductos == true">
 
       <ion-item >
       <ion-grid>
