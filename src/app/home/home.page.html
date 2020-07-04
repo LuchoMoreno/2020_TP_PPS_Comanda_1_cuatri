@@ -285,16 +285,36 @@
 
 <div *ngIf = "perfilUsuario == 'Metre'">
 
+  <ion-card class="numeroMesa">
+    <ion-card-content>
+      <h4 style="color:rgb(240, 240, 240); font-size: 20px;text-align: center;" >Lista de espera </h4> 
+    </ion-card-content>
+  </ion-card>
+
   <ion-card *ngFor="let mesa of listaEspera" style="background-color:  #332920cb; border-radius: 15px;">
 
 
     <div *ngIf = "mesa.estadoMesa == 'enEspera'">
+      <ion-item color="transparent" style="background: transparent;" >
+        <ion-avatar slot="end">
+          <img src="../../assets/icon/iconLogoMovimiento.png">
+        </ion-avatar>
+        <ion-label>
+          <p style="color:rgb(240, 240, 240); font-size: 15px" >Estado:
+            <span style="font-size: 15px; color: chocolate;"> {{mesa.estadoMesa}}</span> 
+          </p> <br>
+          <p style="color:rgb(240, 240, 240); font-size: 15px;" >Nombre:
+            <span style="font-size: 15px; color: chocolate;"> {{mesa.nombreUsuario}}</span> 
+          </p> <br>
+          <p style="color:rgb(240, 240, 240); font-size: 15px;" >Perfil:
+            <span style="font-size: 15px; color: chocolate;"> {{mesa.perfilUsuario}}</span> 
+          </p> 
+   
+  
+     </ion-label>
+      </ion-item>
       <ion-card-content>
-        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Mesa: </h4>  <h5 style="color: rgb(170, 212, 154); font-size: 20px;"> {{mesa.estadoMesa}}</h5>
-        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Nombre: </h4>  <h5 style="color: rgb(170, 212, 154); font-size: 20px;"> {{mesa.nombreUsuario}}</h5>
-        <h4 style="color:rgb(240, 240, 240); font-size: 20px;float: left;" >Perfil: </h4>  <h5 style="color: rgb(170, 212, 154); font-size: 20px;"> {{mesa.perfilUsuario}}</h5>
-      <br>
-        <ion-button color="success" (click)="comprobarMesas(mesa)" expand="block" color="success">Asignar mesa</ion-button>
+        <ion-button color="success" (click)="comprobarMesas(mesa)" expand="block" color="light">Asignar mesa</ion-button>
       </ion-card-content>
     
    </div>
