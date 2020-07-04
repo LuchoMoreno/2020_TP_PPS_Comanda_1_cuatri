@@ -335,23 +335,46 @@ export class HomePage {
       let variable = localStorage.getItem('nombreAnonimo');
       this.perfilUsuario = "Anonimo";
 
+
+      ///////////// ESTA ES LA MANERA DE BERO, CON VALUECHANGES.
+      /*
       let fbPrimero = this.firestore.collection('usuarios');
           
       fbPrimero.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
       
-      this.listaEspera = [];
+      // this.listaEspera = [];
 
       datos.forEach( (dato:any) =>{
         
         // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
-        if(dato.data().nombre == variable && dato.data().perfil == this.perfilUsuario) 
+        if(dato.nombre == variable && dato.perfil == this.perfilUsuario) 
         {
-          this.nombreAnonimo = dato.data();
+          this.nombreAnonimo = dato;
+          alert(this.nombreAnonimo);
+          console.log(this.nombreAnonimo);
         }
         
         });
 
        })
+       */
+
+       ///////////// ESTA ES LA MANERA DE LUCHO, CON QUERY.
+
+       this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+        querySnapShot.forEach((doc) => {
+  
+          // Correo de la BD == Correo de la lista.
+         if(doc.data().nombre == variable)
+         {
+
+          this.nombreAnonimo = doc.data();
+         }
+  
+        })
+      })
+  
+
 
 
       let fb = this.firestore.collection('listaEspera');
