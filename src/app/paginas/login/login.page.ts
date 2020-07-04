@@ -16,13 +16,20 @@ import { AuthService } from "../../servicios/auth.service";
 // IMPORTO EL ROUTER COMO ULTIMO PASO.
 import { Router } from "@angular/router";
 
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
+  
+  //splash = false;
 
   email : string;
    password : string;
@@ -60,14 +67,19 @@ public onSubmitLogin()
   
   .then((res:any) => { 
 
-    
-    this.complementos.presentLoading();
+    //this.splash = true;
+    //this.complementos.presentLoading();
+
+    /*
+    setTimeout(() => {
+      this.splash = false;
+    }, 4000);*/
 
     let audio = new Audio();
     audio.src = 'assets/audio/login/sonidoBotonSUCESS.mp3';
     audio.play();
     
-    timer(2000).subscribe(() => {this.router.navigate(['/home']);
+    timer(1000).subscribe(() => {this.router.navigate(['/home']);
     localStorage.setItem('correoUsuario',res); // Guardamos el correo de la persona que ingreso
     localStorage.setItem('tieneCorreo','conCorreo'); // Verificamos si se ingreso con correo (por el anonimo)
     this.onClearAll();

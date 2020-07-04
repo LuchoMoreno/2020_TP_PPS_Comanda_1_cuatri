@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+
 
 // IMPORTO EL ROUTER COMO ULTIMO PASO.
 import { Router } from "@angular/router";
@@ -25,6 +30,8 @@ import * as firebase from 'firebase/app';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+
+  splash = true;
 
   perfilUsuario : any;
   coleccionRef ;
@@ -55,7 +62,11 @@ export class HomePage {
     private camera : Camera,
     private auth : AuthService,
     private st : AngularFireStorage,
-    public alertController: AlertController) {  }
+    public alertController: AlertController,
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar) { 
+     }
 
     // Informacion de la lista de espera
   usuarioMesa = {
@@ -113,7 +124,12 @@ export class HomePage {
 
   ngOnInit() {
 
-    this.complemento.presentLoading();
+    //this.complemento.presentLoading();
+
+    setTimeout(() => {
+      this.splash = false;
+    }, 4000);
+
 
     this.tieneCorreo  = localStorage.getItem('tieneCorreo');
 
@@ -344,7 +360,7 @@ export class HomePage {
         querySnapShot.forEach((doc) => {
   
           // Correo de la BD == Correo de la lista.
-         if(doc.data().nombre == variable)
+         if(doc.data().nombre == variable && doc.data().perfil == this.perfilUsuario)
          {
 
           this.nombreAnonimo.nombre = doc.data().nombre;
@@ -376,6 +392,23 @@ export class HomePage {
         });
 
        })
+
+       let fb2 = this.firestore.collection('pedidos');
+          
+       fb2.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+       
+
+       datos.forEach( (datoCl:any) =>{
+         
+         // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
+         if(datoCl.estadoPedido=="finalizado" && datoCl.mesa == this.informarEstadoMesa.mesa) 
+         {
+          this.presentAlert();
+         }
+         
+         });
+
+        })
     }
 
     this.cargarProductos(); // Probamos a ver si funciona
@@ -869,7 +902,7 @@ listaEsperaQRAnonimo()
               }
               else if(dato.estadoPedido == 'enPreparacion')
               {
-                this.complemento.presentToastConMensajeYColor("Su pedido esta en preparacion","primary");
+                this.complemento.presentToastConMensajeYColor(`Su pedido esta en preparacion, tiempo aprox ${dato.tiempoTotal}minutos`,"primary");
               }
 
         
@@ -1119,14 +1152,13 @@ listaEsperaQRAnonimo()
   async presentAlert() {
 
       const alert = await this.alertController.create({
-        cssClass: 'danger',
+        cssClass: 'success',
         header: 'Su pedido se a completado',
-        message: '<div>Hola</div>',
         buttons: [
           {
             text:'Cancelar',
             role:'cancel',
-            cssClass:'danger',
+            cssClass:'success',
             handler:(bla) =>{
               console.log("confirm cancel:blah");
             }
@@ -1202,9 +1234,12 @@ listaEsperaQRAnonimo()
 
   enviarEncuesta()
   {
+
     this.jsonEncuesta.preguntaUno=this.gradoSatisfaccion;
     this.jsonEncuesta.preguntaDos=this.gradoSatisfaccionRes;
      this.bd.crear('encuestas',this.jsonEncuesta);
+     this.complemento.presentToastConMensajeYColor('¡Su encuesta se finalizo con exito!','success');
+     this.mostrarEncuestaDiv = false;
   } 
 
   mostrarCuentasPagadas()

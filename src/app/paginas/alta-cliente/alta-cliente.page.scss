@@ -139,3 +139,11 @@ ion-back-button{
 
 }
 
+.loading{
+  z-index: 99999999 !important;
+  width: 150px;
+  height: 150px;
+  position: fixed !important;
+  top: 35%;
+  left: 30%;
+}

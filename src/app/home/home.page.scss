@@ -106,3 +106,30 @@ h4.precioNombre
   text-align: left;
 
 }
+
+.animacionQr{
+  animation: efecto3d 2s infinite;
+  backface-visibility: visible
+}
+
+@keyframes efecto3d{
+  0%{
+    opacity: 0.5;
+    transform: perspective(200px) rotateX(90deg); 
+  }
+  40%{ 
+    transform: perspective(200px) rotateX(-20deg);
+  }
+  70%{ 
+    transform: perspective(200px) rotateX(20deg);
+  } 
+}
+
+.loading{
+  z-index: 99999999 !important;
+  width: 150px;
+  height: 150px;
+  position: fixed !important;
+  top: 35%;
+  left: 30%;
+}
