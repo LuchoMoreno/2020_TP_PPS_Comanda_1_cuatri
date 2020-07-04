@@ -1,38 +1,51 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title align="center">Lista pedidos</ion-title>
+<ion-header color="primary">
+  
+  <ion-toolbar color="primary">
+    <ion-back-button defaultHref="/home" slot="start" color="light"  icon="arrow-back-circle"></ion-back-button>
+      <h3 class="titulo">Lista pedidos</h3>
+  
   </ion-toolbar>
+
 </ion-header>
- 
+
 <ion-content>
 
-  <ion-button (click)="desplegarPedido()" expand="block">CONFIRMAR PEDIDO</ion-button>
+  <ion-button (click)="desplegarPedido()" color="success" expand="block">CONFIRMAR PEDIDO</ion-button>
 
       <ion-card class="todoCompleto" *ngIf="variabledesplegarPedido == true" >
               
-        <ion-item class="labels" >
-          <ion-label position="stacked">INFORMACION DEL PEDIDO:</ion-label>
+        <ion-item class="labels" color="transparent" style="background-color: transparent !important;" >
+          <ion-label position="stacked" style="color: snow;" >INFORMACION DEL PEDIDO:</ion-label>
           <br>
 
           <div *ngIf="pedidoEnFormatoJSON != null" >
 
-          Su pedido son los siguientes platos:
+          <h5  style="color: snow;">Su pedido son los siguientes platos:</h5>
 
-          <h1> Platos principales: </h1>
-          {{pedidoEnFormatoJSON.platosPlato}}
+          <div *ngIf='contadorPlatos != 0' >
+          <h2 style="color: snow;"> Platos principales: </h2>
+            <div style="color: snow;" *ngFor="let plato of pedidoEnFormatoJSON.platosPlato">
+              {{plato}}
+            </div>
+          </div>
 
-          <br>
-          <h1> Bebidas: </h1>
-          {{pedidoEnFormatoJSON.platosBebida}}
-
-          <br>
-          <h1> Postres: </h1>
-          {{pedidoEnFormatoJSON.platosPostre}}
-
-          <br>
-          <h1> Precio total del pedido: </h1>
-          {{pedidoEnFormatoJSON.precioTotal}}
-
+          <div *ngIf='contadorBebidas != 0'>
+          <h2  style="color: snow;" > Bebidas: </h2>
+          <div  style="color: snow;" *ngFor="let plato of pedidoEnFormatoJSON.platosBebida">
+            {{plato}}
+          </div>
+          </div>
+          
+          <div  *ngIf='contadorPostres != 0'>
+          <h2  style="color: snow;"> Postres: </h2>
+          <div  style="color: snow;" *ngFor="let plato of pedidoEnFormatoJSON.platosPostre">
+            {{plato}}
+          </div>
+          </div>
+        
+          <p class="alineacion-derecha-platito" > Precio total:
+            <span class = "precio" >  ${{pedidoEnFormatoJSON.precioTotal}}</span> 
+           </p> 
           </div>
   
 
@@ -41,52 +54,51 @@
         <ion-grid>
           <ion-row>
             <ion-col col-6>
-              <ion-button (click)="confirmarPedido()" expand="block" color="success">Confirmar pedido</ion-button>
+              <ion-button (click)="confirmarPedido()"  color="success" expand="block">Confirmar</ion-button>
             </ion-col>
             <ion-col col-6>
-              <ion-button (click)=" cancelarPedido()" expand="block" color="warning">Cancelar pedido</ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col col-12>
-              <ion-button (click)="desplegarInversoPedido()" expand="block" color="success">Cerrar</ion-button>
+              <ion-button (click)=" cancelarPedido()"  color="warning"  expand="block">Cancelar</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
-
+        <ion-card-content>
+          <ion-button (click)="desplegarInversoPedido()" expand="block" color="danger">Cerrar</ion-button>
+        </ion-card-content>
+        
       </ion-card>
 
  
-      <ion-card style = "background: lightyellow">
+      <ion-card style = "background: snow" (click)="divMostrarPlatoPrincipal()">
       <ion-card-content>
-      PLATOS PRINCIPALES ------- Cantidad pedida: {{contadorPlatos}}
+      <p class="alineacion-derecha" ><ion-icon name="pizza-outline"></ion-icon> PLATOS PRINCIPALES <span class = "precio">Cantidad pedida: {{contadorPlatos}}</span>  </p> 
       </ion-card-content>
       </ion-card>
 
       <div *ngFor = "let producto of listaProductosTipoPlato">
         
-        <ion-card style="background-color: black;">
-          <ion-card-content align="center" style="font-size: 20px;color: white;">
-           {{producto.nombre}}
-           <div *ngIf="producto.nombre == 'Hamburguesa'" style="font-size: 20px;color: white;">
-            Cantidad :{{cantidadJson.cantHamb}}
-          </div>
-          <div *ngIf="producto.nombre == 'Pizza'" style="font-size: 20px;color: white;">
-            Cantidad :{{cantidadJson.cantPizza}}
-          </div>
+        <ion-card style="background-color: rgba(0, 0, 0, 0.568);" *ngIf="mostrarPlatoPrincipal == true">
+          <ion-card-content align="center" style="font-size: 20px;color: white; background-color: black;">
+            
+            <p class="alineacion-derecha-platito" >{{producto.nombre}}
+              <span class = "tiempo" *ngIf="producto.nombre == 'Hamburguesa'" > Cantidad :{{cantidadJson.cantHamb}}</span> 
+              <span class = "tiempo" *ngIf="producto.nombre == 'Pizza'" >Cantidad :{{cantidadJson.cantPizza}}</span> 
+             </p> 
+
+
+         
           </ion-card-content>
         
-            <ion-item >
+          <ion-item color="transparent" style="background-color: transparent !important; color: transparent;" >
               
               <ion-slides pager="true">
                 <ion-slide>
-                <img [src]="producto.fotos[2]" style=" height: 50%; width: 50%">
+                <img [src]="producto.fotos[2]" style=" height: 90%; width: 90%">
                 </ion-slide>
                 <ion-slide>
-                <img [src]="producto.fotos[1]" style=" height: 50%; width: 50%">
+                <img [src]="producto.fotos[1]" style=" height: 90%; width: 90%">
                 </ion-slide>
                 <ion-slide>
-                <img [src]="producto.fotos[2]" style=" height: 50%; width: 50%">
+                <img [src]="producto.fotos[2]" style=" height: 90%; width: 90%">
                 </ion-slide>
               </ion-slides>
 
@@ -114,32 +126,35 @@
 
 
   
-    <ion-card style = "background: lightyellow">
-    <ion-card-content>
-      BEBIDAS ------- Cantidad pedida: {{contadorBebidas}}
-    </ion-card-content>
+    <ion-card style = "background: snow" (click)="divMostrarBebida()">
+      <ion-card-content>
+        <p class="alineacion-derecha" ><ion-icon name="wine-outline"></ion-icon>BEBIDAS <span class = "precio">Cantidad pedida: {{contadorBebidas}}</span>  </p> 
+      </ion-card-content>
     </ion-card>
 
       <div *ngFor = "let bebida of listaProductosTipoBebida">
 
-        <ion-card style="background-color: black;">
-          <ion-card-content align="center" style="font-size: 20px;color: white;">
-           {{bebida.nombre}}
+        <ion-card style="background-color: rgba(0, 0, 0, 0.568);" *ngIf="mostrarBebida == true">
+          <ion-card-content align="center" style="font-size: 20px;color: white; background-color: black;">
+            <p class="alineacion-derecha-platito" > {{bebida.nombre}}
+              <span class = "tiempo" > Cantidad :{{cantidadJson.cantPepsi}}</span> 
+             </p> 
+          
            <div  style="font-size: 20px;color: white;">
-            Cantidad :{{cantidadJson.cantPepsi}}
+            
           </div>
           </ion-card-content>
-        <ion-item >
+        <ion-item color="transparent" style="background-color: transparent !important; color: transparent;">
               
           <ion-slides pager="true">
             <ion-slide>
-            <img [src]="bebida.fotos[2]" style=" height: 50%; width: 50%">
+            <img [src]="bebida.fotos[2]" style=" height: 90%; width: 90%">
             </ion-slide>
             <ion-slide>
-            <img [src]="bebida.fotos[1]" style=" height: 50%; width: 50%">
+            <img [src]="bebida.fotos[1]" style=" height: 90%; width: 90%">
             </ion-slide>
             <ion-slide>
-            <img [src]="bebida.fotos[2]" style=" height: 50%; width: 50%">
+            <img [src]="bebida.fotos[2]" style=" height: 90%; width: 90%">
             </ion-slide>
           </ion-slides>
 
@@ -167,36 +182,36 @@
     </div>
      
 
-      <ion-card style = "background: lightyellow" >
+      <ion-card style = "background: snow" (click)="divMostrarPostre()">
       <ion-card-content>
-        <p class="alineacion-derecha" >POSTRES <span class = "precio">Cantidad pedida: {{contadorPostres}}</span>  </p> 
+        <p class="alineacion-derecha" ><ion-icon name="ice-cream-outline"></ion-icon>POSTRES <span class = "precio">Cantidad pedida: {{contadorPostres}}</span>  </p> 
 
       </ion-card-content>
       </ion-card>
     <div *ngFor = "let postre of listaProductosTipoPostre" >
 
 
-      <ion-card style="background-color: black;">
-        <ion-card-content align="center" style="font-size: 20px;color: white;">
-         {{postre.nombre}}
-         <div *ngIf="postre.nombre == 'Volcan de chocolate'" style="font-size: 20px;color: white;">
-          Cantidad :{{cantidadJson.cantVolc}}
-        </div>
-        <div *ngIf="postre.nombre == 'Pastel de limón'" style="font-size: 20px;color: white;">
-          Cantidad :{{cantidadJson.cantLemon}}
-        </div>
+      <ion-card style="background-color: rgba(0, 0, 0, 0.568);" *ngIf="mostrarPostre == true">
+        <ion-card-content align="center" style="font-size: 20px;color: white; background-color: black;">
+         
+        <p class="alineacion-derecha-platito" >{{postre.nombre}}
+          <span class = "tiempo" *ngIf="postre.nombre == 'Volcan de chocolate'">Cantidad :{{cantidadJson.cantVolc}}</span> 
+          <span class = "tiempo" *ngIf="postre.nombre == 'Pastel de limón'" > Cantidad :{{cantidadJson.cantLemon}}</span> 
+         </p> 
+
+
         </ion-card-content>
-        <ion-item >
+        <ion-item color="transparent" style="background-color: transparent !important; color: transparent;" >
               
           <ion-slides pager="true">
             <ion-slide>
-            <img [src]="postre.fotos[2]" style=" height: 50%; width: 50%">
+            <img [src]="postre.fotos[2]" style=" height: 90%; width: 90%">
             </ion-slide>
             <ion-slide>
-            <img [src]="postre.fotos[1]" style=" height: 50%; width: 50%">
+            <img [src]="postre.fotos[1]" style=" height: 90%; width: 90%">
             </ion-slide>
             <ion-slide>
-            <img [src]="postre.fotos[2]" style=" height: 50%; width: 50%">
+            <img [src]="postre.fotos[2]" style=" height: 90%; width: 90%">
             </ion-slide>
           </ion-slides>
           <ion-grid>

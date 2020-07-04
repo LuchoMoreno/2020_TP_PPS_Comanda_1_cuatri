@@ -8,6 +8,7 @@ import { DatabaseService } from "../../servicios/database.service";
 
 // IMPORTO SERVICIO DE BASE DE DATOS
 import { ComplementosService } from "../../servicios/complementos.service";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -60,7 +61,8 @@ export class RealizarPedidoPage implements OnInit {
   
   constructor( private firestore : AngularFirestore,
     private bd : DatabaseService,
-    private complementos : ComplementosService) { }
+    private complementos : ComplementosService,
+    private router : Router) { }
 
   ngOnInit() {
 
@@ -111,6 +113,8 @@ export class RealizarPedidoPage implements OnInit {
       this.pedidoEnFormatoJSON.platosPlato[this.contadorPlatos] = plato;
       this.contadorPlatos = this.contadorPlatos + 1;
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
+      
+      //this.calcularCantidad(plato,'Plato','sumar');
       let cantidad = this.calcularCantidad(plato,'Plato','sumar');
       
       if(plato == 'Hamburguesa')
@@ -170,6 +174,9 @@ export class RealizarPedidoPage implements OnInit {
   desplegarPedido()
   {
     this.variabledesplegarPedido = true;
+    this.mostrarBebida = false;
+    this.mostrarPlatoPrincipal = false;
+    this.mostrarPostre = false;
   }
 
   desplegarInversoPedido()
@@ -186,11 +193,19 @@ export class RealizarPedidoPage implements OnInit {
       this.complementos.presentToastConMensajeYColor("Pedido generado con éxito. Será redirigido al menú!", "success")
       this.bd.crear('pedidos',this.pedidoEnFormatoJSON);
       this.contadorVecesQueConfirmaPedido = 1;
+      this.router.navigate(['/home']);
     }
 
     else if(this.contadorVecesQueConfirmaPedido == 0 && this.pedidoEnFormatoJSON.precioTotal == 0)
     {
       this.complementos.presentToastConMensajeYColor("¡Debe cargar productos!", "warning")
+      this.cantidadJson ={
+        cantHamb : 0,
+        cantPizza : 0,
+        cantPepsi : 0,
+        cantVolc : 0,
+        cantLemon : 0,
+      }
     }
     
     else
@@ -244,6 +259,7 @@ export class RealizarPedidoPage implements OnInit {
             this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
             let cantidad = this.calcularCantidad(plato,'Plato','restar');
       
+            //this.calcularCantidad(plato,'Plato','restar');
             if(plato == 'Hamburguesa')
             {
               this.cantidadJson.cantHamb = cantidad;
@@ -271,7 +287,7 @@ export class RealizarPedidoPage implements OnInit {
             this.contadorBebidas = this.contadorBebidas - 1;
             this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal - precio;
             let cantidad = this.calcularCantidad(plato,'Bebida','restar');
-      
+
               this.cantidadJson.cantPepsi = cantidad;
 
       
@@ -316,15 +332,24 @@ export class RealizarPedidoPage implements OnInit {
   calcularCantidad(nombrePlato : string, tipo : string,funcionalidad : string)
   {
     let contador = 0 ;
+    
     if(funcionalidad == 'sumar')
     {
       if (tipo == 'Plato')
       {
         this.pedidoEnFormatoJSON.platosPlato.forEach( (dato : any) => {
-          if(nombrePlato == dato)
+          if(nombrePlato == dato && dato == 'Hamburguesa')
           {
-            this.contadorPlatos + 1;
-            contador =  this.contadorPlatos;
+
+              this.cantidadJson.cantHamb = contador + 1;  
+              contador = this.cantidadJson.cantHamb;
+            
+          }
+          else if(nombrePlato == dato && dato == 'Pizza')
+          {
+            this.cantidadJson.cantPizza = contador + 1;  
+            contador = this.cantidadJson.cantPizza;
+            
           }
     
         })
@@ -332,10 +357,18 @@ export class RealizarPedidoPage implements OnInit {
       else if(tipo == 'Postre')
       {
         this.pedidoEnFormatoJSON.platosPostre.forEach( (dato : any) => {
-          if(nombrePlato == dato)
+          if(nombrePlato == dato && dato == 'Volcan de chocolate')
           {
-            this.contadorPostres + 1;
-            contador =  this.contadorPostres;
+
+              this.cantidadJson.cantVolc = contador + 1;  
+              contador = this.cantidadJson.cantVolc;
+            
+          }
+          else if(nombrePlato == dato && dato == 'Pastel de limón')
+          {
+            this.cantidadJson.cantLemon = contador + 1;  
+            contador = this.cantidadJson.cantLemon;
+            
           }
     
         })
@@ -343,11 +376,12 @@ export class RealizarPedidoPage implements OnInit {
       else
       {
         this.pedidoEnFormatoJSON.platosBebida.forEach( (dato : any) => {
+
           if(nombrePlato == dato)
           {
-            this.contadorBebidas + 1;
-            contador =  this.contadorBebidas;
-          }
+              this.cantidadJson.cantPepsi = contador + 1;  
+              contador = this.cantidadJson.cantPepsi;
+          }       
     
         })
       }
@@ -357,10 +391,16 @@ export class RealizarPedidoPage implements OnInit {
       if (tipo == 'Plato')
       {
         this.pedidoEnFormatoJSON.platosPlato.forEach( (dato : any) => {
-          if(nombrePlato == dato)
+          if(nombrePlato == dato && dato == 'Hamburguesa')
           {
-            this.contadorPlatos - 1;
-            contador =  this.contadorPlatos;
+
+           contador = this.cantidadJson.cantHamb  - 1;  
+            
+          }
+          if(nombrePlato == dato && dato == 'Pizza')
+          {
+            contador = this.cantidadJson.cantPizza - 1;
+            
           }
     
         })
@@ -368,10 +408,15 @@ export class RealizarPedidoPage implements OnInit {
       else if(tipo == 'Postre')
       {
         this.pedidoEnFormatoJSON.platosPostre.forEach( (dato : any) => {
-          if(nombrePlato == dato)
+          if(nombrePlato == dato && dato == 'Volcan de chocolate')
           {
-            this.contadorPostres - 1;
-            contador =  this.contadorPostres;
+              contador = this.cantidadJson.cantVolc -1 ;
+            
+          }
+          else if(nombrePlato == dato && dato == 'Pastel de limón')
+          {
+            contador = this.cantidadJson.cantLemon -1 ;
+            
           }
     
         })
@@ -381,8 +426,7 @@ export class RealizarPedidoPage implements OnInit {
         this.pedidoEnFormatoJSON.platosBebida.forEach( (dato : any) => {
           if(nombrePlato == dato)
           {
-            this.contadorBebidas - 1;
-            contador =  this.contadorBebidas;
+            contador =  this.cantidadJson.cantPepsi - 1;
           }
     
         })
@@ -394,4 +438,28 @@ export class RealizarPedidoPage implements OnInit {
     return contador;
   }
 
+  mostrarBebida = false;
+  mostrarPlatoPrincipal = false;
+  mostrarPostre = false;
+
+  divMostrarBebida()
+  {
+    this.mostrarBebida = true;
+    this.mostrarPlatoPrincipal = false;
+    this.mostrarPostre = false;
+  }
+
+  divMostrarPostre()
+  {
+    this.mostrarBebida = false;
+    this.mostrarPlatoPrincipal = false;
+    this.mostrarPostre = true;
+  }
+
+  divMostrarPlatoPrincipal()
+  {
+    this.mostrarBebida = false;
+    this.mostrarPlatoPrincipal = true;
+    this.mostrarPostre = false;
+  }
 }

@@ -31,7 +31,11 @@ export class HomePage {
   tieneCorreo : string; // Comprobamos si tiene correo el usuario
  
   // Nombre del usuario anonimo que se va aguardar en la lista de espera.
-  nombreAnonimo;
+  nombreAnonimo = {
+    nombre : '',
+    foto : '',
+    perfil : '',
+  };
 
   // Lista de usuarios que se registran
   listaUsuarios = [];
@@ -330,45 +334,22 @@ export class HomePage {
     else // Si no ingreso con correo, automaticamente sabe que es un usuario anonimo
     {
       
-      // let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
+      // let variable = localStorage.getItem('nombreAnonimo'); 
       // this.nombreAnonimo = JSON.parse(variable);
+
       let variable = localStorage.getItem('nombreAnonimo');
       this.perfilUsuario = "Anonimo";
 
-
-      ///////////// ESTA ES LA MANERA DE BERO, CON VALUECHANGES.
-      /*
-      let fbPrimero = this.firestore.collection('usuarios');
-          
-      fbPrimero.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
-      
-      // this.listaEspera = [];
-
-      datos.forEach( (dato:any) =>{
-        
-        // Si el estado de la mesa esta asignada y coincide la informacion del usuario que inicio sesion, se guardara en un json el numero de mesa que se le asigno uy una bandera
-        if(dato.nombre == variable && dato.perfil == this.perfilUsuario) 
-        {
-          this.nombreAnonimo = dato;
-          alert(this.nombreAnonimo);
-          console.log(this.nombreAnonimo);
-        }
-        
-        });
-
-       })
-       */
-
-       ///////////// ESTA ES LA MANERA DE LUCHO, CON QUERY.
-
-       this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
+      this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
         querySnapShot.forEach((doc) => {
   
           // Correo de la BD == Correo de la lista.
          if(doc.data().nombre == variable)
          {
 
-          this.nombreAnonimo = doc.data();
+          this.nombreAnonimo.nombre = doc.data().nombre;
+          this.nombreAnonimo.foto = doc.data().foto;
+          this.nombreAnonimo.perfil = doc.data().perfil;
          }
   
         })
@@ -593,8 +574,8 @@ export class HomePage {
 listaEsperaQRAnonimo()
 {
 
-  let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
-  let nombreAnonimo = JSON.parse(variable);
+  //let variable = localStorage.getItem('nombreAnonimo'); //***** VALIDAR EL NOMBRE TAMBIEN PORQUE SE VA ROMPER TODO */
+  //let nombreAnonimo = JSON.parse(variable);
 
 
   let auxiliar;
@@ -605,7 +586,7 @@ listaEsperaQRAnonimo()
     this.firestore.collection('usuarios').get().subscribe((querySnapShot) => {
     querySnapShot.forEach((doc) => {
 
-        if(doc.data().nombre == nombreAnonimo.nombre) // VERIFICAR EL PUTO IF
+        if(doc.data().nombre == this.nombreAnonimo.nombre) // VERIFICAR EL PUTO IF
         {
 
           switch(auxiliar) // CAMBIAR ESTO SI NO FUNCIONA

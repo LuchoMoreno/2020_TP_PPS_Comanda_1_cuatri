@@ -4,6 +4,7 @@
     position: absolute !important;
     top: 0;
     left: 7%;
+    background-color: rgba(0, 0, 0, 0.877);
   }
   
 
@@ -21,7 +22,14 @@ h4.precio
 .alineacion-derecha{
 
   font-size: 15px;
-  color:#3a2e2e; 
+  color:#332920; 
+  text-align: left;
+
+}
+
+.alineacion-derecha-platito{
+  font-size: 20px;
+  color: snow; 
   text-align: left;
 
 }
@@ -37,6 +45,17 @@ h4.precio
 .tiempo
 {
   text-align: center;
-  color: red;
+  color: orangered;
   display:inline;
+  float: right;
+}
+
+ion-content{
+  --background:url("https://i.pinimg.com/564x/e3/a5/d0/e3a5d05f404c56afa57c023f4ba44612.jpg") 0 0/100% 100% no-repeat !important ;
+}
+
+.titulo{
+
+  margin-left: 25%;
+  color: rgb(22, 22, 22);
 }
