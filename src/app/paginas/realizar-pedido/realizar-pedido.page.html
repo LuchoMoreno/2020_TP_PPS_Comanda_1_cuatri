@@ -48,10 +48,10 @@
           </p> 
 
           <p class="alineacion-derecha-platito" > Tiempo total:
-            <span class = "precio" >  {{pedidoEnFormatoJSON.tiempoTotal}} minutos</span> 
+            <span class = "precio" > {{pedidoEnFormatoJSON.tiempoTotal[0]}} minutos</span> 
           </p> 
           </div>
-  
+ 
 
         </ion-item>
 
@@ -257,7 +257,7 @@
 
   -->
 
-  <ion-button color = "danger" expand="block">I TIEMPO TOTAL - Aprox: {{pedidoEnFormatoJSON.tiempoTotal[0]}} min</ion-button>
+  <ion-button color = "danger" expand="block">TIEMPO TOTAL - Aprox: {{pedidoEnFormatoJSON.tiempoTotal[0]}} min</ion-button>
   <ion-button color = "success" expand="block">PRECIO TOTAL: ${{pedidoEnFormatoJSON.precioTotal}}</ion-button>
 
 

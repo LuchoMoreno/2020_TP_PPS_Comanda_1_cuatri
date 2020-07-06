@@ -285,7 +285,13 @@ export class RealizarPedidoPage implements OnInit {
     {
       this.complementos.presentToastConMensajeYColor("¡No puede cancelar un pedido ya enviado!", "warning")
     }
-    
+
+    this.cantidadJson.cantHamb = 0;
+    this.cantidadJson.cantPizza = 0;
+    this.cantidadJson.cantPepsi = 0;
+    this.cantidadJson.cantVolc = 0;
+    this.cantidadJson.cantLemon = 0;
+
   }
 
 
