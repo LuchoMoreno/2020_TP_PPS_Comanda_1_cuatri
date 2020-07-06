@@ -118,7 +118,10 @@ export class RealizarPedidoPage implements OnInit {
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
 
       // TIEMPO:
-      this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
+      if (tiempoDelPlato > this.pedidoEnFormatoJSON.tiempoTotal)
+      {
+        this.pedidoEnFormatoJSON.tiempoTotal = tiempoDelPlato;
+      }
       
       //this.calcularCantidad(plato,'Plato','sumar');
       let cantidad = this.calcularCantidad(plato,'Plato','sumar');
@@ -143,7 +146,11 @@ export class RealizarPedidoPage implements OnInit {
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
 
       // TIEMPO:
-      this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
+      if (tiempoDelPlato > this.pedidoEnFormatoJSON.tiempoTotal)
+      {
+        this.pedidoEnFormatoJSON.tiempoTotal = tiempoDelPlato;
+      }
+
 
 
       let cantidad = this.calcularCantidad(plato,'Bebida','sumar');
@@ -162,7 +169,13 @@ export class RealizarPedidoPage implements OnInit {
       this.pedidoEnFormatoJSON.precioTotal = this.pedidoEnFormatoJSON.precioTotal + precio;
 
       // TIEMPO:
-      this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
+      //this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal + tiempoDelPlato;
+
+      if (tiempoDelPlato > this.pedidoEnFormatoJSON.tiempoTotal)
+      {
+        this.pedidoEnFormatoJSON.tiempoTotal = tiempoDelPlato;
+      }
+      
 
 
       let cantidad = this.calcularCantidad(plato,'Postre','sumar');
@@ -281,7 +294,12 @@ export class RealizarPedidoPage implements OnInit {
 
 
             // TIEMPO:
-           this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+           //this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+
+           if (this.pedidoEnFormatoJSON.tiempoTotal == tiempoDelPlato)
+             {
+             this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+            }
 
 
             //this.calcularCantidad(plato,'Plato','restar');
@@ -314,9 +332,14 @@ export class RealizarPedidoPage implements OnInit {
             let cantidad = this.calcularCantidad(plato,'Bebida','restar');
 
             // TIEMPO:
-            this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+            //this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
 
-              this.cantidadJson.cantPepsi = cantidad;
+            if (tiempoDelPlato == this.pedidoEnFormatoJSON.tiempoTotal)
+             {
+             this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+            }
+
+            this.cantidadJson.cantPepsi = cantidad;
 
       
           }
@@ -340,7 +363,12 @@ export class RealizarPedidoPage implements OnInit {
 
 
             // TIEMPO:
-           this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+           //this.pedidoEnFormatoJSON.tiempoTotal = this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+
+           if (tiempoDelPlato == this.pedidoEnFormatoJSON.tiempoTotal)
+             {
+             this.pedidoEnFormatoJSON.tiempoTotal - tiempoDelPlato;
+            }
       
             if(plato == 'Pastel de limón')
             {

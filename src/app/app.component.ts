@@ -35,7 +35,7 @@ export class AppComponent {
 
     setTimeout(() => {       //// Esta propiedad es para que deje de ejecutarse el splash, se le indica la cantidad de tiempo que se quiere ejecutar el splash
       this.splash = false;
-    }, 7200);  
+    }, 200);  
 // 7200
   }
 
