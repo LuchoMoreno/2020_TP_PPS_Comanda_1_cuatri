@@ -427,28 +427,7 @@ export class HomePage {
   }
 
 
-  redireccionar(perfil)
-  {
-    switch(perfil)
-    {
-      case 'supervisor' :  
-      this.router.navigate(['/alta-supervisor']);
-        break;
-      case 'empleado' : 
-      this.router.navigate(['/alta-empleado']);
-      break;
-      case 'cliente' : 
-      this.router.navigate(['/alta-cliente']);
-      break;
-      case 'producto' : 
-      this.router.navigate(['/alta-producto']);
-      break;
-      case 'atras' : 
-      this.router.navigate(['/login']);
-      break;
-    }
-     
-  }
+
 
   // PARA EL DUEÑO O SUPERVISOR -> aceptara o rechazara al cliente se le carga el estado del boton y los dtos del usuario
   organizarUsuario(usuario,estado){
