@@ -63,6 +63,7 @@
         <ion-button routerLink="/alta-cliente" align="center" expand="block" color="light" shape="round">Registrar Cliente</ion-button>
       </ion-list>
 
+<!--***********************************************************************************************************************-->
       
       <!-- AGREGAR LOS DEMAS QUE FALTAN -->
       <ion-list *ngIf = "perfilUsuario == 'Cliente'" align="center">
@@ -86,6 +87,10 @@
     <div *ngIf="mostrarCuentaBoton == true">
       <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block" color="light" shape="round">Encuesta</ion-button>
     </div>
+
+    <div *ngIf="mostrarBotonConsulta == true">
+      <ion-button color="light" (click)="botonMostrarConsulta(informarEstadoMesa.mesa)"  expand="block" color="light" shape="round">Consulta</ion-button>
+    </div>
     
     <div *ngIf="mostrarEncuestaBoton == true">
       <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block" color="light" shape="round">Pedir cuenta</ion-button>
@@ -93,6 +98,7 @@
 
   </ion-list>
 
+  <!--***********************************************************************************************************************-->
       <!-- Si es un cliente anonimo -->
       <ion-list *ngIf = "perfilUsuario == 'Anonimo'" align="center">
 
@@ -115,9 +121,13 @@
         <div *ngIf="mostrarCuentaBoton == true">
           <ion-button color="light" (click)="mostrarEncuestaLista()"  expand="block" color="light" shape="round">Encuesta</ion-button>
         </div>
+
+        <div *ngIf="mostrarBotonConsulta == true">
+          <ion-button color="light" (click)="botonMostrarConsulta(informarEstadoMesa.mesa)"  expand="block" color="light" shape="round">Consulta</ion-button>
+        </div>
         
         <div *ngIf="mostrarEncuestaBoton == true">
-          <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block" color="light" shape="round">Cuenta</ion-button>
+          <ion-button color="light" (click)="mostrarCuentaLista()"  expand="block" color="light" shape="round">Pedir Cuenta</ion-button>
         </div>
 
 <!--***********************************************************************************************************************-->
@@ -154,7 +164,8 @@
 
         </ion-list>
   
-        
+<!--***********************************************************************************************************************-->
+          
       <ion-list *ngIf = "perfilUsuario == 'Cocinero' || perfilUsuario == 'BarTender'" align="center">
 
         <ion-item>
@@ -235,7 +246,8 @@
     <ion-card *ngFor="let espera of listaEspera" style="background-color: #332920ea;">
       <ion-card-content style="color: #ffffff;">La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
       <ion-card-content style="color: #ffffff;">{{espera.consultaDescripcion}}</ion-card-content>
-      <ion-button expand="block" (click)="consultaConExito(espera)" >Consulta con exito</ion-button>
+      <ion-input type="text" [(ngModel)]="consultaMozo" placeholder="Respuesta"></ion-input>
+      <ion-button expand="block" (click)="consultaConExito(espera,consultaMozo)" >Consulta con exito</ion-button>
     </ion-card>
   </div>
 
@@ -371,6 +383,28 @@
           <h4 style="color:rgb(240, 240, 240); font-size: 25px;float: left;" >Para acceder a la lista de productos escanee el QR de la mesa presionando el boton del menu.</h4> 
         </ion-card-content>
       </ion-card>
+    </div>
+
+
+    <div *ngIf = " mostrarConsultaRealizada == true"> <!-- CLIENTE.-->
+
+      <ion-card style="background-color:  #332920cb; " >
+        <ion-card-content >
+          <h2 align="center" style="color: aliceblue;font-size: 20px;">Consulta</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngFor="let consulta of listaEspera" style="background-color:  #332920cb; " >
+        <ion-card-content style="color:rgb(240, 240, 240);">
+          Su consulta :
+           {{consulta.consultaDescripcion}}
+        </ion-card-content>
+        <ion-card-content style="color:rgb(240, 240, 240);">
+          Respuesta mozo : 
+          {{consulta.consultaMozo}}
+        </ion-card-content>
+      </ion-card>
+      
     </div>
 
 
@@ -643,6 +677,27 @@
       </ion-card>
     </div>
 
+    <div *ngIf = " mostrarConsultaRealizada == true"> <!-- CLIENTE.-->
+
+      <ion-card style="background-color:  #332920cb; " >
+        <ion-card-content >
+          <h2 align="center" style="color: aliceblue;font-size: 20px;">Consulta</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngFor="let consulta of listaEspera" style="background-color:  #332920cb; " >
+        <ion-card-content style="color:rgb(240, 240, 240);">
+          Su consulta :
+           {{consulta.consultaDescripcion}}
+        </ion-card-content>
+        <ion-card-content style="color:rgb(240, 240, 240);">
+          Respuesta mozo : 
+          {{consulta.consultaMozo}}
+        </ion-card-content>
+      </ion-card>
+      
+    </div>
+
     
     <div *ngIf = "mostrarCuentaDiv == true"> <!-- CLIENTE.-->
 
@@ -663,8 +718,8 @@
            </ion-card-content>
         
 
-           <ion-card-content align="center" style="color: green; font-size: large; font-size: 25px;">
-           ${{jsonCuenta.precioTotal}}
+           <ion-card-content align="center" >
+           <p style="color: black; font-size: large;"><span style="color: green; font-size: large; font-size: 25px;">${{jsonCuenta.precioTotal}}</span></p>
            </ion-card-content>
   
   

@@ -75,6 +75,7 @@ export class HomePage {
     nombreUsuario: "",
     perfilUsuario : "",
     consulta: "noRealizo",
+    consultaMozo : "",
     consultaDescripcion : "",
   }
 
@@ -319,6 +320,12 @@ export class HomePage {
                 {
                   this.informarEstadoMesa.mesa = datoCl.mesa;
                   this.informarEstadoMesa.seAsignoMesa = "si";
+                  console.log(datoCl.consultaMozo);
+                  if(datoCl.consultaMozo != '')
+                  {
+                    console.log("estoy aca tambien");
+                    this.listaEspera.push(datoCl);
+                  }
                 }
                 
                 });
@@ -387,6 +394,10 @@ export class HomePage {
         {
           this.informarEstadoMesa.mesa = datoCl.mesa;
           this.informarEstadoMesa.seAsignoMesa = "si";
+          if(datoCl.consultaMozo != '')
+          {
+            this.listaEspera.push(datoCl);
+          }
         }
         
         });
@@ -683,6 +694,7 @@ listaEsperaQRAnonimo()
     this.mostrarCuentaDiv = false;
     this.mostrarEncuestaDiv = true;
     this.mostrarProductos = false;
+    this.mostrarConsultaRealizada = false;
   }
 
   darPropina()
@@ -851,11 +863,14 @@ listaEsperaQRAnonimo()
   // PARA CLIENTES Y ANONIMOS -> El usuario al escanear el codigo qr de la mesa podra ver los productos
   qrMesa()
   {
+    /*
     this.mostrarCuentaDiv = false;
     this.mostrarEncuestaDiv = false;
     this.mensajeEscanearMesa = true;
+    this.mostrarConsultaRealizada = false;
+    this.mostrarBotonConsulta = true;*/
     //this.mostrarProductos = true;
-    localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
+    // localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
     let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
@@ -869,46 +884,58 @@ listaEsperaQRAnonimo()
 
         if(doc.data().numero == auxMesaString) //Recorremos las mesas y comprobamos que coincida // PONER CODIGO QR MESA
         {
-          
-          this.mostrarProductos = true;
-
-          let fb = this.firestore.collection('pedidos');
-
-            // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
-          fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
-          
-          datos.forEach( (dato:any) =>{
-
-            if(this.informarEstadoMesa.mesa == dato.mesa ) // Verifico que el estado sea esperando.
-            {
+          if(this.informarEstadoMesa.mesa == auxMesaString)
+          {
+            this.mostrarCuentaDiv = false;
+            this.mostrarEncuestaDiv = false;
+            this.mensajeEscanearMesa = true;
+            this.mostrarConsultaRealizada = false;
+            this.mostrarBotonConsulta = true;
             
-              if(dato.estadoPedido == 'finalizado')
-              {
-                this.complemento.presentToastConMensajeYColor("Su pedido se finalizo con exito","success");
-                if(this.banderaQrMesa == true)
-                {
-                  this.complemento.presentToastConMensajeYColor("Podra acceder a la encuesta y a la cuenta","success");
-                  this.mostrarCuentaBoton = true;
-                  this.mostrarEncuestaBoton = true;
-                }
-                else
-                {
-                  this.banderaQrMesa = true;
-                }
-              }
-              else if(dato.estadoPedido == 'enProceso')
-              {
-                this.complemento.presentToastConMensajeYColor("Su pedido esta pendiente del mozo","primary");
-              }
-              else if(dato.estadoPedido == 'enPreparacion')
-              {
-                this.complemento.presentToastConMensajeYColor(`Su pedido esta en preparacion, tiempo aprox ${dato.tiempoTotal}minutos`,"primary");
-              }
+            this.mostrarProductos = true;
 
-        
+            let fb = this.firestore.collection('pedidos');
+  
+              // Me voy a suscribir a la colección, y si el usuario está "ESPERANDO", se va a guardar en una lista de usuarios.
+            fb.valueChanges().subscribe(datos =>{       // <-- MUESTRA CAMBIOS HECHOS EN LA BASE DE DATOS.
+            
+            datos.forEach( (dato:any) =>{
+  
+              if(this.informarEstadoMesa.mesa == dato.mesa ) // Verifico que el estado sea esperando.
+              {
+              
+                  if(dato.estadoPedido == 'finalizado')
+                  {
+                      this.complemento.presentToastConMensajeYColor("Su pedido se finalizo con exito","success");
+                      if(this.banderaQrMesa == true)
+                      {
+                        this.complemento.presentToastConMensajeYColor("Podra acceder a la encuesta y a la cuenta","success");
+                        this.mostrarCuentaBoton = true;
+                        this.mostrarEncuestaBoton = true;
+                      }
+                      else
+                      {
+                        this.banderaQrMesa = true;
+                      }
+                  }
+                  else if(dato.estadoPedido == 'enProceso')
+                  {
+                    this.complemento.presentToastConMensajeYColor("Su pedido esta pendiente del mozo","primary");
+                  }
+                  else if(dato.estadoPedido == 'enPreparacion')
+                  {
+                    this.complemento.presentToastConMensajeYColor(`Su pedido esta en preparacion, tiempo aprox ${dato.tiempoTotal}minutos`,"primary");
+                  }
+            
               }
-            });
-          })
+              });
+            })
+          }
+          else
+          {
+            this.complemento.presentToastConMensajeYColor(`La mesa ${auxMesaString} en estado ${doc.data().estado} no le corresponde, vuelva a escanear el qr `,"primary");
+          }
+         
         }
       })
     })
@@ -1168,7 +1195,7 @@ listaEsperaQRAnonimo()
             text:'Okey',
             cssClass:'success',
             handler: (ok) =>{
-              console.log("COnfirmar");
+              console.log("Confirmar");
             }
           }
 
@@ -1283,9 +1310,9 @@ listaEsperaQRAnonimo()
     });
   }
  
-
+  consultaMozo : string; // Variable para el mozo
  // PARA EL MOZO -> Finaliza con exito una consulta
- consultaConExito(espera)
+ consultaConExito(espera,consultaMozo)
  {
    let auxListaEspera;
    
@@ -1297,7 +1324,8 @@ listaEsperaQRAnonimo()
       {
         auxListaEspera = dato.data();
         auxListaEspera.consulta = 'noRealizo';
-        auxListaEspera.consultaDescripcion = '';
+        //auxListaEspera.consultaDescripcion = '';
+        auxListaEspera.consultaMozo = consultaMozo;
         this.bd.actualizar('listaEspera',auxListaEspera,dato.id);
         this.complemento.presentToastConMensajeYColor('La consulta fue completada con exito!','success');
 
@@ -1306,6 +1334,22 @@ listaEsperaQRAnonimo()
 
   })
  }
+
+
+ mostrarBotonConsulta = false;
+
+ mostrarConsultaRealizada = false;
+ 
+ // PARA LOS CLIENTES (ANONIMO TAMBIEN) -> Boton que me muestra las consultas
+ botonMostrarConsulta(numeroMesa)
+ {
+  this.mostrarCuentaDiv = false;
+  this.mostrarEncuestaDiv = false;
+  this.mostrarProductos = false;
+  this.mostrarConsultaRealizada = true;
+
+ }
+
 
 
 }
