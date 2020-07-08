@@ -373,7 +373,65 @@
       </ion-card>
     </div>
 
-    <div *ngIf = "mostrarCuentaDiv == true">
+
+
+
+    <div *ngIf = "mostrarCuentaDiv == true"> <!-- CLIENTE.-->
+
+      <div class="ticket">
+
+        <div class="ticket__content">
+
+          <ion-card-content align="center" style="color: black; font-size: large; font-style: italic;">
+          CUENTA
+          </ion-card-content>
+
+          <ion-card-content *ngFor="let pedido of jsonCuenta.pedidos" style="color: black;" >
+          {{pedido.nombreProducto}} -- ${{pedido.precioUnitario}}
+          </ion-card-content>
+        
+          <ion-card-content style="color: black;">
+            {{propina}}
+           </ion-card-content>
+        
+
+           <ion-card-content align="center" style="color: green; font-size: large; font-size: 25px;">
+           ${{jsonCuenta.precioTotal}}
+           </ion-card-content>
+  
+  
+        
+        </div>
+      </div>
+
+
+      <ion-footer class="ion-no-border">
+
+        <br>
+
+        <ion-item color="transparent">
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <ion-button color="success" (click)="pagarCuenta()" expand="block">Pagar</ion-button>
+              </ion-col>
+              <ion-col col-6>
+                <ion-button color="warning"  (click)="darPropina()" expand="block">Dar propina</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      
+      </ion-footer>
+  </div>
+
+
+
+
+
+
+    <!--
+<div *ngIf = "mostrarCuentaDiv == true">
 
     <ion-card>
       <ion-card-content align="center">
@@ -408,6 +466,9 @@
     </ion-card>
 
     </div>
+
+    -->
+    
         
     <div *ngIf = "mostrarEncuestaDiv == true">
         
@@ -583,7 +644,61 @@
     </div>
 
     
-    <div *ngIf = "mostrarCuentaDiv == true">
+    <div *ngIf = "mostrarCuentaDiv == true"> <!-- CLIENTE.-->
+
+      <div class="ticket">
+
+        <div class="ticket__content">
+
+          <ion-card-content align="center" style="color: black; font-size: large; font-style: italic;">
+          CUENTA
+          </ion-card-content>
+
+          <ion-card-content *ngFor="let pedido of jsonCuenta.pedidos" style="color: black;" >
+          {{pedido.nombreProducto}} -- ${{pedido.precioUnitario}}
+          </ion-card-content>
+        
+          <ion-card-content style="color: black;">
+            {{propina}}
+           </ion-card-content>
+        
+
+           <ion-card-content align="center" style="color: green; font-size: large; font-size: 25px;">
+           ${{jsonCuenta.precioTotal}}
+           </ion-card-content>
+  
+  
+        
+        </div>
+      </div>
+
+
+      <ion-footer class="ion-no-border">
+
+        <br>
+
+        <ion-item color="transparent">
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <ion-button color="success" (click)="pagarCuenta()" expand="block">Pagar</ion-button>
+              </ion-col>
+              <ion-col col-6>
+                <ion-button color="warning"  (click)="darPropina()" expand="block">Dar propina</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      
+      </ion-footer>
+  </div>
+
+
+
+
+<!--
+
+    <div *ngIf = "mostrarCuentaDiv == true"> 
 
     <ion-card style="background-color:  #332920cb; border-radius: 20px;">
       <ion-card-content align="center" style="color: #ffffff;">
@@ -619,7 +734,8 @@
     </ion-card>
       
     </div>
-        
+-->    
+
     <div *ngIf = "mostrarEncuestaDiv == true">
         
      <ion-card style="background-color:  #332920cb; border-radius: 20px;">
