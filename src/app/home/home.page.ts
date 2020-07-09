@@ -123,6 +123,10 @@ export class HomePage {
   listaCuentasPagadas = [];
 
 
+  // Contador para la encuesta. enc1010
+  contadorInterno;
+  pathImagenesEncuesta = [];
+
   ngOnInit() {
 
     //this.complemento.presentLoading();
@@ -130,6 +134,13 @@ export class HomePage {
     setTimeout(() => {
       this.splash = false;
     }, 4000);
+
+
+
+    this.contadorInterno = -1; // enc1010 
+    this.jsonEncuesta.fotos[0] = 'https://i.imgur.com/zH3i014.png';
+    this.jsonEncuesta.fotos[1] = 'https://i.imgur.com/zH3i014.png';
+    this.jsonEncuesta.fotos[2] = 'https://i.imgur.com/zH3i014.png';
 
 
     this.tieneCorreo  = localStorage.getItem('tieneCorreo');
@@ -1246,6 +1257,13 @@ listaEsperaQRAnonimo()
      this.bd.crear('encuestas',this.jsonEncuesta);
      this.complemento.presentToastConMensajeYColor('¡Su encuesta se finalizo con exito!','success');
      this.mostrarEncuestaDiv = false;
+
+    // enc1010
+     this.contadorInterno = -1; // enc1010 
+     this.jsonEncuesta.fotos[0] = 'https://i.imgur.com/zH3i014.png';
+     this.jsonEncuesta.fotos[1] = 'https://i.imgur.com/zH3i014.png';
+     this.jsonEncuesta.fotos[2] = 'https://i.imgur.com/zH3i014.png';
+ 
   } 
 
   mostrarCuentasPagadas()
@@ -1328,6 +1346,58 @@ listaEsperaQRAnonimo()
   this.mostrarConsultaRealizada = true;
 
  }
+
+
+
+ // LO QUE ESTUVE MODIFICANDO DE ENCUESTA:
+
+ // FUNCION QUE TOMA 3 FOTOS EN LA ENCUESTA:
+
+ tomarFotosEncuesta() //enc1010
+  {
+    const options: CameraOptions =  { 
+      quality:100,
+      targetHeight:600,
+      targetWidth:600,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    }
+
+    this.camera.getPicture(options).then((imageData)=> {
+
+      var base64Str = 'data:image/jpeg;base64,'+imageData;
+      
+      //Para que la fotografia se muestre apenas se tomo
+      this.jsonEncuesta.fotos[this.contadorInterno] = base64Str;
+
+      var storageRef = firebase.storage().ref();
+     
+      let obtenerMili = new Date().getTime(); 
+
+      var nombreFoto = "fotosEncuesta/"+obtenerMili+"."+".jpg";
+
+      var childRef = storageRef.child(nombreFoto);
+
+      this.pathImagenesEncuesta[this.contadorInterno] = nombreFoto;
+
+      childRef.putString(base64Str,'data_url').then(function(snapshot)
+      {
+        
+      })
+
+    },(Err)=>{
+      alert(JSON.stringify(Err));
+    })
+    
+  }
+
+
+  manejadorEncuesta()
+  {
+    this.tomarFotosEncuesta();
+    this.contadorInterno += 1;
+  }
 
 
 

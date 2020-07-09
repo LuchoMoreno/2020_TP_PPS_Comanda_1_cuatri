@@ -504,20 +504,33 @@
     -->
     
         
-    <div *ngIf = "mostrarEncuestaDiv == true">
+    <div *ngIf = "mostrarEncuestaDiv == true"> <!-- ANONIMO -->
         
       <ion-card style="background-color:  #332920cb; border-radius: 20px;">
         <h2 align="center" style="color: #ffffff;">Encuesta</h2>
  
-        <div *ngIf="this.jsonEncuesta.fotos.length != 3">
-         <ion-fab-button color="primary"  color="light"  horizontal="center" vertical="top" (click)="tomarTresFotografias"><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
+        
+
+        <div *ngIf = "contadorInterno != 2">
+
+          <div style="margin: 1rem; position: relative; align-content: center;">
+            <ion-fab-button style="margin-left: 42%;" color="primary"  color="light"  horizontal="center" vertical="top" (click)="manejadorEncuesta()"><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
+          </div>
+
         </div>
- 
-        <div *ngIf="jsonEncuesta.fotos.length == 3">
-         <div *ngFor="let foto of jsonEncuesta.fotos ">
-           <img [src]="foto" alt="">
-         </div>
-        </div>
+
+
+        <ion-slides pager="true">
+                <ion-slide>
+                <img [src]="jsonEncuesta.fotos[0]" style=" height: 45%; width: 45%">
+                </ion-slide>
+                <ion-slide>
+                <img [src]="jsonEncuesta.fotos[1]" style=" height: 45%; width: 45%">
+                </ion-slide>
+                <ion-slide>
+                <img [src]="jsonEncuesta.fotos[2]" style=" height: 45%; width: 45%">
+                </ion-slide>
+        </ion-slides>
  
         <br>
         <div style="color: #ffffff;" align="center">¿Qué le parecio nuesta app?</div>
@@ -569,7 +582,9 @@
        <ion-grid>
          <ion-row>
            <ion-col col-6>
+            <div *ngIf = "contadorInterno == 2">
              <ion-button (click)="enviarEncuesta()" expand="block" color="success">Enviar</ion-button>
+            </div>
             </ion-col>
            <ion-col col-6>
              <ion-button (click)="verEncuestas()" expand="block" color="warning">Cancelar</ion-button>
@@ -791,20 +806,33 @@
     </div>
 -->    
 
-    <div *ngIf = "mostrarEncuestaDiv == true">
+    <div *ngIf = "mostrarEncuestaDiv == true"> <!-- CLIENTE -->
         
-     <ion-card style="background-color:  #332920cb; border-radius: 20px;">
-       <h2 align="center" style="color: #ffffff;">Encuesta</h2>
+      <ion-card style="background-color:  #332920cb; border-radius: 20px;">
+        <h2 align="center" style="color: #ffffff;">Encuesta</h2>
+ 
+        
 
-       <div *ngIf="this.jsonEncuesta.fotos.length != 3">
-        <ion-fab-button color="primary"  color="light"  horizontal="center" vertical="top" (click)="tomarTresFotografias"><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
-       </div>
+        <div *ngIf = "contadorInterno != 2">
 
-       <div *ngIf="jsonEncuesta.fotos.length == 3">
-        <div *ngFor="let foto of jsonEncuesta.fotos ">
-          <img [src]="foto" alt="">
+          <div style="margin: 1rem; position: relative; align-content: center;">
+            <ion-fab-button style="margin-left: 42%;" color="primary"  color="light"  horizontal="center" vertical="top" (click)="manejadorEncuesta()"><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
+          </div>
+
         </div>
-       </div>
+
+        
+        <ion-slides pager="true">
+                <ion-slide>
+                <img [src]="jsonEncuesta.fotos[0]" style=" height: 45%; width: 45%">
+                </ion-slide>
+                <ion-slide>
+                <img [src]="jsonEncuesta.fotos[1]" style=" height: 45%; width: 45%">
+                </ion-slide>
+                <ion-slide>
+                <img [src]="jsonEncuesta.fotos[2]" style=" height: 45%; width: 45%">
+                </ion-slide>
+        </ion-slides>
 
        <br>
        <div style="color: #ffffff;" align="center">¿Qué le parecio nuesta app?</div>
@@ -856,7 +884,9 @@
       <ion-grid>
         <ion-row>
           <ion-col col-6>
-            <ion-button (click)="enviarEncuesta()" expand="block" color="success">Enviar</ion-button>
+            <div *ngIf = "contadorInterno == 2">
+              <ion-button (click)="enviarEncuesta()" expand="block" color="success">Enviar</ion-button>
+             </div>
            </ion-col>
           <ion-col col-6>
             <ion-button (click)="verEncuestas()" expand="block" color="warning">Cancelar</ion-button>
