@@ -860,7 +860,7 @@ listaEsperaQRAnonimo()
     this.mostrarConsultaRealizada = false;
     this.mostrarBotonConsulta = true;*/
     //this.mostrarProductos = true;
-    // localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
+    localStorage.setItem("mesa",this.informarEstadoMesa.mesa);
     let auxMesa;
 
     this.barcodeScanner.scan().then(barcodeData => {
