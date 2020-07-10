@@ -246,7 +246,7 @@
     <ion-card *ngFor="let espera of listaEspera" style="background-color: #332920ea;">
       <ion-card-content style="color: #ffffff;">La mesa {{espera.mesa}} realizo la siguiente consulta:</ion-card-content>
       <ion-card-content style="color: #ffffff;">{{espera.consultaDescripcion}}</ion-card-content>
-      <ion-input type="text" [(ngModel)]="consultaMozo" placeholder="Respuesta"></ion-input>
+      <ion-input type="text" style="color: #ffffff;" [(ngModel)]="consultaMozo" placeholder="Respuesta"></ion-input>
       <ion-button expand="block" (click)="consultaConExito(espera,consultaMozo)" >Consulta con exito</ion-button>
     </ion-card>
   </div>
@@ -430,7 +430,7 @@
         
 
            <ion-card-content align="center" style="color: green; font-size: large; font-size: 25px;">
-           ${{jsonCuenta.precioTotal}}
+           TOTAL = ${{jsonCuenta.precioTotal}}
            </ion-card-content>
   
   
@@ -732,11 +732,9 @@
             {{propina}}
            </ion-card-content>
         
-
-           <ion-card-content align="center" >
-           <p style="color: black; font-size: large;"><span style="color: green; font-size: large; font-size: 25px;">${{jsonCuenta.precioTotal}}</span></p>
-           </ion-card-content>
-  
+           <ion-card-content align="center" style="color: green; font-size: large; font-size: 25px;">
+            TOTAL = ${{jsonCuenta.precioTotal}}
+            </ion-card-content>
   
         
         </div>

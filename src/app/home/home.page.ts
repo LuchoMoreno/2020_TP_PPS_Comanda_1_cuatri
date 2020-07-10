@@ -738,7 +738,13 @@ listaEsperaQRAnonimo()
     this.mostrarEncuestaDiv = false;
     this.mostrarProductos = false;
     // Se esperara 5 segundos para esperar la cuenta
-    this.complemento.presentLoading();
+    //this.complemento.presentLoading();
+    this.splash = true;
+    setTimeout(() => {
+      this.splash = false;
+    }, 5000);
+
+
 
     // Tenemos que recorrer y comparar
     this.firestore.collection('pedidos').get().subscribe((querySnapShot) => {
