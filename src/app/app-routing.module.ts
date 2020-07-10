@@ -36,6 +36,10 @@ const routes: Routes = [
     path: 'realizar-pedido',
     loadChildren: () => import('./paginas/realizar-pedido/realizar-pedido.module').then( m => m.RealizarPedidoPageModule)
   },
+  {
+    path: 'encuestas',
+    loadChildren: () => import('./paginas/encuestas/encuestas.module').then( m => m.EncuestasPageModule)
+  },
 
 
 ];

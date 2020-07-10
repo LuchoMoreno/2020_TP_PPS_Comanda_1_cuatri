@@ -1245,8 +1245,8 @@ listaEsperaQRAnonimo()
   }
 
   verEncuestas()
-  {
-
+  {  
+    this.router.navigate(['encuestas']);  
   }
 
   enviarEncuesta()
@@ -1399,6 +1399,8 @@ listaEsperaQRAnonimo()
     this.contadorInterno += 1;
   }
 
+
+ 
 
 
 }
