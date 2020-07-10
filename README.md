@@ -32,6 +32,8 @@
 - Generación de resources para la aplicación. :white_check_mark:
 - Generación de primeros APK (no del todo funcionales). :white_check_mark:
 
+
+
 ### Verónica 
 
 - Splash animado
@@ -62,6 +64,8 @@
 - Solución de un error al guardar las imagenes en firebase. :white_check_mark:
 - Se agrega función que guarda las fotos con un nombre determinado. :white_check_mark:
 - Detalles minimos en mejoras de código y nombres de funciones. :white_check_mark:
+
+
 
 ### Verónica 
 
@@ -97,6 +101,7 @@
 - Generación de APKS para testeos generales. :white_check_mark:
 
 
+
 ### Verónica  
 
 - Creación del código de las aplicaciones push. El cliente debe ser aprobado posterior a su registro. :white_check_mark:
@@ -114,7 +119,7 @@
 
 <img src="https://i.imgur.com/FYaTT7K.jpg" width="300" height="500">
 <img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
-<img src="https://i.imgur.com/UdJ3ciq.jpg" width="300" height="500"> 
+<img src="https://i.imgur.com/Qq3bbes.jpg" width="300" height="500"> 
 
 </p>
 
@@ -129,6 +134,7 @@
 - Semana de parciales - Poco tiempo para codear. :heavy_exclamation_mark:
 
 
+
 ### Verónica  
 
 - Modificaciones generales en el diseño de la aplicación. :white_check_mark:
@@ -136,6 +142,13 @@
 - Semana de parciales - Poco tiempo para codear. :heavy_exclamation_mark:
 
 <h4></h4>
+
+
+<p float="left">
+
+<img src="https://i.imgur.com/zO8bwxn.jpg" width="300" height="500">
+
+</p>
 
 
 ## :bulb: Semana del 21/06 al 27/06
@@ -150,6 +163,7 @@
 - Los usuarios ahora ven el precio constantemente de su pedido. :white_check_mark: 
 - Validaciones para que el usuario NO pueda apretar varias veces un botón. :white_check_mark:
 - Se guarda la colección de pedidos generados en la base de datos. :white_check_mark:
+
 
 
 ### Verónica  
@@ -169,7 +183,7 @@
 
 <img src="https://i.imgur.com/HU2td8x.jpg" width="300" height="500">
 <img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
-<img src="https://i.imgur.com/UdJ3ciq.jpg" width="300" height="500"> 
+<img src="https://i.imgur.com/JAFOoBI.jpg" width="300" height="500"> 
 
 </p>
 
@@ -177,7 +191,7 @@
 
 <img src="https://i.imgur.com/PXRVD18.jpg" width="300" height="500">
 <img src="https://i.imgur.com/JlemYqD.jpg" width="150" height="250"> 
-<img src="https://i.imgur.com/UdJ3ciq.jpg" width="300" height="500"> 
+<img src="https://i.imgur.com/ffjGK2R.jpg" width="300" height="500"> 
 
 </p>
 
@@ -193,6 +207,7 @@
 - Se solucionó el problema del usuario anonimo al leer un QR. :white_check_mark:
 - El tiempo de espera de un producto se verá reflejado en su orden. :white_check_mark: 
 - Se mejoró la lógica para sumar / restar el tiempo de espera de un producto. :white_check_mark: 
+- Se mejoró el CSS cuando el usuario va a pagar la cuenta.
 
 
 
@@ -205,10 +220,49 @@
 - Se mejoró el CSS del METRE. :white_check_mark:
 - Se solucionó un error el cual NO mostraba la foto del usuario anónimo. :white_check_mark:
 
+<h4></h4>
+
+
+<p float="left">
+
+<img src="https://i.imgur.com/DEp1g9u.jpg" width="300" height="500">
+<img src="https://i.imgur.com/wKTMqFa.jpg" width="150" height="250"> 
+<img src="https://i.imgur.com/yn0lcjn.jpg" width="300" height="500"> 
+
+</p>
+
+
+## :bulb: Semana del 05/07 al 12/07 --- ENTREGA DEFINITIVA
+
+
+### Luciano 
+
+- Se mejoró aún más la lógica para calcular el tiempo del pedido. Versión con arrays. :white_check_mark:
+- Se realizaron arreglos en el componente realizar-pedidos. :white_check_mark:
+- Se mejoró el CSS cuando el usuario paga la cuenta. Formato ticket mejorado (ver arriba). :white_check_mark:
+- Encuesta terminada. Se puede realizar una encuesta + Se pueden subir 3 imagenes. :white_check_mark:
+- Se arreglan detalles mínimos en cuanto a las responsabilidades asignadas. :white_check_mark:
+
+
+
+### Verónica  
+
+- Se realizaron mejoras en la aplicación. :white_check_mark:
+- El mozo puede responder a una consulta realizada por el cliente. :white_check_mark:
+- Se soluciona un error el cual cargaba mal la mesa al pedido realizado. :white_check_mark:
+- Se generan gráficos acerca de las encuestas realizadas. :white_check_mark:
+- Se arreglan detalles mínimos en cuanto a las responsabilidades asignadas. :white_check_mark:
+
 
 <h4></h4>
 
 
-## :bulb: Semana del 05/07 al 12/07 --- ENTREGA DEFINITIVA
+<p float="left">
+
+<img src="https://i.imgur.com/X87DGpg.jpg" width="300" height="500">
+<img src="https://i.imgur.com/wKTMqFa.jpg" width="150" height="250"> 
+<img src="https://i.imgur.com/LqAHOgU.jpg" width="300" height="500"> 
+
+</p>
 
 
