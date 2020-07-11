@@ -10,6 +10,8 @@ declare var google;
 })
 export class EncuestasPage implements OnInit {
 
+  splash = true;
+
   constructor(private firestore : AngularFirestore) { }
 
  excelenteUno = 0;
@@ -26,6 +28,11 @@ export class EncuestasPage implements OnInit {
 
 
   ngOnInit() {
+
+    setTimeout(() => {
+      this.splash = false;
+    }, 4000);
+
 
     let fb = this.firestore.collection('encuestas');
               
